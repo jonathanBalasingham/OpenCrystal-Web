@@ -6,7 +6,7 @@ class LeftSideBar extends React.Component {
         return (
             <div id="left-side-bar">
                 <LeftSideBarButton id="Compare-button" textTop={'15px'}/>
-                <LeftSideBarButton id="View-button" textTop={'0px'}/>
+                <LeftSideBarButton id="View-button" textTop={'4px'}/>
                 <LeftSideBarButton id="Database-button" textTop={'15px'}/>
             </div>
         )

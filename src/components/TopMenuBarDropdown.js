@@ -12,30 +12,13 @@ class Dropdown extends React.Component {
     toggleOpen = () => this.setState({ isOpen: !this.state.isOpen });
 
     render() {
-        const menuClass = `dropdown-menu${this.state.isOpen ? " show" : ""}`;
         return (
-            <div className="dropdown" onClick={this.toggleOpen}>
-                <button
-                    className="btn btn-secondary dropdown-toggle"
-                    type="button"
-                    id="dropdownMenuButton"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    style={{'background': '#f8f9fa', 'border': 'none', 'radius': '0', 'color': 'black',
-                            'float': 'left'}}
-                >
-                    Dropdown
-                </button>
-                <div className={menuClass} aria-labelledby="dropdownMenuButton">
-                    <a className="dropdown-item" href="#nogo">
-                        Item 1
-                    </a>
-                    <a className="dropdown-item" href="#nogo">
-                        Item 2
-                    </a>
-                    <a className="dropdown-item" href="#nogo">
-                        Item 3
-                    </a>
+            <div className="dropdown">
+                <button className="dropbtn">File</button>
+                <div className="dropdown-content">
+                    <button >the</button>
+                    <a href="#">Link 2</a>
+                    <a href="#">Link 3</a>
                 </div>
             </div>
         );
