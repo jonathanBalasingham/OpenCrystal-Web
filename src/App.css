@@ -36,3 +36,65 @@
     transform: rotate(360deg);
   }
 }
+
+#TopMenuBar {
+  height: 40px;
+  width: 100%;
+  background: #f8f9fa;
+  border-bottom: 1px solid rgb(232, 232, 232)
+}
+
+.show>.dropdown-menu {
+  display: block;
+  position: absolute;
+}
+
+#left-side-bar {
+  top: 130px;
+  height: 100%;
+  width: 25px;
+  background: #f8f9fa;
+  border-right: 1px solid rgb(232, 232, 232);
+  float: left;
+}
+
+.left-side-bar-button {
+  width: 25px;
+  height: 120px;
+  padding: 0;
+  text-align: center;
+  border: none;
+  background: #f8f9fa;
+  border-bottom: 1px solid rgb(232, 232, 232);
+  border-right: 1px solid rgb(232, 232, 232);
+
+}
+
+.left-side-bar-button:hover {
+  background-color: rgb(232, 232, 232);
+}
+
+
+#left-side-bar > button span {
+  display: inline-block;
+  text-align: center;
+  transform: rotate(-90deg);
+  font-size: 10px;
+  color: rgb(50,50,50);
+  overflow: visible;
+  position: relative;
+  width: 10px;
+}
+
+.options-panel {
+  height: 100%;
+  width: 0;
+  background: #f8f9fa;
+  margin-left: 25px;
+  position: absolute;
+  border: 1px solid rgb(232, 232, 232);
+}
+
+#left-task-bar {
+  height: 100%;
+}

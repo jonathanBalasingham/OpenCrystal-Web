@@ -1,9 +1,12 @@
 import './App.css';
-import Dashboard from './Dashboard';
+import Dashboard from './components/Dashboard';
 import Navbar from 'react-bootstrap/Navbar'
 import {Container, Button, NavDropdown, Form, FormControl, Nav, Offcanvas} from "react-bootstrap";
 import * as React from "react";
-
+import TopMenuBar from "./components/TopMenuBar";
+import LeftSideBar from "./components/LeftSideBar"
+import OptionsPanel from "./components/OptionsPanel";
+import LeftTaskBar from "./components/LeftTaskBar";
 
 function App() {
   return (
@@ -46,7 +49,8 @@ function App() {
                 </Navbar.Offcanvas>
             </Container>
         </Navbar>
-        <Dashboard/>
+        <TopMenuBar/>
+        <LeftTaskBar/>
     </div>
   );
 }
