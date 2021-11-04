@@ -1,5 +1,11 @@
 import * as React from "react";
-import {viewToggled, compareToggled, databaseToggled, getOpenOptionsPanel} from "../features/options/optionsSlice";
+import {
+    viewToggled,
+    compareToggled,
+    databaseToggled,
+    getOpenOptionsPanel,
+    settingsToggled
+} from "../features/options/optionsSlice";
 import {useDispatch, useSelector} from "react-redux";
 
 
@@ -12,6 +18,7 @@ const LeftSideBarButton = ({ id, textTop }) => {
             case "View": dispatch(viewToggled(id)); break;
             case "Compare": dispatch(compareToggled(id)); break;
             case "Database": dispatch(databaseToggled(id)); break;
+            case "Settings": dispatch(settingsToggled(id)); break;
         }
     }
 

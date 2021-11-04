@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useSelector } from 'react-redux'
 import { getOpenOptionsPanel } from "../features/options/optionsSlice";
-
+import "./Dashboard.css"
 const selectOpenOptionsPanel = state => state.openOptionsPanel;
 
 const OptionsPanel = ({ id, width }) => {
@@ -11,9 +11,25 @@ const OptionsPanel = ({ id, width }) => {
     if (id === openPanel)
         vis = "visible"
 
+    let innerApplicationOptions;
+    switch (openPanel) {
+        case 'Compare-panel':
+            innerApplicationOptions = <div></div>
+            break;
+        case 'View-panel':
+            innerApplicationOptions = <div></div>
+            break;
+        case 'Database-panel':
+            innerApplicationOptions = <div></div>
+            break;
+        case 'Settings-panel':
+            innerApplicationOptions = <div></div>
+            break;
+    }
+
     return (
         <div className="options-panel" id={id} style={{'visibility': vis, 'width': width}}>
-
+            { innerApplicationOptions }
         </div>
     )
 }

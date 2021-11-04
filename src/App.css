@@ -49,62 +49,6 @@
   position: absolute;
 }
 
-#left-side-bar {
-  top: 130px;
-  height: 100%;
-  width: 25px;
-  background: #f8f9fa;
-  border-right: 1px solid rgb(232, 232, 232);
-  float: left;
-}
-
-.left-side-bar-button {
-  width: 25px;
-  height: 120px;
-  padding: 0;
-  text-align: center;
-  border: none;
-  background: #f8f9fa;
-  border-bottom: 1px solid rgb(232, 232, 232);
-  border-right: 1px solid rgb(232, 232, 232);
-
-}
-
-.left-side-bar-button:hover {
-  /*background-color: rgb(232, 232, 232);*/
-  color: #3287d2;
-}
-
-.left-side-bar-button:hover span {
-  /*background-color: rgb(232, 232, 232);*/
-  color: #3287d2;
-}
-
-
-#left-side-bar > button span {
-  display: inline-block;
-  text-align: center;
-  transform: rotate(-90deg);
-  font-size: 10px;
-  color: rgb(50,50,50);
-  overflow: visible;
-  position: relative;
-  width: 10px;
-}
-
-.options-panel {
-  height: 100%;
-  width: 0;
-  background: #f8f9fa;
-  margin-left: 25px;
-  position: absolute;
-  border: 1px solid rgb(232, 232, 232);
-}
-
-#left-task-bar {
-  height: 100%;
-}
-
 .dropbtn {
   background-color: #f8f9fa;
   color: rgb(50,50,50);
@@ -127,7 +71,7 @@
   position: absolute;
   background-color: #f1f1f1;
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
 
@@ -147,3 +91,59 @@
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {background-color: rgb(232, 232, 232);}
+
+#Settings-button {
+  background: red;
+}
+
+#footer-settings-button {
+  height: 40px;
+  background: transparent;
+  float: left;
+  color: rgb(75, 75, 75);
+  border: none
+}
+
+#footer-settings-button:hover  {
+  color: #61dafb
+}
+
+.settings-modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* settings-modal Content/Box */
+.settings-modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 700px; /* Could be more or less, depending on screen size */
+  height: 500px;
+  top: 20%;
+  position: relative;
+  left: 30%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}

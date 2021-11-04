@@ -27,11 +27,18 @@ const openOptionsPanelSlice = createSlice({
             else
                 state = "Database-panel"
             return state;
+        },
+        settingsToggled(state, action) {
+            if (state === "Settings-panel")
+                state = "NONE"
+            else
+                state = "Settings-panel"
+            return state;
         }
     }
 })
 
-export const { viewToggled, compareToggled, databaseToggled } = openOptionsPanelSlice.actions
+export const { viewToggled, compareToggled, databaseToggled, settingsToggled } = openOptionsPanelSlice.actions
 
 export default openOptionsPanelSlice.reducer
 

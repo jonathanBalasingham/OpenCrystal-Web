@@ -7,6 +7,7 @@ import TopMenuBar from "./components/TopMenuBar";
 import LeftSideBar from "./components/LeftSideBar"
 import OptionsPanel from "./components/OptionsPanel";
 import LeftTaskBar from "./components/LeftTaskBar";
+import Footer from "./containers/Footer";
 
 function App() {
   return (
@@ -50,7 +51,8 @@ function App() {
             </Container>
         </Navbar>
         <TopMenuBar/>
-        <LeftTaskBar/>
+        <Dashboard/>
+        <Footer />
     </div>
   );
 }
