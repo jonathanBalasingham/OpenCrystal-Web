@@ -3,26 +3,20 @@ import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
 import '../App.css'
+import {useState} from "react";
 
-class Dropdown extends React.Component {
-    state = {
-        isOpen: false
-    };
+function Dropdown({name, buttons}) {
 
-    toggleOpen = () => this.setState({ isOpen: !this.state.isOpen });
+    const [isOpen, setIsOpen] = useState(false);
 
-    render() {
-        return (
-            <div className="dropdown">
-                <button className="dropbtn">File</button>
-                <div className="dropdown-content">
-                    <button >the</button>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
-                </div>
+    return (
+        <div className="dropdown">
+            <button className="dropbtn">{ name }</button>
+            <div className="dropdown-content">
+                {buttons}
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 export default Dropdown;

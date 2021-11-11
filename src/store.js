@@ -6,7 +6,7 @@ import settingsReducer from './features/settings/settingsFooterSlice'
 const store = configureStore({
     reducer: {
         // Define a top-level state field named `todos`, handled by `todosReducer`
-        openOptionsPanel: optionsReducer,
+        openOptionsPanelSlice: optionsReducer,
         settingsModalSlice: settingsReducer
     }
 })

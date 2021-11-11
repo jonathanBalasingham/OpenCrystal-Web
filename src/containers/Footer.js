@@ -1,6 +1,5 @@
 import IconButton from '@material/react-icon-button';
-import MaterialIcon from '@material/react-material-icon';
-import SettingsIcon from '@mui/icons-material/Settings';
+import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 import '@mui/material/utils'
 import SettingsModal from "../components/SettingsModal";
 import {useDispatch, useSelector} from "react-redux";
@@ -46,7 +45,7 @@ function Footer({ children }) {
             <div style={phantom} />
             <div style={style}>
                 <button id='footer-settings-button' onClick={openModal}>
-                    <SettingsIcon/>
+                    <HealthAndSafetyIcon/>
                 </button>
                 <SettingsModal/>
             </div>
