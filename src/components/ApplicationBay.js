@@ -17,7 +17,15 @@ function ApplicationBay() {
             innerApplication = <div><p>compare</p></div>
             break;
         case 'View-app':
-            innerApplication = <div><p>View</p></div>
+            innerApplication = <div id="view-app-container">
+                <div id="molecule-plot-container">
+
+                </div>
+                <div id="cif-editor-container">
+
+                </div>
+            </div>
+
             break;
         case 'Database-app':
             innerApplication = <div><p>db</p></div>
