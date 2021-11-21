@@ -1,0 +1,25 @@
+
+
+#compare-options-panel {
+    height: 100%;
+    width: 100%;
+    padding: 30px 10px 10px;
+}
+
+#compare-search-query {
+    width: 95%;
+    margin: 5px;
+    border: none;
+}
+
+#compare-search-query:focus {
+    border: 2px solid grey;
+}
+
+#compare-search-button {
+    width: 94%;
+    border: none;
+    border-radius: 4px;
+    background: #39b7f3;
+    color: white;
+}

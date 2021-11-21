@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useSelector } from "react-redux";
 import { getOpenApplicationBay, getOpenOptionsPanel } from "../features/options/optionsSlice";
-
+import { CompareApp } from "./compare/CompareApp"
 
 function ApplicationBay() {
     let marginLeft = '26px'
@@ -14,7 +14,7 @@ function ApplicationBay() {
     let innerApplication;
     switch (openAppBay) {
         case 'Compare-app':
-            innerApplication = <div><p>compare</p></div>
+            innerApplication = <CompareApp/>
             break;
         case 'View-app':
             innerApplication = <div id="view-app-container">

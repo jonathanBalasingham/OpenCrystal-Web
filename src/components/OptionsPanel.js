@@ -2,6 +2,10 @@ import * as React from "react";
 import { useSelector } from 'react-redux'
 import { getOpenOptionsPanel } from "../features/options/optionsSlice";
 import "./Dashboard.css"
+import { CompareOptionsPanel } from "./compare/CompareOptionsPanel";
+import {CompareApp} from "./compare/CompareApp";
+
+
 const selectOpenOptionsPanel = state => state.openOptionsPanel;
 
 const OptionsPanel = ({ id, width }) => {
@@ -14,7 +18,7 @@ const OptionsPanel = ({ id, width }) => {
     let innerApplicationOptions;
     switch (openPanel) {
         case 'Compare-panel':
-            innerApplicationOptions = <div></div>
+            innerApplicationOptions = <CompareOptionsPanel/>
             break;
         case 'View-panel':
             innerApplicationOptions = <div></div>

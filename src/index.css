@@ -27,3 +27,82 @@ body > #root > div {
   height: 100vh;
   overflow: hidden;
 }
+
+#login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: white;
+}
+
+#login-form {
+  height: 330px;
+  width: 400px;
+  background: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+  border-radius: 5px;
+}
+
+
+#submit-login-button, #submit-create-button {
+  width: 300px;
+  background: #39b7f3;
+  border: 2px solid #39b7f3;
+  color: white;
+  border-radius: 2px;
+  margin-top: 10px;
+}
+
+#login-tabs nav button {
+  background: white;
+  color: black;
+  border: none;
+  width: 170px;
+  padding: 10px;
+  border-bottom: 2px solid white;
+
+}
+
+#login-tabs nav button:hover {
+  border-bottom: 2px solid #39b7f3;
+}
+
+#login-tabs nav button:focus {
+  border-bottom: 2px solid #39b7f3;
+}
+
+#login-tabs {
+  width: 340px;
+  height: 440px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+fieldset p {
+  margin-bottom: 1px;
+  margin-top: 5px;
+}
+
+fieldset input {
+  border: none;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19);
+  background: white;
+  height: 30px;
+  padding-left: 10px;
+  width: 300px;
+  margin-bottom: 10px;
+}
+
+fieldset input:focus {
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2), 0 5px 10px 0 rgba(0, 0, 0, 0.19);
+  border: none;
+  outline: none;
+}
+
+.p-4 {
+  border-top: 1px solid whitesmoke;
+  height: 350px;
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -7,11 +7,34 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { createStore } from 'redux';
 import store from './store';
 import { Provider } from 'react-redux';
+import {LoginPage} from './Login';
+import {BrowserRouter, Route, Switch} from "react-router-dom";
+
+function Index({}) {
+    const [token, setToken] = useState();
+
+    if(!token) {
+        console.log('Token is ' + token)
+        return <LoginPage setToken={setToken} />
+    }
+
+    return (
+        <div className="wrapper">
+            <BrowserRouter>
+                <Switch>
+                    <Route path="/">
+                        <App />
+                    </Route>
+                </Switch>
+            </BrowserRouter>
+        </div>
+    );
+}
 
 ReactDOM.render(
   <React.StrictMode>
       <Provider store={store}>
-          <App/>
+          <Index/>
       </Provider>
   </React.StrictMode>,
   document.getElementById('root')

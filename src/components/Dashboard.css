@@ -87,11 +87,34 @@
     order: 1;
     flex-grow: 1.5;
     border-right: 1px solid rgb(232, 232, 232);
-
 }
 
 #cif-editor-container {
     order: 2;
     flex-grow: 1;
     min-width: 30%;
+}
+
+#compare-app-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+#plot-set-tab-container {
+    order: 1;
+    flex-grow: 1.5;
+    border-right: 1px solid rgb(232, 232, 232);
+}
+
+#crystal-list-container {
+    order: 2;
+    flex-grow: 0;
+    min-width: 30%;
+}
+
+#database-app-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
 }
