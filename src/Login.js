@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import { useTabs, TabPanel } from "react-headless-tabs"
 import {TabSelector} from "./components/TabSelector";
 import 'tailwindcss/tailwind.css';
+import {addToken, refreshToken} from "./features/auth/authSlice";
+import {useDispatch} from "react-redux";
 
 async function loginUser(credentials) {
     console.log("doing something")
@@ -36,6 +38,7 @@ export function LoginPage({setToken}) {
         'Login',
         'New Account',
     ]);
+    const dispatch = useDispatch()
 
     const [submitting, setSubmitting] = useState(false);
     const [username, setUserName] = useState();
@@ -50,9 +53,11 @@ export function LoginPage({setToken}) {
             username,
             password
         });
-        console.log('token: ' + token['access']);
-        if (token !== undefined)
-            setToken(token);
+
+        if (token !== undefined) {
+            token['user'] = username;
+            dispatch(addToken(token))
+        }
     }
 
     const handleCreation = async e => {
@@ -84,6 +89,7 @@ export function LoginPage({setToken}) {
                 </nav>
                 <div className="p-4">
                     <TabPanel hidden={selectedTab !== 'Login'}>
+                        <h1 id="main-title">OpenCrystal</h1>
                         <form onSubmit={handleSubmit}>
                             <fieldset>
                                 <p>Username:</p>

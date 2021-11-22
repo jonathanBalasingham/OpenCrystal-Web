@@ -50,11 +50,17 @@ body > #root > div {
 
 #submit-login-button, #submit-create-button {
   width: 300px;
+  background: white;
+  border: 2px solid #39b7f3;
+  color: #39b7f3;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+#submit-login-button:hover, #submit-create-button:hover {
   background: #39b7f3;
   border: 2px solid #39b7f3;
   color: white;
-  border-radius: 2px;
-  margin-top: 10px;
 }
 
 #login-tabs nav button {
@@ -105,4 +111,10 @@ fieldset input:focus {
 .p-4 {
   border-top: 1px solid whitesmoke;
   height: 350px;
+}
+
+#main-title {
+  text-align: center;
+  font-family: monospace;
+  margin-bottom: 40px;
 }

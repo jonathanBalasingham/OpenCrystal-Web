@@ -6,16 +6,17 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { createStore } from 'redux';
 import store from './store';
-import { Provider } from 'react-redux';
+import {Provider, useSelector} from 'react-redux';
 import {LoginPage} from './Login';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {getAccessToken} from "./features/auth/authSlice";
 
 function Index({}) {
-    const [token, setToken] = useState();
+    const token = useSelector(getAccessToken)
 
     if(!token) {
         console.log('Token is ' + token)
-        return <LoginPage setToken={setToken} />
+        return <LoginPage  setToken={null}/>
     }
 
     return (
