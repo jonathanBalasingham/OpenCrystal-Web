@@ -27,9 +27,9 @@
 
 #compare-search-button:hover {
     width: 94%;
-    border: none;
+    border: 2px solid #39b7f3;
     border-radius: 4px;
-    background: #39b7f3;
+    background: #3287d2;
     color: white;
 }
 
@@ -43,7 +43,45 @@
     border: 1px solid #e8e8e8;
     border-radius: 5px;
     width: 100%;
-    height: 60vh;
+    height: 65vh;
     background: white;
     overflow: scroll;
+}
+
+#id_work_days{
+    height: 44px;
+    border: none;
+    overflow: hidden;
+    background: #f8f9fa;
+    margin-top: 10px;
+}
+#id_work_days::-moz-focus-inner {
+    border: 0;
+}
+#id_work_days:focus {
+    outline: none;
+
+
+}
+#id_work_days option{
+    width: 100px;
+    font-size: 1.2em;
+    padding: 5px 0;
+    text-align: center;
+    margin-right: 5px;
+    display: inline-block;
+    cursor: pointer;
+    border: 2px solid #39b7f3;
+    border-radius: 4px;
+    background: white;
+    color: #39b7f3;
+}
+
+#id_work_days option:hover{
+    color: white;
+    background: #3287d2;
+}
+#id_work_days option:active {
+    color: white;
+    background: #3287d2;
 }
