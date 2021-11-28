@@ -46,6 +46,8 @@
     height: 65vh;
     background: white;
     overflow: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
 #id_work_days{
@@ -84,4 +86,16 @@
 #id_work_days option:active {
     color: white;
     background: #3287d2;
+}
+
+#graph-id {
+    height: 100%;
+}
+
+#graph-id-graph-wrapper {
+    height: 100%;
+}
+
+#svg-container-graph-id {
+    height: 100% !important;
 }

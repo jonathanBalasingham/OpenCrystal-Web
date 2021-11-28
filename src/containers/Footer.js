@@ -1,19 +1,18 @@
-import IconButton from '@material/react-icon-button';
 import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 import '@mui/material/utils'
 import SettingsModal from "../components/SettingsModal";
 import {useDispatch, useSelector} from "react-redux";
 import {getSettingsModalOpened, openSettingsModal} from "../features/settings/settingsFooterSlice";
+import React from "react";
+
 
 var style = {
     backgroundColor: "#f8f9fa",
     borderTop: "1px solid rgb(232, 232, 232)",
     textAlign: "center",
-    position: "fixed",
-    left: "0",
-    bottom: "0",
     height: "40px",
     width: "100%",
+    gridArea: "footer"
 }
 
 var phantom = {
@@ -41,8 +40,7 @@ function Footer({ children }) {
     }
 
     return (
-        <div>
-            <div style={phantom} />
+        <div id="footer-bar">
             <div style={style}>
                 <button id='footer-settings-button' onClick={openModal}>
                     <HealthAndSafetyIcon/>

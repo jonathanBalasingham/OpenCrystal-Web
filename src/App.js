@@ -12,9 +12,9 @@ import Footer from "./containers/Footer";
 function App() {
   return (
     <div className="App">
-        <Navbar bg="light" expand={false} style={{borderBottom: '2px solid rgb(232, 232, 232)'}}>
+        <Navbar bg="light" expand={false} style={{borderBottom: '2px solid rgb(232, 232, 232)', gridArea: 'header'}}>
             <Container fluid>
-                <Navbar.Brand href="#">Crystal-Dash</Navbar.Brand>
+                <Navbar.Brand href="#">OpenCrystal</Navbar.Brand>
                 <Navbar.Toggle aria-controls="offcanvasNavbar" />
                 <Navbar.Offcanvas
                     id="offcanvasNavbar"
