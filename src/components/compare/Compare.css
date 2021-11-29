@@ -99,3 +99,7 @@
 #svg-container-graph-id {
     height: 100% !important;
 }
+
+svg[name=svg-container-graph-id] {
+    height: 100% !important;
+}

@@ -8,7 +8,7 @@ export function CompareApp({}) {
     return (
         <div id="compare-app-container">
             <div id="plot-set-tab-container">
-                <PlotSetTab/>
+                <PlotSetTab />
             </div>
             <div id="crystal-list-container">
                 <CrystalList/>
