@@ -12,7 +12,7 @@ import Footer from "./containers/Footer";
 function App() {
   return (
     <div className="App">
-        <Navbar bg="light" expand={false} style={{borderBottom: '2px solid rgb(232, 232, 232)', gridArea: 'header'}}>
+        <Navbar id={"main-header"} bg="var(--defaultsecondary)" expand={false} style={{borderBottom: '2px solid var(--defaultborder)', gridArea: 'header'}}>
             <Container fluid>
                 <Navbar.Brand href="#">OpenCrystal</Navbar.Brand>
                 <Navbar.Toggle aria-controls="offcanvasNavbar" />

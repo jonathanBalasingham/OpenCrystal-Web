@@ -3,7 +3,7 @@ import { Graph } from "react-d3-graph";
 import './Compare.css'
 import  'csv-parser'
 import {edges} from './sample_data'
-
+import {Tabs, TabList, TabPanel, Tab} from 'react-tabs'
 
 export function PlotSetTab({}) {
 
@@ -116,14 +116,8 @@ export function PlotSetTab({}) {
 
 
     return (
-        <div id="plot-tab-set">
-            <Graph
-                id="graph-id" // id is mandatory
-                data={data}
-                config={myConfig}
-                onClickNode={onClickNode}
-                onClickLink={onClickLink}
-            />
+        <div>
+
         </div>
     )
 }

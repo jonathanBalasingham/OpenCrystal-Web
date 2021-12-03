@@ -8,8 +8,8 @@ function ApplicationBay() {
     const openAppBay = useSelector(getOpenApplicationBay)
     const openPanel = useSelector(getOpenOptionsPanel)
 
-    if (openPanel !== 'NONE')
-        marginLeft = '326px'
+    //if (openPanel !== 'NONE')
+      //  marginLeft = '326px'
 
     let innerApplication;
     switch (openAppBay) {
@@ -34,7 +34,7 @@ function ApplicationBay() {
     }
 
     return (
-        <div className="application-bay" style={{'margin-left': marginLeft}}>
+        <div className="application-bay">
             { innerApplication }
         </div>
     )

@@ -7,7 +7,7 @@ import React from "react";
 
 
 var style = {
-    backgroundColor: "#f8f9fa",
+    backgroundColor: "var(--defaultsecondary)",
     borderTop: "1px solid rgb(232, 232, 232)",
     textAlign: "center",
     height: "40px",

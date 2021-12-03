@@ -4,7 +4,10 @@
     height: 100%;
     overflow: hidden;
     display: grid;
-    grid-template-areas: 'task-bar app';
+    grid-area: main;
+    grid-template-areas: 'sidebar panel app';
+    grid-template-columns: 26px auto 100vw;
+    grid-template-rows: calc(100vh - 137px);
 }
 
 .left-panel {
@@ -12,7 +15,7 @@
     width: 23%;
     border-left: dimgrey;
     float: left;
-    background: #f8f9fa;
+    background: var(--defaultsecondary);
     padding: 30px;
 }
 
@@ -20,6 +23,7 @@
     max-width: calc(100vw - 26px);
     height: 100%;
     grid-area: app;
+    background: var(--defaultprimary);
 }
 
 
@@ -27,9 +31,10 @@
     top: 130px;
     height: 100%;
     width: 25px;
-    background: #f8f9fa;
+    background: var(--defaultsecondary);;
     border-right: 1px solid rgb(232, 232, 232);
     float: left;
+    grid-area: sidebar;
 }
 
 .left-side-bar-button {
@@ -38,7 +43,7 @@
     padding: 0;
     text-align: center;
     border: none;
-    background: #f8f9fa;
+    background: var(--defaultsecondary);;
     border-bottom: 1px solid rgb(232, 232, 232);
     border-right: 1px solid rgb(232, 232, 232);
 
@@ -69,9 +74,7 @@
 .options-panel {
     height: 100%;
     width: 0;
-    background: #f8f9fa;
-    margin-left: 25px;
-    position: absolute;
+    background: var(--defaultsecondary);;
     border: 1px solid rgb(232, 232, 232);
     border-top: none;
     grid-area: panel;
@@ -86,7 +89,6 @@
     padding: 0;
     grid-template-rows: calc(100vh - 137px);
     grid-area: task-bar;
-
 }
 
 #view-app-container {
@@ -108,9 +110,9 @@
 }
 
 #compare-app-container {
-    width: 100%;
     height: 100%;
     display: flex;
+    max-width: calc(100vw - 325px);
 }
 
 #plot-set-tab-container {
@@ -118,12 +120,21 @@
     flex-grow: 1.5;
     border-right: 1px solid rgb(232, 232, 232);
     height: 100%;
+    display: grid;
+    grid-template-areas:
+            'tabs'
+            'plot';
+    grid-template-rows: 40px calc(100vh - 40px);
+    grid-gap: 0;
 }
 
 #crystal-list-container {
     order: 2;
     flex-grow: 0;
-    min-width: 30%;
+    width: 320px;
+    overflow: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
 #database-app-container {

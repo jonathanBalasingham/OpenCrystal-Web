@@ -12,8 +12,11 @@ const OptionsPanel = ({ id, width }) => {
     const openPanel = useSelector(getOpenOptionsPanel)
     console.log("OpenPanel inside OptionsPanel: " + openPanel)
     let vis = "hidden"
-    if (id === openPanel)
+    if (id === openPanel) {
         vis = "visible"
+        width = '300px';
+    } else
+        width = 0
 
     let innerApplicationOptions;
     switch (openPanel) {
@@ -29,6 +32,8 @@ const OptionsPanel = ({ id, width }) => {
         case 'Settings-panel':
             innerApplicationOptions = <div></div>
             break;
+        default:
+            innerApplicationOptions = <div></div>
     }
 
     return (
@@ -38,4 +43,4 @@ const OptionsPanel = ({ id, width }) => {
     )
 }
 
-    export default OptionsPanel;
+export default OptionsPanel;

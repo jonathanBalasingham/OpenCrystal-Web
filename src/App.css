@@ -3,11 +3,15 @@
   grid-template-areas:
     'header header header header header header'
     'header2 header2 header2 header2 header2 header2'
-    'menu main main main main main'
+    'main main main main main main'
     'footer footer footer footer footer footer';
   grid-gap: 0;
   padding: 0;
   grid-template-rows: 56px 40px calc(100vh - 137px) 41px;
+}
+
+#main-header {
+  background: var(--defaultsecondary);
 }
 
 .App-logo {
@@ -49,8 +53,8 @@
 #TopMenuBar {
   height: 40px;
   width: 100%;
-  background: #f8f9fa;
-  border-bottom: 1px solid rgb(232, 232, 232);
+  background: var(--defaultsecondary);
+  border-bottom: 1px solid var(--defaultborder);
   grid-area: header2;
 }
 
@@ -67,7 +71,7 @@
 }
 
 .dropbtn {
-  background-color: #f8f9fa;
+  background-color: var(--defaultsecondary);
   color: rgb(50,50,50);
   font-size: 16px;
   border: none;
@@ -101,13 +105,13 @@
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: rgb(232, 232, 232);}
+.dropdown-content a:hover {background-color: var(--defaultborder);}
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {display: block;}
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {background-color: rgb(232, 232, 232);}
+.dropdown:hover .dropbtn {background-color: var(--defaultborder);}
 
 #Settings-button {
   background: red;
