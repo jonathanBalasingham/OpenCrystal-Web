@@ -7,6 +7,9 @@ import {TabSelector} from "./components/TabSelector";
 import 'tailwindcss/tailwind.css';
 import {addToken, refreshToken} from "./features/auth/authSlice";
 import {useDispatch} from "react-redux";
+import { Canvas, useFrame } from '@react-three/fiber'
+import Ball from "./Logo";
+
 
 async function loginUser(credentials) {
     console.log("doing something")
@@ -89,6 +92,11 @@ export function LoginPage({setToken}) {
                 </nav>
                 <div className="p-4">
                     <TabPanel hidden={selectedTab !== 'Login'}>
+                        <Canvas style={{'height': '80px'}}>
+                            <ambientLight />
+                            <pointLight position={[2, 2, 2]} />
+                            <Ball position={[0, 0, 0]} />
+                        </Canvas>
                         <h1 id="main-title">OpenCrystal</h1>
                         <form onSubmit={handleSubmit}>
                             <fieldset>

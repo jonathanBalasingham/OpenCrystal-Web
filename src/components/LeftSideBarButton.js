@@ -23,7 +23,7 @@ const LeftSideBarButton = ({ id, textTop }) => {
     }
 
     const openPanel = useSelector(getOpenOptionsPanel)
-    console.log("OpenPanel inside OptionsPanel: " + openPanel)
+
     let bc = "#f8f9fa"
     let color = "rgb(50,50,50)"
     if (id.replace("-button", "") === openPanel.replace("-panel", "")) {

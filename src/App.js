@@ -8,13 +8,20 @@ import LeftSideBar from "./components/LeftSideBar"
 import OptionsPanel from "./components/OptionsPanel";
 import LeftTaskBar from "./components/LeftTaskBar";
 import Footer from "./containers/Footer";
+import Ball from "./Logo";
+import {Canvas} from "@react-three/fiber";
 
 function App() {
   return (
     <div className="App">
         <Navbar id={"main-header"} bg="var(--defaultsecondary)" expand={false} style={{borderBottom: '2px solid var(--defaultborder)', gridArea: 'header'}}>
             <Container fluid>
-                <Navbar.Brand href="#">OpenCrystal</Navbar.Brand>
+                <Canvas style={{'height': '50px', 'width': '50px', 'position':'absolute'}}>
+                    <ambientLight />
+                    <pointLight position={[2, 2, 2]} />
+                    <Ball position={[0, 0, 0]} />
+                </Canvas>
+                <Navbar.Brand href="#" style={{'margin-left': '50px'}}>OpenCrystal</Navbar.Brand>
                 <Navbar.Toggle aria-controls="offcanvasNavbar" />
                 <Navbar.Offcanvas
                     id="offcanvasNavbar"

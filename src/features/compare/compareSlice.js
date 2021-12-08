@@ -3,6 +3,10 @@ import { createSlice, createSelector, current } from '@reduxjs/toolkit'
 const initialState = {
     "data": [],
     "rendering": false,
+    "graphtype": "full",
+    "k": 100,
+    "measure": "pdd",
+    "threshold": 5,
 }
 
 const compareSlice = createSlice({
@@ -26,10 +30,41 @@ const compareSlice = createSlice({
 
             };
         },
+        clearComp(state, action){
+            return {
+                ...state,
+                "data": []
+            };
+        },
+        setGraphType(state, action) {
+            const gt  = action.payload
+            return {
+              ...state,
+              "graphtype": gt
+            };
+        },
+        setMeasure(state, action) {
+            return {
+                ...state,
+                "measure": action.payload
+            }
+        },
+        setK(state, action) {
+            return {
+                ...state,
+                "k": Number(action.payload)
+            }
+        },
+        setThreshold(state, action) {
+            return {
+                ...state,
+                "threshold": Number(action.payload)
+            }
+        }
     }
 })
 
-export const { addComp, removeComp } = compareSlice.actions
+export const { addComp, removeComp, setGraphType, clearComp, setK, setMeasure, setThreshold } = compareSlice.actions
 
 export default compareSlice.reducer
 
@@ -38,3 +73,11 @@ export const getComp = createSelector((state) => state.compareSlice, (p) =>
 )
 
 export const isRendering = createSelector((state) => state.compareSlice, (p) => p["rendering"])
+
+export const getGraphType = createSelector((state) => state.compareSlice, (p) => p["graphtype"])
+
+export const getK = createSelector((state) => state.compareSlice, (p) => p["k"])
+
+export const getMeasure = createSelector((state) => state.compareSlice, (p) => p["measure"])
+
+export const getThreshold = createSelector((state) => state.compareSlice, (p) => p["threshold"])
