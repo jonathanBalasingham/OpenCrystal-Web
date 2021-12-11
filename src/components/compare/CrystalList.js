@@ -1,4 +1,5 @@
 import * as React from "react";
+import {useEffect, useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getComp, removeComp} from "../../features/compare/compareSlice";
 import {FaMinus} from "react-icons/fa";
@@ -26,11 +27,20 @@ export function AddedQueryResult(cname) {
 
 export function CrystalList({}) {
     const currentComp = useSelector(getComp)
-    console.log("CurrentComp: ")
-    console.log(currentComp)
+    const endRef = useRef(null)
+
+    const scrollToBottom = () => {
+        endRef.current?.scrollIntoView({ behavior: "smooth" })
+    }
+
+    useEffect(() => {
+        scrollToBottom()
+    }, [currentComp]);
+
     return (
         <div id="current-crystal-list">
             {currentComp.map(AddedQueryResult)}
+            <div ref={endRef} />
         </div>
     )
 }

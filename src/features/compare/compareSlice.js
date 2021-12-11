@@ -60,11 +60,17 @@ const compareSlice = createSlice({
                 ...state,
                 "threshold": Number(action.payload)
             }
+        },
+        setMaxThreshold(state, action) {
+            return {
+                ...state,
+                "max_threshold": Number(action.payload)
+            }
         }
     }
 })
 
-export const { addComp, removeComp, setGraphType, clearComp, setK, setMeasure, setThreshold } = compareSlice.actions
+export const { addComp, removeComp, setGraphType, clearComp, setK, setMeasure, setThreshold, setMaxThreshold } = compareSlice.actions
 
 export default compareSlice.reducer
 
@@ -81,3 +87,5 @@ export const getK = createSelector((state) => state.compareSlice, (p) => p["k"])
 export const getMeasure = createSelector((state) => state.compareSlice, (p) => p["measure"])
 
 export const getThreshold = createSelector((state) => state.compareSlice, (p) => p["threshold"])
+
+export const getMaxThreshold = createSelector((state) => state.compareSlice, (p) => p["max_threshold"])

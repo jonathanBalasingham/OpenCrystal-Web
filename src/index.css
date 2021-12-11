@@ -36,13 +36,13 @@ body > #root > div {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: var(--defaultprimary)
+  background: #f9fafb;
 }
 
 #login-form {
   height: 330px;
   width: 400px;
-  background: whitesmoke;
+  background: var(--defaultprimary);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -60,6 +60,10 @@ body > #root > div {
   border-radius: 4px;
 }
 
+#login-tabs > nav {
+  margin-top: 10px;
+}
+
 #submit-login-button:hover, #submit-create-button:hover {
   border: 2px solid #39b7f3;
   color: var(--defaultprimary);
@@ -71,7 +75,7 @@ body > #root > div {
   background: var(--defaultprimary);
   color: black;
   border: none;
-  width: 170px;
+  width: 200px;
   padding: 10px;
   border-bottom: 2px solid var(--defaultprimary);
 
@@ -86,9 +90,11 @@ body > #root > div {
 }
 
 #login-tabs {
-  width: 340px;
-  height: 440px;
+  width: 400px;
+  height: 460px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background: var(--defaultprimary);
+  border-radius: 6px;
 }
 
 fieldset p {
@@ -117,8 +123,21 @@ fieldset input:focus {
   height: 350px;
 }
 
+.p-4 form {
+  margin-left: 26px;
+}
+
 #main-title {
   text-align: center;
   font-family: monospace;
   margin-bottom: 0px;
+}
+
+#login-tabs input {
+  background: var(--defaultprimary);
+}
+
+input:-webkit-autofill {
+  -webkit-background-clip: text;
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
 }

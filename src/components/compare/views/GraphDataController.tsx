@@ -3,6 +3,8 @@ import { FC, useEffect } from "react";
 import { keyBy, omit } from "lodash";
 
 import { Dataset, FiltersState } from "../types";
+import {useSelector} from "react-redux";
+import {getType} from "@reduxjs/toolkit";
 
 const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({ dataset, filters, children }) => {
   const sigma = useSigma();
@@ -31,15 +33,16 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({ 
     const scores = graph.nodes().map((node) => graph.getNodeAttribute(node, "score"));
     const minDegree = Math.min(...scores);
     const maxDegree = Math.max(...scores);
-    const MIN_NODE_SIZE = 10;
+    const MIN_NODE_SIZE = 20;
     const MAX_NODE_SIZE = 30;
     graph.forEachNode((node) =>
       graph.setNodeAttribute(
         node,
         "size",
-        ((graph.getNodeAttribute(node, "score") - minDegree) / (maxDegree - minDegree)) *
-          (MAX_NODE_SIZE - MIN_NODE_SIZE) +
-          MIN_NODE_SIZE,
+        30
+        //((graph.getNodeAttribute(node, "score") - minDegree) / (maxDegree - minDegree)) *
+        //  (MAX_NODE_SIZE - MIN_NODE_SIZE) +
+        //  MIN_NODE_SIZE,
       ),
     );
 

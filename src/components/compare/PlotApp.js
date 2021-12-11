@@ -33,11 +33,13 @@ export function PlotApp({}) {
                     <button className="dropbtn">
                         <BiNetworkChart/>
                     </button>
-                    <div className="dropdown-content">
-                        <button onClick={setMST}>MST</button>
-                        <button onClick={setFull}>Threshold</button>
-                        <button>Dendrogram</button>
-                        <button>Radial</button>
+                    <div id="graph-choices" className="dropdown-content">
+                        <button onClick={() => dispatch(setGraphType("mst"))}>MST</button>
+                        <button onClick={() => dispatch(setGraphType("full"))}>Threshold</button>
+                        <button onClick={() => dispatch(setGraphType("circle"))}>Circle</button>
+                        <button onClick={() => dispatch(setGraphType("sunburst"))}>Sunburst</button>
+                        <button onClick={() => dispatch(setGraphType("force"))}>Force</button>
+                        <button onClick={() => dispatch(setGraphType("map"))}>Map</button>
                     </div>
                 </div>
                 <div className="dropdown">

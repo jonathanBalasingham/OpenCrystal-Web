@@ -9,7 +9,9 @@ export default function Ball(props) {
     const [hovered, hover] = useState(false)
     const [clicked, click] = useState(false)
     // Subscribe this component to the render-loop, rotate the mesh every frame
-    useFrame((state, delta) => (ref.current.rotation.y += 0.005))
+    useFrame((state, delta) => {
+        ref.current.rotation.y += 0.005; ref.current.rotation.x += 0.01
+    })
     // Return the view, these are regular Threejs elements expressed in JSX
     return (
         <mesh
@@ -19,8 +21,8 @@ export default function Ball(props) {
             onClick={(event) => click(!clicked)}
             onPointerOver={(event) => hover(true)}
             onPointerOut={(event) => hover(false)}>
-            <sphereGeometry args={[2.2]} />
-            <meshBasicMaterial wireframe={true} color={hovered ? 'hotpink' : 'rgb(45, 60, 82)'} />
+            <octahedronGeometry args={[2, 0]} />
+            <meshBasicMaterial wireframe={true} color={hovered ? 'hotpink' : 'blue'} />
         </mesh>
     )
 }

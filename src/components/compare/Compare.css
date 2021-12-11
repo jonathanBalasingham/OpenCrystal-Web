@@ -81,25 +81,40 @@ svg[name=svg-container-graph-id] {
 
 .query-result {
     width: 98.5%;
-    height: 70px;
+    height: 65px;
     display: grid;
     background: var(--defaultsecondary);
     color: darkgray;
     border: 2px solid var(--defaultborder);
     grid-template-areas:
-        'name name add'
-        'id1 id2 add';
+        'chev name name add'
+        'chev id1 id2 add';
     grid-template-rows: 35px 15px;
-    grid-template-columns: 110px 100px 50px;
-    padding: 10px;
-    margin-left: 2px;
-    margin-bottom: 2px;
+    grid-template-columns: 40px 110px 60px 50px;
+    padding: 5px;
 }
 
-.query-result:hover {
-    background: white;
-    color: #39b7f3;
+.query-result-dropdown {
+    width: 98.5%;
+    display: grid;
+    background: var(--defaultsecondary);
+    transition: all 500ms ease;
+    border: 2px solid var(--defaultborder);
+    border-top: none;
+    grid-template-areas:
+        'field value'
+        'add add';
+    grid-template-rows: 100px 50px;
+    grid-template-columns: 50% 50%;
+    padding: 5px;
 }
+
+.query-result-accordion {
+    margin-bottom: 2px;
+    margin-left: 2px;
+    transition: all 500ms ease;
+}
+
 
 .query-result-name {
     grid-area: name;
@@ -107,20 +122,30 @@ svg[name=svg-container-graph-id] {
     color: black;
 }
 
-.query-result-button {
-    grid-area: add;
-    border-radius: 4px;
+.query-result-open-button {
+    grid-area: chev;
     color: darkgray;
-    border: 2px solid darkgray;
     height: 30px;
     width: 30px;
+    margin-top: 10px;
+    border: none;
+    background: var(--defaultsecondary);
+}
+
+.query-result-quick-add-button {
+    color: darkgray;
+    background: var(--defaultsecondary);
+    width: 30px;
+    height: 30px;
+    border: none;
     margin-top: 9px;
 }
 
-.query-result-button:hover {
+.query-result-add-button:hover {
     color: #39b7f3;
-    border: 2px solid #39b7f3;
-    background: var(--defaultprimary);
+    background: var(--defaultborder);
+    border-radius: 4px;
+    border: 2px solid darkgray;
 }
 
 .query-result-id {
@@ -160,6 +185,25 @@ svg[name=svg-container-graph-id] {
     background: var(--defaultprimary);
     border: 2px solid #39b7f3;
     color: #39b7f3;
+}
+
+.query-result-dropdown-button {
+    width: 120px;
+    height: 25px;
+    color: darkgray;
+    border: 2px solid var(--defaultborder);
+    border-radius: 5px;
+    display: inline;
+    grid-area: add;
+    overflow: hidden;
+    font-size: 11px;
+    margin-left: 3px;
+}
+
+.query-result-dropdown p {
+    font-size: 12px;
+    margin-bottom: 1px;
+    text-align: center;
 }
 
 
@@ -248,13 +292,16 @@ svg[name=svg-container-graph-id] {
     padding: 10px;
 }
 
-#plot-app-menu .dropdown-content button {
+#plot-app-menu #graph-choices  button {
     border: none;
     padding: 3px 3px 3px 9px;
     background: var(--defaultsecondary);
-    min-width: 120px;
     text-align: left;
     overflow: hidden;
+}
+
+#plot-app-menu #graph-choices button:active, button:hover {
+    color: #39b7f3;
 }
 
 #plot-app-menu .dropdown-content button:hover {
@@ -290,4 +337,13 @@ svg[name=svg-container-graph-id] {
 
 #plot-app-menu .dropdown:focus  .dropdown-content {
     display: block;
+}
+
+.graph-control-button {
+    width: 60px;
+    display: inline-block;
+    padding: 5px;
+    border: 2px solid var(--defaultborder);
+    border-radius: 5px;
+    margin-left: 5px;
 }
