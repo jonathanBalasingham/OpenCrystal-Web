@@ -1,9 +1,19 @@
 import React, {useState} from 'react'
 import {FaPlus} from "react-icons/fa";
 import {useDispatch} from "react-redux";
-import {addComp} from "../../features/compare/compareSlice";
+import {addComp, addComps} from "../../features/compare/compareSlice";
 import {BsChevronRight, BsChevronDown} from "react-icons/all";
 
+
+async function getFamily(e) {
+    let name = e.target.id.replace("-add-family-button", "")
+    return fetch(`/api/compare/family/${name}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(data => data.json())
+}
 
 export function QueryResult({data}) {
     const dispatch = useDispatch()
@@ -14,7 +24,19 @@ export function QueryResult({data}) {
         dispatch(addComp(name))
     }
 
+
     const [open, setOpen] = useState(false)
+
+    const handleChevronClick = (e) => {
+        let cname = e.target.id.replace("-open-button", "")
+        setOpen(!open)
+    }
+
+    const addFamily = async(e) => {
+        const res = await getFamily(e)
+        console.log(res)
+        dispatch(addComps(res["names"]))
+    }
 
     let dis = open ? "block" : "none"
     let border = open ? "none" : "2px solid var(--defaultborder)"
@@ -22,7 +44,7 @@ export function QueryResult({data}) {
     return (
         <div id={data["name"] + "-accordion"} className={"query-result-accordion"}>
             <div className="query-result" id={data["name"] + "-result"} >
-                <button id={data["name"] + "-open-button"} className={"query-result-open-button"} onClick={() => setOpen(!open)}>
+                <button id={data["name"] + "-open-button"} className={"query-result-open-button"} onClick={e =>handleChevronClick(e)}>
                     {open ? <BsChevronDown /> : <BsChevronRight/>}
                 </button>
                 <h4 className={"query-result-name"}>{data["name"]}</h4>
@@ -40,7 +62,7 @@ export function QueryResult({data}) {
                 <button id={data["name"] + "-add-crystal-button"} className={"query-result-dropdown-button"} onClick={e => addToComparison(e)}>
                     Add Crystal
                 </button>
-                <button id={data["name"] + "-add-family-button"} className={"query-result-dropdown-button"} onClick={e => addToComparison(e)}>
+                <button id={data["name"] + "-add-family-button"} className={"query-result-dropdown-button"} onClick={e => addFamily(e)}>
                     Add Family
                 </button>
             </div>

@@ -7,6 +7,8 @@ const initialState = {
     "k": 100,
     "measure": "pdd",
     "threshold": 5,
+    "k_x": 1,
+    "k_y": 2,
 }
 
 const compareSlice = createSlice({
@@ -18,6 +20,17 @@ const compareSlice = createSlice({
             if (!state["data"].includes(action.payload))
                 newState = state["data"].concat([action.payload])
 
+            return {
+                ...state,
+                "data": newState
+            };
+        },
+        addComps(state, action) {
+            let newState = state["data"]
+            for (let i = 0; i < action.payload.length; i++) {
+                if (!state["data"].includes(action.payload[i]))
+                    newState = newState.concat([action.payload[i]])
+            }
             return {
                 ...state,
                 "data": newState
@@ -55,6 +68,18 @@ const compareSlice = createSlice({
                 "k": Number(action.payload)
             }
         },
+        setKx(state, action) {
+            return {
+                ...state,
+                "k_x": Number(action.payload)
+            }
+        },
+        setKy(state, action) {
+            return {
+                ...state,
+                "k_y": Number(action.payload)
+            }
+        },
         setThreshold(state, action) {
             return {
                 ...state,
@@ -70,7 +95,8 @@ const compareSlice = createSlice({
     }
 })
 
-export const { addComp, removeComp, setGraphType, clearComp, setK, setMeasure, setThreshold, setMaxThreshold } = compareSlice.actions
+export const { addComp, addComps, removeComp, setGraphType, clearComp, setK, setKx, setKy,
+            setMeasure, setThreshold, setMaxThreshold } = compareSlice.actions
 
 export default compareSlice.reducer
 
@@ -83,6 +109,8 @@ export const isRendering = createSelector((state) => state.compareSlice, (p) => 
 export const getGraphType = createSelector((state) => state.compareSlice, (p) => p["graphtype"])
 
 export const getK = createSelector((state) => state.compareSlice, (p) => p["k"])
+export const getKx = createSelector((state) => state.compareSlice, (p) => p["k_x"])
+export const getKy = createSelector((state) => state.compareSlice, (p) => p["k_y"])
 
 export const getMeasure = createSelector((state) => state.compareSlice, (p) => p["measure"])
 

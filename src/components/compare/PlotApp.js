@@ -13,18 +13,8 @@ export function PlotApp({}) {
     const dispatch = useDispatch()
     const graphType = useSelector(getGraphType)
 
-    const setMST = () => {
-        console.log("settings mst")
-        dispatch(setGraphType("mst"))
-    }
-
-    const setFull = () => {
-        dispatch(setGraphType("full"))
-    }
-
     const clear = () => dispatch(clearComp(""))
-
-
+    const forceUpdate = React.useReducer(() => ({}))[1]
 
     return (
         <>
@@ -39,7 +29,8 @@ export function PlotApp({}) {
                         <button onClick={() => dispatch(setGraphType("circle"))}>Circle</button>
                         <button onClick={() => dispatch(setGraphType("sunburst"))}>Sunburst</button>
                         <button onClick={() => dispatch(setGraphType("force"))}>Force</button>
-                        <button onClick={() => dispatch(setGraphType("map"))}>Map</button>
+                        <button onClick={() => dispatch(setGraphType("map"))}>MDS Map</button>
+                        <button onClick={() => dispatch(setGraphType("amd"))}>AMD</button>
                     </div>
                 </div>
                 <div className="dropdown">
@@ -53,7 +44,7 @@ export function PlotApp({}) {
                 <button className="plot-app-menu-button">
                     <BiFullscreen/>
                 </button>
-                <button className="plot-app-menu-button">
+                <button className="plot-app-menu-button" onClick={forceUpdate}>
                     <BiRefresh/>
                 </button>
                 <button className="plot-app-menu-button" style={{"border": "none"}} onClick={clear}>

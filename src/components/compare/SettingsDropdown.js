@@ -8,7 +8,11 @@ import {
     setMeasure,
     setThreshold,
     getK,
-    getMaxThreshold
+    getMaxThreshold,
+    getKx,
+    getKy,
+    setKx,
+    setKy,
 } from "../../features/compare/compareSlice";
 
 
@@ -74,7 +78,32 @@ function MapSettings() {
     )
 }
 
+function AMDControls() {
+    const dispatch = useDispatch()
+    let k_x = useSelector(getKx)
+    let k_y = useSelector(getKy)
+
+    return  (
+        <>
+            <p>{`X-Axis: ${k_x}`}</p>
+            <input type="range" id="k_x" name="k_x" onChange={e => dispatch(setKx(e.target.value))}
+                   min="1" max="200" value={k_x} step="1" />
+            <p>{`Y-Axis: ${k_y}`}</p>
+            <input type="range" id="k_y" name="k_y" onChange={e => dispatch(setKy(e.target.value))}
+                   min="1" max="200" value={k_y} step="1" />
+        </>
+    )
+}
+
+const AMDSettings = () => {
+    return (
+        <AMDControls/>
+    )
+}
+
 export const settingsMap = {"mst": MSTSettings(),
                             "full": ThresholdSettings(),
                             "dendrogram": DendrogramSettings(),
-                            "map": MapSettings()}
+                            "map": MapSettings(),
+                            "amd": AMDSettings()
+}
