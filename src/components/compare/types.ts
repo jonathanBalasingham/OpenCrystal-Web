@@ -4,6 +4,7 @@ export interface NodeData {
   cluster: string;
   x: number;
   y: number;
+  tag: string;
 }
 
 export interface Cluster {

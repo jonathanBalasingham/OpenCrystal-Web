@@ -1,10 +1,12 @@
-import "./Compare.css"
 import React, {useState,useEffect} from 'react'
 import {FaSearch} from "react-icons/fa"
 import {array} from "prop-types";
-import {QueryResult} from "./QueryResult";
-import {useSelector} from "react-redux";
-import {getAccessToken} from "../../features/auth/authSlice";
+import {QueryResult} from "./compare/QueryResult";
+import {useDispatch, useSelector} from "react-redux";
+import {getAccessToken} from "../features/auth/authSlice";
+import {closeSearchPanel, getSearchPanelOpened} from "../features/search/searchSlice";
+import {getCreateModalOpened} from "../features/create/createSlice";
+import CloseIcon from '@mui/icons-material/Close';
 
 
 async function search(query, facet, token) {
@@ -18,17 +20,24 @@ async function search(query, facet, token) {
         .then(data => data.json())
 }
 
+function SearchPanel({}) {
+    let dispatch = useDispatch()
 
-export function CompareOptionsPanel({}){
     const [results, setResults] = useState({'data':[], loading: false})
     const [query, setQuery] = useState('')
     const [facet, setFacet] = useState('name')
 
     let token = useSelector(getAccessToken)
+    let vis  = 'none'
+    const modalOpened = useSelector(getSearchPanelOpened)
+    console.log(modalOpened)
+    if (modalOpened)
+        vis = 'block'
+
 
     let htmlresults = <p style={{'text-align': 'center',
-                                 'color': 'rgb(196,196,196)',
-                                 'position': 'relative', 'top': '50%', 'text-style':'italic'}}>No Results to show..</p>
+        'color': 'rgb(196,196,196)',
+        'position': 'relative', 'top': '5%', 'text-style':'italic'}}>No Results to show..</p>
 
 
     const getResults = async() => {
@@ -37,34 +46,35 @@ export function CompareOptionsPanel({}){
         setResults({'data': res, 'loading': false})
     }
 
-    const handleChange = (e) => {
-        setQuery(e.target.value)
-    }
-
     if (results.data.length === 0) {
         htmlresults = <p style={{'text-align': 'center',
-            'color': 'rgb(196,196,196)',
-            'position': 'relative', 'top': '50%', 'text-style':'italic'}}>No Results to show..</p>
+            'color': 'var(--defaulttext)',
+            'position': 'relative', 'top': '5%', 'text-style':'italic'}}>No Results to show..</p>
     }
 
     if (results.loading)
         htmlresults = <p style={{'text-align': 'center',
-            'color': 'rgb(196,196,196)',
-            'position': 'relative', 'top': '50%', 'text-style':'italic'}}>Loading..</p>
-
+            'color': 'var(--defaulttext)',
+            'position': 'relative', 'top': '5%', 'text-style':'italic'}}>Loading..</p>
 
 
     if (results['data'].length > 0 && !results.loading) {
-        htmlresults = <>
+        htmlresults = <div id="search-results-container">
             {results.data.map((i) => <QueryResult data={i}/>)}
-        </>
+        </div>
     }
 
+
     return (
-        <div id="compare-options-panel">
+        <div id="search-panel" style={{'display': vis}}>
+            <div className="close-button-container">
+                <button onClick={() => dispatch(closeSearchPanel(false))}>
+                    <CloseIcon fontSize={"small"}/>
+                </button>
+            </div>
             <div className="panel-card">
                 <div style={{'display': 'inline-flex'}}>
-                    <input id={"compare-search-query"}  placeholder={"Search"} onChange={e => handleChange(e)}/>
+                    <input id={"compare-search-query"}  placeholder={"Search"} onChange={e => setQuery(e.target.value)}/>
                     <button id="compare-search-button" onClick={getResults}>
                         <FaSearch/>
                     </button>
@@ -75,12 +85,10 @@ export function CompareOptionsPanel({}){
                     <option value="subset">Subset</option>
                 </select>
             </div>
-            <div className="panel-card">
-                <div id="search-results-container">
-                    { htmlresults }
-                </div>
-            </div>
-
+            { htmlresults }
         </div>
     )
+
 }
+
+export default SearchPanel;

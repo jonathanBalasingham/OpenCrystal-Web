@@ -3,11 +3,7 @@
 .dashboard {
     height: 100%;
     overflow: hidden;
-    display: grid;
     grid-area: main;
-    grid-template-areas: 'sidebar panel app';
-    grid-template-columns: 26px auto 100vw;
-    grid-template-rows: calc(100vh - 137px);
 }
 
 .left-panel {
@@ -20,43 +16,41 @@
 }
 
 .application-bay {
-    max-width: calc(100vw - 26px);
+    width: 100%;
     height: 100%;
-    grid-area: app;
-    background: var(--defaultprimary);
+    background: inherit;
 }
 
 
 #left-side-bar {
-    top: 130px;
-    height: 100%;
-    width: 25px;
-    background: var(--defaultsecondary);;
-    border-right: 1px solid rgb(232, 232, 232);
+    width: 60px;
+    background: var(--defaultsecondary);
+    border-right: 1px solid var(--defaultborder);
     float: left;
     grid-area: sidebar;
+
 }
 
 .left-side-bar-button {
-    width: 25px;
-    height: 120px;
-    padding: 0;
+    width: 85%;
+    height: 55px;
+    padding: 5px;
     text-align: center;
     border: none;
-    background: var(--defaultsecondary);;
-    border-bottom: 1px solid rgb(232, 232, 232);
-    border-right: 1px solid rgb(232, 232, 232);
-
+    margin: 5px;
+    background: inherit;
+    color: var(--defaulttext)
 }
 
 .left-side-bar-button:hover {
     /*background-color: rgb(232, 232, 232);*/
-    color: #3287d2;
+    border-radius: 5px;
+    background: var(--defaulthover);
 }
 
 .left-side-bar-button:hover span {
     /*background-color: rgb(232, 232, 232);*/
-    color: #3287d2;
+    color: var(--defaultIcon);
 }
 
 
@@ -65,7 +59,7 @@
     text-align: center;
     transform: rotate(-90deg);
     font-size: 10px;
-    color: rgb(50,50,50);
+    color: var(--defaulttext);
     overflow: visible;
     position: relative;
     width: 10px;
@@ -75,7 +69,7 @@
     height: 100%;
     width: 0;
     background: var(--defaultsecondary);;
-    border: 1px solid rgb(232, 232, 232);
+    border: 1px solid var(--defaultborder);
     border-top: none;
     grid-area: panel;
 }
@@ -100,7 +94,7 @@
 #molecule-plot-container {
     order: 1;
     flex-grow: 1.5;
-    border-right: 1px solid rgb(232, 232, 232);
+    border-right: 1px solid var(--defaultborder);
 }
 
 #cif-editor-container {

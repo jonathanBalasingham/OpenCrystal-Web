@@ -26,9 +26,13 @@ body {
 body > #root > div {
   height: 100vh;
   overflow: hidden;
-  --defaultprimary: white;
-  --defaultsecondary: #f8f9fa;
-  --defaultborder: #e8e8e8;
+  --defaultprimary: #1F2933;
+  --defaultsecondary: #323F4B;
+  --defaultborder: #616e7c;
+  --defaulthover: #3e4c59;
+  --defaulttext: #cbd2d9;
+  --defaultIcon: #673ab7;
+  color: var(--defaulttext)
 }
 
 #login-page {
@@ -36,7 +40,8 @@ body > #root > div {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #f9fafb;
+  background: var(--defaultsecondary);
+  color: var(--defaulttext);
 }
 
 #login-form {
@@ -54,8 +59,8 @@ body > #root > div {
 #submit-login-button, #submit-create-button {
   width: 300px;
   background: var(--defaultprimary);
-  border: 2px solid #39b7f3;
-  color: #39b7f3;
+  border: 2px solid var(--defaultborder);
+  color: var(--defaulttext);
   margin-top: 10px;
   border-radius: 4px;
 }
@@ -65,28 +70,26 @@ body > #root > div {
 }
 
 #submit-login-button:hover, #submit-create-button:hover {
-  border: 2px solid #39b7f3;
-  color: var(--defaultprimary);
-  background: #3287d2;
-  color: var(--defaultprimary);
+  border: 2px solid var(--defaultborder);
+  color: var(--defaulttext);
+  background: var(--defaulthover);
 }
 
 #login-tabs nav button {
   background: var(--defaultprimary);
-  color: black;
   border: none;
   width: 200px;
   padding: 10px;
   border-bottom: 2px solid var(--defaultprimary);
-
+  color: var(--defaulttext);
 }
 
 #login-tabs nav button:hover {
-  border-bottom: 2px solid #39b7f3;
+  border-bottom: 2px solid var(--defaulthover);
 }
 
 #login-tabs nav button:focus {
-  border-bottom: 2px solid #39b7f3;
+  border-bottom: 2px solid var(--defaultborder);
 }
 
 #login-tabs {
@@ -95,6 +98,7 @@ body > #root > div {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   background: var(--defaultprimary);
   border-radius: 6px;
+  color: var(--defaulttext);
 }
 
 fieldset p {
@@ -119,7 +123,7 @@ fieldset input:focus {
 }
 
 .p-4 {
-  border-top: 1px solid whitesmoke;
+  border-top: 1px solid var(--defaultborder);
   height: 350px;
 }
 
@@ -134,7 +138,9 @@ fieldset input:focus {
 }
 
 #login-tabs input {
-  background: var(--defaultprimary);
+  background: var(--defaulthover);
+  border-radius: 5px;
+  color: var(--defaulttext);
 }
 
 input:-webkit-autofill {

@@ -24,7 +24,7 @@ async function loginUser(credentials) {
 }
 
 async function createUser(credentials) {
-    return fetch('/api/users/', {
+    return fetch('/api/user/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -70,7 +70,7 @@ export function LoginPage({setToken}) {
             'email': email,
             'password': newpassword
         });
-        setToken(token);
+        dispatch(addToken(token));
     }
 
     return (

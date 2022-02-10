@@ -49,7 +49,7 @@ export function QueryResult({data}) {
                 </button>
                 <h4 className={"query-result-name"}>{data["name"]}</h4>
                 <h6 className={"query-result-id"}>{data["family"]}</h6>
-                <p className={"query-result-source"}>{data["Source"]["name"]}</p>
+                <p className={"query-result-source"}>{data["source"]["name"]}</p>
                 <button id={data["name"] + "-add-button"} className={"query-result-quick-add-button"} onClick={e => addToComparison(e)}>
                     +
                 </button>

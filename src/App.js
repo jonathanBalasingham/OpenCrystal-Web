@@ -10,10 +10,11 @@ import LeftTaskBar from "./components/LeftTaskBar";
 import Footer from "./containers/Footer";
 import Ball from "./Logo";
 import {Canvas} from "@react-three/fiber";
+import CreateModal from "./components/CreateModal";
+import SettingsModal from "./components/SettingsModal";
 
 function App() {
-  return (
-    <div className="App">
+    let navbar =
         <Navbar id={"main-header"} bg="var(--defaultsecondary)" expand={false} style={{borderBottom: '2px solid var(--defaultborder)', gridArea: 'header'}}>
             <Container fluid>
                 <Canvas style={{'height': '50px', 'width': '50px', 'position':'absolute'}}>
@@ -57,9 +58,12 @@ function App() {
                 </Navbar.Offcanvas>
             </Container>
         </Navbar>
-        <TopMenuBar/>
+  return (
+    <div className="App">
+        <LeftSideBar/>
+        <CreateModal/>
+        <SettingsModal/>
         <Dashboard/>
-        <Footer />
     </div>
   );
 }

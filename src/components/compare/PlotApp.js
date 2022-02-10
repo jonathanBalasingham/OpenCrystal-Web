@@ -5,8 +5,23 @@ import {BiNetworkChart, BiFullscreen, BiRefresh, BiTrash} from "react-icons/bi"
 import {IoSettingsOutline} from 'react-icons/io5'
 import Root from './views/Root'
 import {useDispatch, useSelector} from "react-redux";
-import {setGraphType, clearComp, getGraphType} from "../../features/compare/compareSlice";
+import {
+    setGraphType,
+    clearComp,
+    getGraphType,
+    getKs,
+    getThresholds,
+    getLinkage,
+    getComp
+} from "../../features/compare/compareSlice";
 import { settingsMap } from "./SettingsDropdown"
+import SimpleTreemapExample from "./SimpleTreemap"
+import {MyResponsiveCirclePacking} from "./CirclePacking"
+import {MyResponsiveSunburst} from "./Sunburst";
+import {getAccessToken} from "../../features/auth/authSlice";
+import ListIcon from '@mui/icons-material/List';
+import {CrystalList} from "./CrystalList";
+
 
 export function PlotApp({}) {
 
@@ -15,6 +30,15 @@ export function PlotApp({}) {
 
     const clear = () => dispatch(clearComp(""))
     const forceUpdate = React.useReducer(() => ({}))[1]
+
+    let graph = null;
+    if (graphType === "circle"){
+        graph = <MyResponsiveCirclePacking/>
+    } else if (graphType === "sunburst") {
+        graph = <MyResponsiveSunburst/>
+    } else {
+        graph = <Root/>
+    }
 
     return (
         <>
@@ -41,9 +65,14 @@ export function PlotApp({}) {
                         { settingsMap[graphType] }
                     </div>
                 </div>
-                <button className="plot-app-menu-button">
-                    <BiFullscreen/>
-                </button>
+                <div className="dropdown">
+                    <button className="dropbtn">
+                        <ListIcon/>
+                    </button>
+                    <div className="dropdown-content">
+                        <CrystalList/>
+                    </div>
+                </div>
                 <button className="plot-app-menu-button" onClick={forceUpdate}>
                     <BiRefresh/>
                 </button>
@@ -52,7 +81,7 @@ export function PlotApp({}) {
                 </button>
             </div>
             <div id="plot-app">
-                <Root/>
+                { graph }
             </div>
         </>
     )

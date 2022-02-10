@@ -39,7 +39,7 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({ 
       graph.setNodeAttribute(
         node,
         "size",
-        15
+        10
         //((graph.getNodeAttribute(node, "score") - minDegree) / (maxDegree - minDegree)) *
         //  (MAX_NODE_SIZE - MIN_NODE_SIZE) +
         //  MIN_NODE_SIZE,

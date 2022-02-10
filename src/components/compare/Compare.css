@@ -9,48 +9,45 @@
     width: 80%;
     margin: 5px;
     border: none;
-    border: 2px solid transparent;
+    border-bottom: 1px solid var(--defaultborder);
     background: transparent;
+    color: var(--defaulttext)
 }
 
 #compare-search-query:focus {
-    border-bottom: 2px solid #39b7f3;
+    border-bottom: 2px solid var(--defaulthover);
     outline: none;
 }
 
 #compare-search-button {
     width: 15%;
     border-radius: 4px;
-    background: white;
-    color: darkgray;
-    border: 2px solid darkgray;
+    background: var(--defaultsecondary);
+    color: var(--defaulttext);
+    border: 1px solid var(--defaultborder);
     margin: 5px;
     outline: none;
 }
 
 #compare-search-button:hover {
-    border: 2px solid #39b7f3;
     border-radius: 4px;
-    background: var(--defaultprimary);
-    color: #3287d2;
+    background: var(--defaulthover);
 }
 
 .panel-card {
-    border-bottom: 1px solid var(--defaultborder);
     padding: 10px;
     width: 100%;
 }
 
 #search-results-container {
-    border: 1px solid var(--defaultborder);
-    border-radius: 3px;
     width: 100%;
-    height: 75vh;
-    background: white;
+    background: var(--defaultsecondary);
+    max-height: 50vh;
     overflow: scroll;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
     padding-top: 3px;
+    border-radius: 10px;
 }
 
 #graph-id {
@@ -84,14 +81,16 @@ svg[name=svg-container-graph-id] {
     height: 65px;
     display: grid;
     background: var(--defaultsecondary);
-    color: darkgray;
-    border: 2px solid var(--defaultborder);
+    color: var(--defaulttext);
+    border: 1px solid var(--defaultborder);
     grid-template-areas:
         'chev name name add'
         'chev id1 id2 add';
     grid-template-rows: 35px 15px;
     grid-template-columns: 40px 110px 60px 50px;
     padding: 5px;
+    margin-top: 10px;
+    border-radius: 10px;
 }
 
 .query-result-dropdown {
@@ -119,12 +118,12 @@ svg[name=svg-container-graph-id] {
 .query-result-name {
     grid-area: name;
     font-size: 19px;
-    color: black;
+    color: var(--defaulttext);
 }
 
 .query-result-open-button {
     grid-area: chev;
-    color: darkgray;
+    color: var(--defaulttext);
     height: 30px;
     width: 30px;
     margin-top: 10px;
@@ -133,7 +132,7 @@ svg[name=svg-container-graph-id] {
 }
 
 .query-result-quick-add-button {
-    color: darkgray;
+    color: var(--defaulttext);
     background: var(--defaultsecondary);
     width: 30px;
     height: 30px;
@@ -166,7 +165,7 @@ svg[name=svg-container-graph-id] {
     grid-template-areas: "remove name";
     grid-template-columns: 50px 250px;
     background: var(--defaultsecondary);
-    color: darkgray;
+    color: var(--defaulttext);
     border: 2px solid var(--defaultborder);
     padding: 5px;
     margin: 5px;
@@ -177,8 +176,8 @@ svg[name=svg-container-graph-id] {
     height: 30px;
     width: 30px;
     border-radius: 4px;
-    color: darkgray;
-    border: 2px solid darkgray;
+    color: var(--defaulttext);
+    border: 2px solid var(--defaultborder);
 }
 
 .query-result-remove-button:hover {
@@ -190,7 +189,7 @@ svg[name=svg-container-graph-id] {
 .query-result-dropdown-button {
     width: 120px;
     height: 25px;
-    color: darkgray;
+    color: var(--defaulttext);
     border: 2px solid var(--defaultborder);
     border-radius: 5px;
     display: inline;
@@ -241,6 +240,7 @@ svg[name=svg-container-graph-id] {
     border-radius: 8px;
     margin-top: 10px;
     margin-right: 10px;
+    color: var(--defaulttext);
 }
 
 .plot-app-menu-button {
@@ -248,8 +248,7 @@ svg[name=svg-container-graph-id] {
     width: 46px;
     height: 50px;
     background: transparent;
-    border-bottom: solid 2px var(--defaultborder);
-    color: black;
+    color: var(--defaulttext);
 }
 
 .plot-app-menu-button:hover {
@@ -257,7 +256,7 @@ svg[name=svg-container-graph-id] {
 }
 
 .plot-app-menu-button:focus {
-    color: #39b7f3;
+    color: var(--defaulthover);
 }
 
 .dropdown-content-start {
@@ -273,7 +272,6 @@ svg[name=svg-container-graph-id] {
     width: 47px;
     height: 50px;
     padding: 5px;
-    border-bottom: solid 2px var(--defaultborder);
     background: transparent;
 }
 
@@ -292,20 +290,31 @@ svg[name=svg-container-graph-id] {
     padding: 10px;
 }
 
+#plot-app-menu button {
+    color: var(--defaulttext);
+    background: transparent;
+}
+
+#plot-app-menu button:hover {
+    color: var(--defaulttext);
+    background: var(--defaulthover);
+}
+
 #plot-app-menu #graph-choices  button {
     border: none;
     padding: 3px 3px 3px 9px;
     background: var(--defaultsecondary);
     text-align: left;
     overflow: hidden;
+    color: var(--defaulttext);
 }
 
 #plot-app-menu #graph-choices button:active, button:hover {
-    color: #39b7f3;
+    color: var(--defaulttext);
 }
 
 #plot-app-menu .dropdown-content button:hover {
-    background: var(--defaultborder);
+    background: var(--defaulthover);
     overflow: hidden;
 }
 
@@ -346,4 +355,16 @@ svg[name=svg-container-graph-id] {
     border: 2px solid var(--defaultborder);
     border-radius: 5px;
     margin-left: 5px;
+}
+
+#search-facet {
+    width: 97%;
+    margin-top: 3px;
+    background: var(--defaultsecondary);
+    border: solid 1px var(--defaultborder);
+    color: var(--defaulttext)
+}
+
+#plot-app > div > div > svg {
+    position: absolute;
 }

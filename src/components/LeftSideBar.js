@@ -1,16 +1,28 @@
 import * as React from "react";
 import LeftSideBarButton from "./LeftSideBarButton";
+import AddIcon from '@mui/icons-material/Add';
+import SearchIcon from '@mui/icons-material/Search';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import {SideBarLogo} from "./SideBarLogo";
+import LogoutIcon from '@mui/icons-material/Logout';
+import HelpIcon from '@mui/icons-material/Help';
+import InfoIcon from '@mui/icons-material/Info';
 
-class LeftSideBar extends React.Component {
-    render() {
-        return (
-            <div id="left-side-bar">
-                <LeftSideBarButton id="Compare-button" textTop={'15px'}/>
-                <LeftSideBarButton id="View-button" textTop={'4px'}/>
-                <LeftSideBarButton id="Database-button" textTop={'15px'}/>
-            </div>
-        )
-    }
+
+const LeftSideBar = () => {
+
+    return (
+        <div  id="left-side-bar">
+            <SideBarLogo/>
+            <LeftSideBarButton id="Create-button" buttonIcon={<AddIcon/>}/>
+            <LeftSideBarButton id="Search-button" buttonIcon={<SearchIcon/>}/>
+            <LeftSideBarButton id="Account-button" buttonIcon={<ManageAccountsIcon/>}/>
+            <LeftSideBarButton id="Help-button" buttonIcon={<HelpIcon/>}/>
+            <LeftSideBarButton id="Logout-button" buttonIcon={<LogoutIcon/>}/>
+            <LeftSideBarButton id="Info-button" buttonIcon={<InfoIcon/>}/>
+        </div>
+    )
+
 }
 
 export default LeftSideBar;

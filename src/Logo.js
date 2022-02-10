@@ -22,7 +22,7 @@ export default function Ball(props) {
             onPointerOver={(event) => hover(true)}
             onPointerOut={(event) => hover(false)}>
             <octahedronGeometry args={[2, 0]} />
-            <meshBasicMaterial wireframe={true} color={hovered ? 'hotpink' : 'blue'} />
+            <meshBasicMaterial wireframe={true} color={hovered ? 'hotpink' : 'hotpink'} />
         </mesh>
     )
 }

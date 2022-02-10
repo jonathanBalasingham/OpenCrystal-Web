@@ -9,6 +9,9 @@ const initialState = {
     "threshold": 5,
     "k_x": 1,
     "k_y": 2,
+    "ks": [1,10,100,100],
+    "thresholds":[0.01, 0.02, 0.05, 0.1],
+    "linkage": "single",
 }
 
 const compareSlice = createSlice({
@@ -91,12 +94,30 @@ const compareSlice = createSlice({
                 ...state,
                 "max_threshold": Number(action.payload)
             }
+        },
+        setThresholds(state, action) {
+            return {
+                ...state,
+                "thresholds": action.payload
+            }
+        },
+        setKs(state, action) {
+            return {
+                ...state,
+                "ks": action.payload
+            }
+        },
+        setLinkage(state, action) {
+            return {
+                ...state,
+                "linkage": action.payload
+            }
         }
     }
 })
 
 export const { addComp, addComps, removeComp, setGraphType, clearComp, setK, setKx, setKy,
-            setMeasure, setThreshold, setMaxThreshold } = compareSlice.actions
+            setMeasure, setThreshold, setMaxThreshold, setThresholds, setKs, setLinkage } = compareSlice.actions
 
 export default compareSlice.reducer
 
@@ -111,9 +132,9 @@ export const getGraphType = createSelector((state) => state.compareSlice, (p) =>
 export const getK = createSelector((state) => state.compareSlice, (p) => p["k"])
 export const getKx = createSelector((state) => state.compareSlice, (p) => p["k_x"])
 export const getKy = createSelector((state) => state.compareSlice, (p) => p["k_y"])
-
 export const getMeasure = createSelector((state) => state.compareSlice, (p) => p["measure"])
-
 export const getThreshold = createSelector((state) => state.compareSlice, (p) => p["threshold"])
-
 export const getMaxThreshold = createSelector((state) => state.compareSlice, (p) => p["max_threshold"])
+export const getThresholds = createSelector((state) => state.compareSlice, (p) => p["thresholds"])
+export const getKs = createSelector((state) => state.compareSlice, (p) => p["ks"])
+export const getLinkage = createSelector((state) => state.compareSlice, (p) => p["linkage"])

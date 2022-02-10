@@ -12,7 +12,7 @@ import {
     getKx,
     getKy,
     setKx,
-    setKy,
+    setKy, setLinkage, getKs, setKs, getThresholds, setThresholds
 } from "../../features/compare/compareSlice";
 
 
@@ -78,6 +78,61 @@ function MapSettings() {
     )
 }
 
+function CircleControls() {
+    const dispatch = useDispatch()
+    let ks = useSelector(getKs)
+    let thresholds = useSelector(getThresholds)
+
+    const replaceKs = (val, ind) => {
+        let kscopy = [...ks]
+        kscopy[ind] = val
+        dispatch(setKs(kscopy))
+    }
+
+    const replaceThresholds = (val, ind) => {
+        let thresholds_copy = [...thresholds]
+        thresholds_copy[ind] = val
+        dispatch(setThresholds(thresholds_copy))
+    }
+
+    return  (
+        <>
+            <p>{`Linkage:`}</p>
+            <select name="Linkage:" id="linkage-select" onChange={ e => dispatch(setLinkage(e.target.value))}>
+                <option value="single">Single</option>
+                <option value="average">Average</option>
+                <option value="complete">Complete</option>
+            </select>
+            <p>{`Layer Nearest-Neighbors: ${ks}`}</p>
+            <input type="range" id="ks1" name="ks1" onChange={e => replaceKs(e.target.value, 0)}
+                   min="1" max="1000" value={ks[0]} step="1" />
+            <input type="range" id="ks2" name="ks2" onChange={e => replaceKs(e.target.value, 1)}
+                   min="1" max="1000" value={ks[1]} step="1" />
+            <input type="range" id="ks3" name="ks3" onChange={e => replaceKs(e.target.value, 2)}
+                   min="1" max="1000" value={ks[2]} step="1" />
+            <input type="range" id="ks4" name="ks4" onChange={e => replaceKs(e.target.value, 3)}
+                   min="1" max="1000" value={ks[3]} step="1" />
+            <p>{`Layer Distance Threshold: ${thresholds}`}</p>
+            <input type="range" id="threshold1" name="threshold1" onChange={e => replaceThresholds(e.target.value, 0)}
+                   min="0.001" max="1" value={thresholds[0]} step="0.001" />
+            <input type="range" id="threshold2" name="threshold2" onChange={e => replaceThresholds(e.target.value, 1)}
+                   min="0.001" max="1" value={thresholds[1]} step="0.001" />
+            <input type="range" id="threshold3" name="threshold3" onChange={e => replaceThresholds(e.target.value, 2)}
+                   min="0.001" max="1" value={thresholds[2]} step="0.001" />
+            <input type="range" id="threshold4" name="threshold4" onChange={e => replaceThresholds(e.target.value, 3)}
+                   min="0.001" max="1" value={thresholds[3]} step="0.001" />
+
+        </>
+    )
+}
+
+const AMDSettings = () => {
+    return (
+        <AMDControls/>
+    )
+}
+
+
 function AMDControls() {
     const dispatch = useDispatch()
     let k_x = useSelector(getKx)
@@ -95,9 +150,10 @@ function AMDControls() {
     )
 }
 
-const AMDSettings = () => {
+
+const CircleSettings = () => {
     return (
-        <AMDControls/>
+        <CircleControls/>
     )
 }
 
@@ -105,5 +161,7 @@ export const settingsMap = {"mst": MSTSettings(),
                             "full": ThresholdSettings(),
                             "dendrogram": DendrogramSettings(),
                             "map": MapSettings(),
-                            "amd": AMDSettings()
+                            "amd": AMDSettings(),
+                            "circle": CircleSettings(),
+                            "sunburst": CircleSettings(),
 }

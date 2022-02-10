@@ -14,7 +14,7 @@ const TagsPanel = ({ tags, filters, toggleTag, setTags }) => {
     const index = {};
     graph.forEachNode((_, { tag }) => (index[tag] = (index[tag] || 0) + 1));
     return index;
-  }, []);
+  }, [graph]);
 
   const maxNodesPerTag = useMemo(() => Math.max(...values(nodesPerTag)), [nodesPerTag]);
   const visibleTagsCount = useMemo(() => Object.keys(filters.tags).length, [filters]);

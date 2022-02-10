@@ -44,7 +44,7 @@ const Root = () => {
     const [dataset, setDataset] = useState(null);
     const [filtersState, setFiltersState] = useState({
         clusters: {},
-        //tags: {},
+        tags: {},
     });
     const [hoveredNode, setHoveredNode] = useState(null);
 
@@ -61,7 +61,7 @@ const Root = () => {
                 dispatch(setMaxThreshold(dataset.max))
                 setFiltersState({
                     clusters: mapValues(keyBy(dataset.clusters, "key"), constant(true)),
-                    //tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
+                    tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
                 });
                 requestAnimationFrame(() => setDataReady(true));
             });

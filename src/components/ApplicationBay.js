@@ -35,7 +35,7 @@ function ApplicationBay() {
 
     return (
         <div className="application-bay">
-            { innerApplication }
+            <CompareApp/>
         </div>
     )
 }
