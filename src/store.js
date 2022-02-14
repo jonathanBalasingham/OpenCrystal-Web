@@ -6,6 +6,7 @@ import authReducer from './features/auth/authSlice'
 import compareReducer from './features/compare/compareSlice'
 import createReducer from './features/create/createSlice'
 import searchReducer from './features/search/searchSlice'
+import viewReducer from './features/view/viewSlice'
 
 const store = configureStore({
     reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
         compareSlice: compareReducer,
         createModalSlice: createReducer,
         searchPanelSlice: searchReducer,
+        viewSlice: viewReducer,
     }
 })
 

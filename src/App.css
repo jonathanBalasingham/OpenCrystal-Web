@@ -252,3 +252,73 @@
   background: var(--defaulthover);
   border-radius: 5px;
 }
+
+#search-panel-settings p {
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+
+#view-panel {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 2; /* Sit on top */
+  width: 700px;
+  height: fit-content;
+  color: var(--defaulttext);
+  background: var(--defaultsecondary);
+  border-radius: 10px;
+  border: solid 1px var(--defaultborder);
+  padding: 5px;
+  right: 10px;
+  bottom: 10px;
+}
+
+.view-title {
+  font-size: 12px;
+  font-style: italic;
+  float: left;
+  margin-bottom: 5px;
+  margin-left: 10px;
+}
+
+#view-panel-canvas {
+  margin: 15px;
+  width: 95%;
+  height: 300px;
+  border-bottom: 1px solid var(--defaultborder);
+}
+
+#create-modal-tabs {
+  border-bottom: 1px solid var(--defaultborder);
+}
+
+.create-modal-tab-button {
+  border: none;
+  width: 110px;
+  outline: none;
+  height: 35px;
+  color: var(--defaulttext);
+  background: transparent;
+  border-bottom: 2px solid transparent;
+  font-size: 14px;
+}
+
+.create-modal-tab-button-selected {
+  border: none;
+  width: 110px;
+  outline: none;
+  height: 35px;
+  color: var(--defaulttext);
+  background: transparent;
+  border-bottom: 2px solid var(--defaulttext);
+  font-size: 14px;
+}
+
+.create-modal-tab-button:hover {
+  border-bottom: 2px solid var(--defaulthover);
+}
+
+.create-modal-tab-button:focus {
+  border-bottom: 2px solid var(--defaulttext);
+}

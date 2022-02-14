@@ -10,6 +10,7 @@ import ApplicationBay from "./ApplicationBay";
 import LeftSideBar from "./LeftSideBar";
 import OptionsPanel from "./OptionsPanel";
 import SearchPanel from "./SearchPanel";
+import ViewPanel from "./ViewPanel";
 
 function Dashboard() {
     let panels = <div>
@@ -21,6 +22,7 @@ function Dashboard() {
     return (
         <div className="dashboard">
             <SearchPanel/>
+            <ViewPanel/>
             <ApplicationBay/>
         </div>
     )

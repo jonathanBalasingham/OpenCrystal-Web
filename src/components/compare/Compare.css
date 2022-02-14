@@ -98,14 +98,16 @@ svg[name=svg-container-graph-id] {
     display: grid;
     background: var(--defaultsecondary);
     transition: all 500ms ease;
-    border: 2px solid var(--defaultborder);
-    border-top: none;
+    border: 1px solid var(--defaultborder);
     grid-template-areas:
         'field value'
         'add add';
     grid-template-rows: 100px 50px;
     grid-template-columns: 50% 50%;
-    padding: 5px;
+    padding: 10px 15px;
+    margin-top: 5px;
+    border-radius: 10px;
+
 }
 
 .query-result-accordion {
@@ -161,29 +163,28 @@ svg[name=svg-container-graph-id] {
 .query-result-added {
     display: inline-grid;
     height: 45px;
-    width: 96.5%;
+    width: 180px;
     grid-template-areas: "remove name";
     grid-template-columns: 50px 250px;
     background: var(--defaultsecondary);
     color: var(--defaulttext);
-    border: 2px solid var(--defaultborder);
+    border: 1px solid var(--defaultborder);
     padding: 5px;
     margin: 5px;
+    border-radius: 10px;
 }
 
 .query-result-remove-button {
     grid-area: remove;
-    height: 30px;
+    height: 25px;
     width: 30px;
     border-radius: 4px;
     color: var(--defaulttext);
-    border: 2px solid var(--defaultborder);
+    border: none;
 }
 
 .query-result-remove-button:hover {
-    background: var(--defaultprimary);
-    border: 2px solid #39b7f3;
-    color: #39b7f3;
+    background: var(--defaulthover);
 }
 
 .query-result-dropdown-button {
@@ -197,6 +198,11 @@ svg[name=svg-container-graph-id] {
     overflow: hidden;
     font-size: 11px;
     margin-left: 3px;
+    background: var(--defaultsecondary);
+}
+
+.query-result-dropdown-button:hover {
+    background: var(--defaulthover);
 }
 
 .query-result-dropdown p {
@@ -362,9 +368,28 @@ svg[name=svg-container-graph-id] {
     margin-top: 3px;
     background: var(--defaultsecondary);
     border: solid 1px var(--defaultborder);
-    color: var(--defaulttext)
+    color: var(--defaulttext);
+    margin-bottom: 10px;
+}
+
+#search-panel-settings {
+    padding: 10px;
+}
+
+#search-k, #search-result-size {
+    width: 98%;
 }
 
 #plot-app > div > div > svg {
     position: absolute;
+}
+
+div.react-sigma-v2 {
+    background: transparent !important;
+}
+
+#current-crystal-list {
+    max-height: 40vh;
+    overflow: scroll;
+    overflow-x: hidden;
 }

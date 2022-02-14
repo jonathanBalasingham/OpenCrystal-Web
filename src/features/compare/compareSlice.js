@@ -112,12 +112,19 @@ const compareSlice = createSlice({
                 ...state,
                 "linkage": action.payload
             }
+        },
+        setRendering(state, action) {
+            return {
+                ...state,
+                "rendering": action.payload
+            }
         }
     }
 })
 
 export const { addComp, addComps, removeComp, setGraphType, clearComp, setK, setKx, setKy,
-            setMeasure, setThreshold, setMaxThreshold, setThresholds, setKs, setLinkage } = compareSlice.actions
+            setMeasure, setThreshold, setMaxThreshold, setThresholds, setKs, setLinkage,
+            setRendering } = compareSlice.actions
 
 export default compareSlice.reducer
 

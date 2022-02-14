@@ -1,5 +1,7 @@
 import { useRegisterEvents, useSigma } from "react-sigma-v2";
 import { FC, useEffect } from "react";
+import {useDispatch} from "react-redux";
+import {changeObject, openView} from "../../../features/view/viewSlice";
 
 function getMouseLayer() {
   return document.querySelector(".sigma-mouse");
@@ -9,6 +11,7 @@ const GraphEventsController: FC<{ setHoveredNode: (node: string | null) => void 
   const sigma = useSigma();
   const graph = sigma.getGraph();
   const registerEvents = useRegisterEvents();
+  let dispatch = useDispatch();
 
   /**
    * Initialize here settings that require to know the graph and/or the sigma
@@ -18,7 +21,9 @@ const GraphEventsController: FC<{ setHoveredNode: (node: string | null) => void 
     registerEvents({
       clickNode({ node }) {
         if (!graph.getNodeAttribute(node, "hidden")) {
-          //window.open(graph.getNodeAttribute(node, "URL"), "_blank");
+          console.log(graph.getNodeAttribute(node, "key"))
+          dispatch(changeObject(graph.getNodeAttribute(node, "key")))
+          dispatch(openView(true))
         }
       },
       enterNode({ node }) {

@@ -25,9 +25,9 @@ import {
     getKx, getKy,
     getMeasure,
     getThreshold,
-    setMaxThreshold
+    setMaxThreshold, setRendering
 } from "../../../features/compare/compareSlice";
-
+import {Loading} from "../../../Loading";
 
 const Root = () => {
     const dispatch = useDispatch()
@@ -41,6 +41,7 @@ const Root = () => {
 
     const [showContents, setShowContents] = useState(false);
     const [dataReady, setDataReady] = useState(false);
+    const [loading, setLoading] = useState(false)
     const [dataset, setDataset] = useState(null);
     const [filtersState, setFiltersState] = useState({
         clusters: {},
@@ -50,26 +51,52 @@ const Root = () => {
 
     // Load data on mount:
     useEffect(() => {
-        let url = `/api/compare/${graphType}/${measure}/${k}?threshold=${threshold}&names=${'["' + names.join('","') + '"]'}`
-        if (graphType === "amd"){
-            url = `/api/compare/${graphType}/${k_x}/${k_y}?names=${'["' + names.join('","') + '"]'}`
-        }
-        fetch(url)
-            .then((res) => res.json())
-            .then((dataset) => {
-                setDataset(dataset);
-                dispatch(setMaxThreshold(dataset.max))
-                setFiltersState({
-                    clusters: mapValues(keyBy(dataset.clusters, "key"), constant(true)),
-                    tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
-                });
-                requestAnimationFrame(() => setDataReady(true));
-            });
+        console.log("Hitting Python API")
+        setLoading(true)
+        fetch('/api/compare/job', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
+                'Content-Length': '<calculated when request is sent>'
+            },
+            body: JSON.stringify({"names": names})
+        })
+            .then((data) => data.json())
+            .then((d) => {
+                let url = `/api/compare/${graphType}/${measure}/${k}?threshold=${threshold}&names=${d["callback"]}`
+                if (graphType === "amd"){
+                    url = `/api/compare/${graphType}/${k_x}/${k_y}?names=${d["callback"]}`
+                }
+                return url
+            })
+            .then(url => {
+                fetch(url)
+                    .then((res) => res.json())
+                    .then((dataset) => {
+                        setDataset(dataset);
+                        dispatch(setMaxThreshold(dataset.max))
+                        setFiltersState({
+                            clusters: mapValues(keyBy(dataset.clusters, "key"), constant(true)),
+                            tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
+                        });
+                        requestAnimationFrame(() => {
+                            setDataReady(true)
+                            setLoading(false)
+                        });
+                    });
+            })
+
     }, [dispatch, graphType, k, k_x, k_y, measure, names, threshold]);
 
-    if (!dataset) return null;
-    console.log(dataset)
-    if (dataset.nodes.length === 0)
+    if (loading)
+        return (
+            <Loading style={{"display": "grid",
+                             "justify-content": "center",
+                             "align-content": "center",
+                             "height": "100vh",
+                             "background": "var(--defaultprimary)"}}/>
+        )
+    if (!dataReady)
         return null;
 
     return (
@@ -95,6 +122,7 @@ const Root = () => {
             </SigmaContainer>
         </div>
     );
+
 };
 
 export default Root;

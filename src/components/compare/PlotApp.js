@@ -23,21 +23,35 @@ import ListIcon from '@mui/icons-material/List';
 import {CrystalList} from "./CrystalList";
 
 
+function PlotAppPlaceHolder(props) {
+    return (
+        <div id="plot-app-placeholder">
+            <h1>Add Crystals to Comp using </h1>
+        </div>
+    )
+}
+
+
 export function PlotApp({}) {
 
     const dispatch = useDispatch()
     const graphType = useSelector(getGraphType)
-
+    const comp = useSelector(getComp)
     const clear = () => dispatch(clearComp(""))
     const forceUpdate = React.useReducer(() => ({}))[1]
 
-    let graph = null;
-    if (graphType === "circle"){
-        graph = <MyResponsiveCirclePacking/>
-    } else if (graphType === "sunburst") {
-        graph = <MyResponsiveSunburst/>
-    } else {
-        graph = <Root/>
+    let graph = <PlotAppPlaceHolder/>;
+    console.log("Comp is")
+    console.log(comp.length)
+    if (comp.length !== 0) {
+        console.log("In here")
+        if (graphType === "circle"){
+            graph = <MyResponsiveCirclePacking/>
+        } else if (graphType === "sunburst") {
+            graph = <MyResponsiveSunburst/>
+        } else {
+            graph = <Root/>
+        }
     }
 
     return (

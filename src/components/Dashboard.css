@@ -120,3 +120,17 @@
 #plot-tab-set {
     height: 100%;
 }
+
+#app-root-loading {
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#plot-app-placeholder {
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    height: 100vh;
+}
