@@ -82,6 +82,7 @@ function SearchPanel({}) {
 
     const fetchResults = async() => {
         dispatch(change({"results": {'data': [], 'loading': true}}))
+        dispatch(changeContent("results"))
         const res = await search(query, facet, token)
         dispatch(change({"results": {'data': res, 'loading': false}}))
     }

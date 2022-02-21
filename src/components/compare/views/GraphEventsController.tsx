@@ -2,6 +2,7 @@ import { useRegisterEvents, useSigma } from "react-sigma-v2";
 import { FC, useEffect } from "react";
 import {useDispatch} from "react-redux";
 import {changeObject, openView} from "../../../features/view/viewSlice";
+import {setBox, setCamera} from "../../../features/compare/compareSlice";
 
 function getMouseLayer() {
   return document.querySelector(".sigma-mouse");
@@ -38,6 +39,19 @@ const GraphEventsController: FC<{ setHoveredNode: (node: string | null) => void 
         const mouseLayer = getMouseLayer();
         if (mouseLayer) mouseLayer.classList.remove("mouse-pointer");
       },
+      cameraUpdated(e) {
+        let point01 = sigma.viewportToGraph({x: 0, y: 0})
+        let dims = sigma.getDimensions()
+        let point00 = sigma.viewportToGraph({x: 0, y: dims.height})
+        let point11 = sigma.viewportToGraph({x: dims.width, y: dims.height})
+
+        let box = {"x0": point01.x,
+                   "y1": point01.y,
+                   "y0": point00.y,
+                   "x1": point11.x}
+        dispatch(setBox(box))
+        dispatch(setCamera(e))
+      }
     });
   }, []);
 

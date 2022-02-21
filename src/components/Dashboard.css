@@ -134,3 +134,69 @@
     justify-content: center;
     height: 100vh;
 }
+
+#x-axis {
+    height: 40px;
+    background: transparent;
+    border-top: 1px solid var(--defaulttext);
+    bottom: 30px;
+    width: 90vw;
+    z-index: 1;
+    position: relative;
+    left: 50px;
+}
+
+#y-axis {
+    height: 90vh;
+    background: transparent;
+    border-right: 1px solid var(--defaulttext);
+    width: 40px;
+    z-index: 1;
+    position: relative;
+    left: 10px;
+    bottom: 92%;
+}
+
+#xy-axis-outer {
+    position: absolute;
+    bottom: 20px;
+    z-index: 2;
+    width: 20vw;
+    height: 20vh;
+    display: grid;
+    grid-template:
+            "tick10 axis"
+            "tick00 tick01";
+    grid-template-columns: 40px auto;
+    grid-template-rows: auto 40px;
+    left: 50px;
+}
+
+#xy-axis-inner {
+    width: 16vw;
+    height: 16vh;
+    border-bottom: 1px solid var(--defaulttext);
+    border-left: 1px solid var(--defaulttext);
+    grid-area: axis;
+}
+
+#tick-upper-left {
+    grid-area: tick10;
+}
+
+#tick-lower-left {
+    grid-area: tick00;
+}
+
+#tick-lower-right {
+    grid-area: tick01;
+    float: right;
+}
+
+#tick-lower-right > p {
+    float: right;
+}
+
+.tick > p {
+    font-size: 11px;
+}

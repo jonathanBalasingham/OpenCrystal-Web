@@ -123,6 +123,21 @@ svg[name=svg-container-graph-id] {
     color: var(--defaulttext);
 }
 
+.query-result-name-with-sim  {
+    grid-area: name;
+    color: var(--defaulttext);
+}
+
+.query-result-name-with-sim > h4 {
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+.query-result-name-with-sim > p {
+    font-size: 11px;
+    margin-bottom: 0;
+}
+
 .query-result-open-button {
     grid-area: chev;
     color: var(--defaulttext);

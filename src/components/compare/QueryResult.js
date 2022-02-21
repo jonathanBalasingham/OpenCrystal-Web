@@ -59,7 +59,7 @@ export function QueryResult({data}) {
                 </button>
             </div>
         )
-    } else {
+    } else if (type === "name") {
         return (
             <div id={data["name"] + "-accordion"} className={"query-result-accordion"}>
                 <div className="query-result" id={data["name"] + "-result"} >
@@ -67,6 +67,37 @@ export function QueryResult({data}) {
                         {open ? <BsChevronDown /> : <BsChevronRight/>}
                     </button>
                     <h4 className={"query-result-name"}>{data["name"]}</h4>
+                    <h6 className={"query-result-id"}>{data["family"]}</h6>
+                    <p className={"query-result-source"}>{data["source"]["name"]}</p>
+                    <button id={data["name"] + "-add-button"} className={"query-result-quick-add-button"} onClick={e => addToComparison(e)}>
+                        +
+                    </button>
+                </div>
+                <div id={data["name"] + "-dropdown"} className={"query-result-dropdown"}  style={{'display': dis}}>
+                    <p>Polymorph:</p>
+                    <p>Geometry: </p>
+                    <p>Disordered:</p>
+                    <p style={{'margin-bottom': '6px'}}>Family Members:</p>
+                    <button id={data["name"] + "-add-crystal-button"} className={"query-result-dropdown-button"} onClick={e => addToComparison(e)}>
+                        Add Crystal
+                    </button>
+                    <button id={data["name"] + "-add-family-button"} className={"query-result-dropdown-button"} onClick={e => addFamily(e)}>
+                        Add Family
+                    </button>
+                </div>
+            </div>
+        )
+    } else if (type === "similarity") {
+        return (
+            <div id={data["name"] + "-accordion"} className={"query-result-accordion"}>
+                <div className="query-result" id={data["name"] + "-result"} >
+                    <button id={data["name"] + "-open-button"} className={"query-result-open-button"} onClick={() => setOpen(!open)}>
+                        {open ? <BsChevronDown /> : <BsChevronRight/>}
+                    </button>
+                    <div className="query-result-name-with-sim">
+                        <h4>{data["name"]}</h4>
+                        <p>{`Distance: ${data["distance"]}`}</p>
+                    </div>
                     <h6 className={"query-result-id"}>{data["family"]}</h6>
                     <p className={"query-result-source"}>{data["source"]["name"]}</p>
                     <button id={data["name"] + "-add-button"} className={"query-result-quick-add-button"} onClick={e => addToComparison(e)}>

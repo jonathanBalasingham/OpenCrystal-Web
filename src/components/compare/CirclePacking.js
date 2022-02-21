@@ -19,18 +19,27 @@ export const MyResponsiveCirclePacking = ({}) => {
     let names = useSelector(getComp)
 
     useEffect(() => {
-
-        fetch(`/api/compare/circle/amd/${'[' + ks.join(',') + ']'}?linkage=${linkage}&thresholds=${'[' + thresholds.join(',') + ']'}&names=${'["' + names.join('","') + '"]'}`, {
-            method: 'GET',
+        fetch('/api/compare/job', {
+            method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
+                'Content-Length': '<calculated when request is sent>'
             },
+            body: JSON.stringify({"names": names})
         })
-            .then(res => res.json())
-            .then((dataset) => {
-                setDataset(dataset);
-                requestAnimationFrame(() => setDataReady(true));
-            });
+            .then((data) => data.json())
+            .then((d) => {
+                let url = `/api/compare/circle/amd/${'[' + ks.join(',') + ']'}?linkage=${linkage}&thresholds=${'[' + thresholds.join(',') + ']'}&names=${d["callback"]}`
+                return url
+            })
+            .then(url => {
+                fetch(url)
+                    .then(res => res.json())
+                    .then((dataset) => {
+                        setDataset(dataset);
+                        requestAnimationFrame(() => setDataReady(true));
+                    });
+            })
     }, [ks, linkage, names, thresholds]);
 
     if (!dataset) return null;

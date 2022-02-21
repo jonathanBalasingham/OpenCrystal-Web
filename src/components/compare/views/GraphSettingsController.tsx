@@ -3,6 +3,8 @@ import { FC, useEffect } from "react";
 
 import { drawHover } from "../canvas-utils";
 import useDebounce from "../use-debounce";
+import {useDispatch} from "react-redux";
+import {setCamera} from "../../../features/compare/compareSlice";
 
 const NODE_FADE_COLOR = "#bbb";
 const EDGE_FADE_COLOR = "#eee";
@@ -10,6 +12,7 @@ const EDGE_FADE_COLOR = "#eee";
 const GraphSettingsController: FC<{ hoveredNode: string | null }> = ({ children, hoveredNode }) => {
   const sigma = useSigma();
   const graph = sigma.getGraph();
+  let dispatch = useDispatch();
 
   // Here we debounce the value to avoid having too much highlights refresh when
   // moving the mouse over the graph:

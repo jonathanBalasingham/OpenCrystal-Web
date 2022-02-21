@@ -3,8 +3,9 @@ import { FC, useEffect } from "react";
 import { keyBy, omit } from "lodash";
 
 import { Dataset, FiltersState } from "../types";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getType} from "@reduxjs/toolkit";
+import {setBox, setCamera} from "../../../features/compare/compareSlice";
 
 const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({ dataset, filters, children }) => {
   const sigma = useSigma();
@@ -24,7 +25,6 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({ 
         },
     );
     dataset.edges.forEach(([source, target, weight]) => {
-      console.log(graph.edges())
       if (!graph.hasEdge(source, target))
         graph.addEdge(source, target, {size: weight})
     });
@@ -39,7 +39,7 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({ 
       graph.setNodeAttribute(
         node,
         "size",
-        2
+        5
         //((graph.getNodeAttribute(node, "score") - minDegree) / (maxDegree - minDegree)) *
         //  (MAX_NODE_SIZE - MIN_NODE_SIZE) +
         //  MIN_NODE_SIZE,
