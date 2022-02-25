@@ -216,11 +216,11 @@ function MoleculeView() {
             })
     }, [currentObject])
 
-    let atoms = <div>
+    let atoms = <div className="no-atom-geometry-content">
         <p>No Geometry found.</p>
     </div>
 
-    if (dataset != null && !loading) {
+    if (dataset != null && !loading && dataset.motif) {
 
         let atomSet = dataset["motif"].map((i) => {
             return (

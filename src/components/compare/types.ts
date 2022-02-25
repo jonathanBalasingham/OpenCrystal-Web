@@ -20,7 +20,7 @@ export interface Tag {
 
 export interface Dataset {
   nodes: NodeData[];
-  edges: [string, string, number][];
+  edges: [string, string, number, boolean][];
   clusters: Cluster[];
 }
 

@@ -107,7 +107,7 @@ const Root = () => {
         })
             .then((data) => data.json())
             .then((d) => {
-                let url = `/api/compare/${graphType}/${measure}/${k}?threshold=${threshold}&names=${d["callback"]}`
+                let url = `/api/compare/${graphType}/${measure}/${k}?threshold=${5}&names=${d["callback"]}`
                 if (graphType === "amd"){
                     url = `/api/compare/${graphType}/${k_x}/${k_y}?names=${d["callback"]}`
                 }
@@ -130,7 +130,8 @@ const Root = () => {
                     });
             })
 
-    }, [dispatch, graphType, k, k_x, k_y, measure, names, threshold]);
+    }, [dispatch, graphType, k, k_x, k_y, measure, names]);
+
 
     if (loading)
         return (
@@ -142,6 +143,7 @@ const Root = () => {
         )
     if (!dataReady)
         return null;
+
 
     return (
         <div id="app-root" className={showContents ? "show-contents" : ""}>
@@ -165,7 +167,44 @@ const Root = () => {
                 <GraphSettingsController hoveredNode={hoveredNode} />
                 <GraphEventsController setHoveredNode={setHoveredNode} />
                 <GraphDataController dataset={dataset} filters={filtersState} />
-                <XYAxis/>
+                {dataReady && (
+                    <>
+                        <XYAxis/>
+                        <div className="contents">
+                            <div className="ico">
+                                <button
+                                    type="button"
+                                    className="ico hide-contents"
+                                    onClick={() => setShowContents(false)}
+                                    title="Show caption and description"
+                                >
+                                    <GrClose />
+                                </button>
+                            </div>
+                            <div className="panels">
+                                <SearchField filters={filtersState} />
+                                <ClustersPanel
+                                    clusters={dataset.clusters}
+                                    filters={filtersState}
+                                    setClusters={(clusters) =>
+                                        setFiltersState((filters) => ({
+                                            ...filters,
+                                            clusters,
+                                        }))
+                                    }
+                                    toggleCluster={(cluster) => {
+                                        setFiltersState((filters) => ({
+                                            ...filters,
+                                            clusters: filters.clusters[cluster]
+                                                ? omit(filters.clusters, cluster)
+                                                : { ...filters.clusters, [cluster]: true },
+                                        }));
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    </>
+                )}
             </SigmaContainer>
         </div>
     );

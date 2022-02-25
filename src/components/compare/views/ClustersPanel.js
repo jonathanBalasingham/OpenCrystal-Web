@@ -52,9 +52,6 @@ const ClustersPanel = ({ clusters, filters, toggleCluster, setClusters }) => {
         </>
       }
     >
-      <p>
-        <i className="text-muted">Click a cluster to show/hide related pages from the network.</i>
-      </p>
       <p className="buttons">
         <button className="btn" onClick={() => setClusters(mapValues(keyBy(clusters, "key"), () => true))}>
           <AiOutlineCheckCircle /> Check all

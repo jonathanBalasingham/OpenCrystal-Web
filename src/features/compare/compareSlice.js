@@ -7,6 +7,7 @@ const initialState = {
     "k": 100,
     "measure": "pdd",
     "threshold": 5,
+    "filtered": false,
     "k_x": 1,
     "k_y": 2,
     "ks": [1,10,100,100],
@@ -88,7 +89,14 @@ const compareSlice = createSlice({
         setThreshold(state, action) {
             return {
                 ...state,
+                "filtered": false,
                 "threshold": Number(action.payload)
+            }
+        },
+        setFiltered(state, action) {
+            return {
+                ...state,
+                "filtered": true,
             }
         },
         setMaxThreshold(state, action) {

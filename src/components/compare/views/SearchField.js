@@ -10,12 +10,11 @@ import { BsSearch } from "react-icons/bs";
  */
 const SearchField = ({ filters }) => {
   const sigma = useSigma();
-
   const [search, setSearch] = useState("");
   const [values, setValues] = useState([]);
   const [selected, setSelected] = useState(null);
 
-  const refreshValues = () => {
+  useEffect(() => {
     const newValues = [];
     const lcSearch = search.toLowerCase();
     if (!selected && search.length > 1) {
@@ -25,28 +24,19 @@ const SearchField = ({ filters }) => {
       });
     }
     setValues(newValues);
-  };
-
-  // Refresh values when search is updated:
-  useEffect(() => refreshValues(), [refreshValues, search]);
-
-  // Refresh values when filters are updated (but wait a frame first):
-  useEffect(() => {
-    requestAnimationFrame(refreshValues);
-  }, [filters, refreshValues]);
+  }, [search, selected, sigma]);
 
   useEffect(() => {
     if (!selected) return;
-
     sigma.getGraph().setNodeAttribute(selected, "highlighted", true);
     const nodeDisplayData = sigma.getNodeDisplayData(selected);
 
     if (nodeDisplayData)
       sigma.getCamera().animate(
-        { ...nodeDisplayData, ratio: 0.05 },
-        {
-          duration: 600,
-        },
+          { ...nodeDisplayData, ratio: 0.05 },
+          {
+            duration: 600,
+          },
       );
 
     return () => {
@@ -57,6 +47,7 @@ const SearchField = ({ filters }) => {
   const onInputChange = (e) => {
     const searchString = e.target.value;
     const valueItem = values.find((value) => value.label === searchString);
+    console.log(values)
     if (valueItem) {
       setSearch(valueItem.label);
       setValues([]);
@@ -87,13 +78,14 @@ const SearchField = ({ filters }) => {
       <BsSearch className="icon" />
       <datalist id="nodes">
         {values.map((value) => (
-          <option key={value.id} value={value.label}>
-            {value.label}
-          </option>
+            <option key={value.id} value={value.label}>
+              {value.label}
+            </option>
         ))}
       </datalist>
     </div>
   );
 };
+
 
 export default SearchField;

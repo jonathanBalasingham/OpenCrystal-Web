@@ -5,11 +5,13 @@ import { keyBy, omit } from "lodash";
 import { Dataset, FiltersState } from "../types";
 import {useDispatch, useSelector} from "react-redux";
 import {getType} from "@reduxjs/toolkit";
-import {setBox, setCamera} from "../../../features/compare/compareSlice";
+import {getThreshold, setBox, setCamera} from "../../../features/compare/compareSlice";
 
 const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({ dataset, filters, children }) => {
   const sigma = useSigma();
   const graph = sigma.getGraph();
+  let threshold = useSelector(getThreshold)
+
 
   useEffect(() => {
     if (!graph || !dataset) return;
@@ -24,9 +26,12 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({ 
           })
         },
     );
-    dataset.edges.forEach(([source, target, weight]) => {
-      if (!graph.hasEdge(source, target))
-        graph.addEdge(source, target, {size: weight})
+    dataset.edges.forEach(([source, target, weight, show]) => {
+      if (!graph.hasEdge(source, target)) {
+          if (weight < threshold) {
+            graph.addEdge(source, target, {size: weight})
+          }
+      }
     });
 
     // Use degrees as node sizes:
@@ -46,8 +51,12 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({ 
       ),
     );
 
+    graph.filterEdges((key, edgeAttributes, sourceId, targetId, sourcePosition, targetPosition) => {
+
+    })
+
     return () => graph.clear();
-  }, [graph, dataset]);
+  }, [graph, dataset, threshold]);
 
   /**
    * Apply filters to graphology:
