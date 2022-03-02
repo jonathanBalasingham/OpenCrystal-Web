@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useLayoutEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {getAccessToken} from "../features/auth/authSlice";
 import CloseIcon from '@mui/icons-material/Close';
@@ -8,6 +8,7 @@ import {getViewOpened, getContent, changeContent, getObject, closeView} from "..
 import { Canvas, useFrame, Color, useThree} from '@react-three/fiber'
 import { OrbitControls, TransformControls, ContactShadows, useGLTF, useCursor } from '@react-three/drei'
 import { proxy, useSnapshot } from 'valtio'
+import * as THREE from "three";
 
 
 
@@ -17,12 +18,19 @@ const ELEMENT_COLOR = {
     "C": "black",
 }
 
-const H_SIZE = 0.5
+const H_SIZE = 0.2
 
 const ELEMENT_SIZE = {
     "H": H_SIZE,
-    "O": H_SIZE * 16,
-    "C": H_SIZE * 6,
+    "O": H_SIZE * 2,
+    "C": H_SIZE * 2,
+}
+
+const getSize = (sym) => {
+    let s = ELEMENT_SIZE[sym]
+    if (s === undefined){
+        return H_SIZE
+    } else return s
 }
 
 const CPK = {
@@ -169,6 +177,7 @@ function Atom(props) {
     useFrame((state, delta) => {
         ref.current.rotation.y += 0.005; ref.current.rotation.x += 0.01
     })
+
     return (
         <mesh
             {...props}
@@ -177,8 +186,57 @@ function Atom(props) {
             onClick={(event) => click(!clicked)}
             onPointerOver={(event) => hover(true)}
             onPointerOut={(event) => hover(false)}>
-            <sphereGeometry args={[.5]} />
+            <sphereGeometry args={[getSize(props['symbol'])]} />
             <meshBasicMaterial wireframe={false} color={ELEMENT_COLOR[props['symbol']]} />
+        </mesh>
+    )
+}
+
+
+function Line({ start, end }) {
+    const ref = useRef()
+    useLayoutEffect(() => {
+        ref.current.geometry.setFromPoints([start, end].map((point) => new THREE.Vector3(...point)))
+    }, [start, end])
+    return (
+        <line ref={ref}>
+            <bufferGeometry />
+            <lineBasicMaterial color="grey" />
+        </line>
+    )
+}
+
+
+function Bond(props) {
+    const ref = useRef()
+    // Hold state for hovered and clicked events
+    const [hovered, hover] = useState(false)
+    const [clicked, click] = useState(false)
+    const boxGeometry = new THREE.BoxGeometry( 1, 1, 1 );
+    const object = new THREE.Mesh( boxGeometry, new THREE.MeshPhongMaterial( 0xffffff ) );
+
+    const position1 = props["position1"]
+    const position2 = props["position2"]
+
+    const start = new THREE.Vector3(position1.x, position1.y, position1.z);
+    const end = new THREE.Vector3(position2.x, position2.y, position2.z);
+    start.multiplyScalar( 75 );
+    end.multiplyScalar( 75 );
+    object.position.copy( start );
+    object.position.lerp( end, 0.5 );
+    object.scale.set( 5, 5, start.distanceTo( end ) );
+    object.lookAt( end );
+
+    return (
+        <mesh
+            position={[position1.x, position1.y, position1.z]}
+            ref={ref}
+            scale={clicked ? 1 : 1}
+            onClick={(event) => click(!clicked)}
+            onPointerOver={(event) => hover(true)}
+            onPointerOut={(event) => hover(false)}>
+            <boxGeometry args={[1,1,1]}/>
+            <meshBasicMaterial wireframe={false} color={"0xffffff"} />
         </mesh>
     )
 }
@@ -205,7 +263,7 @@ function MoleculeView() {
 
     useEffect(() => {
         setLoading(true)
-        fetch(`/api/atoms/motif/${currentObject}`, {
+        fetch(`/api/molecule/full/${currentObject}`, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -228,13 +286,21 @@ function MoleculeView() {
             )
         })
 
+        let bondSet = dataset["bonds"].map((i) => {
+            return (
+                <Line start={[i["position1"][0], i["position1"][1], i["position1"][2]]}
+                      end={[i["position2"][0], i["position2"][1], i["position2"][2]]}/>
+            )
+        })
+
         atoms =
             <Canvas id="view-panel-canvas" style={{"height": "400px", "width": "95%"}}
-                    camera={{ position: [20, 15, 50], fov: 42 }}>
+                    camera={{ position: [10, 10, 10], fov: 62 }}>
                 <ambientLight />
                 <pointLight position={[1, 1, 1]} />
                 <group>
                     { atomSet }
+                    { bondSet }
                 </group>
                 <Controls/>
             </Canvas>

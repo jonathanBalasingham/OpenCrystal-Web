@@ -40,7 +40,8 @@ const SearchField = ({ filters }) => {
       );
 
     return () => {
-      sigma.getGraph().setNodeAttribute(selected, "highlighted", false);
+      if (sigma.getGraph().hasNode(selected))
+        sigma.getGraph().setNodeAttribute(selected, "highlighted", false);
     };
   }, [selected, sigma]);
 
