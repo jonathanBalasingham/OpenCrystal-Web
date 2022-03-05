@@ -347,6 +347,7 @@ function ViewPanel({}) {
                 </button>
             </div>
             {content}
+            <a href={`https://www.ccdc.cam.ac.uk/structures/Search?Ccdcid=${currentContent}&DatabaseToSearch=Published`}>See on CCDC</a>
         </div>
     )
 
