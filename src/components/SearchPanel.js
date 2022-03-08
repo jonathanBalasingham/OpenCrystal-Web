@@ -17,7 +17,8 @@ import {getCreateModalOpened} from "../features/create/createSlice";
 import CloseIcon from '@mui/icons-material/Close';
 import ListIcon from '@mui/icons-material/List';
 import SettingsIcon from '@mui/icons-material/Settings';
-import {setK} from "../features/compare/compareSlice";
+import cx from "classnames";
+import { CSSTransition } from "react-transition-group";
 
 
 async function search(query, facet, token) {
@@ -67,12 +68,9 @@ function SearchPanel({}) {
     let facet = useSelector(getFacet)
     let token = useSelector(getAccessToken)
     let vis  = 'none'
-    let modalOpened = useSelector(getSearchPanelOpened)
+    let open = useSelector(getSearchPanelOpened)
     let currentContent = useSelector(getContent)
     let results = useSelector(getResults)
-
-    if (modalOpened)
-        vis = 'block'
 
 
     let htmlresults = <p style={{'text-align': 'center',
@@ -111,7 +109,7 @@ function SearchPanel({}) {
 
 
     return (
-        <div id="search-panel" style={{'display': vis}}>
+        <div id="search-panel" className={cx("search-panel", {"open": open})}>
             <div className="close-button-container">
                 <button onClick={() => dispatch(closeSearchPanel(false))}>
                     <CloseIcon fontSize={"small"}/>

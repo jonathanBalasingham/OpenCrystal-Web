@@ -11,14 +11,10 @@ import LeftSideBar from "./LeftSideBar";
 import OptionsPanel from "./OptionsPanel";
 import SearchPanel from "./SearchPanel";
 import ViewPanel from "./ViewPanel";
+import {useState} from "react";
 
 function Dashboard() {
-    let panels = <div>
-        <OptionsPanel id="Compare-panel" width={"300px"} />
-        <OptionsPanel id="View-panel" width={"300px"} />
-        <OptionsPanel id="Database-panel" width={"300px"}/>
-        <OptionsPanel id="Settings-panel" width={"300px"}/>
-    </div>
+
     return (
         <div className="dashboard">
             <SearchPanel/>

@@ -310,6 +310,8 @@ function MoleculeView() {
         <>
             <p className="view-title">{currentObject}</p>
             { atoms }
+            <a href={`https://www.ccdc.cam.ac.uk/structures/Search?Ccdcid=${currentObject}&DatabaseToSearch=Published`}
+                style={{"color": "var(--default-text)"}}>See on CCDC</a>
         </>
     )
 }
@@ -347,7 +349,6 @@ function ViewPanel({}) {
                 </button>
             </div>
             {content}
-            <a href={`https://www.ccdc.cam.ac.uk/structures/Search?Ccdcid=${currentContent}&DatabaseToSearch=Published`}>See on CCDC</a>
         </div>
     )
 

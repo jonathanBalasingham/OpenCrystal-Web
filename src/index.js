@@ -10,14 +10,15 @@ import {Provider, useSelector} from 'react-redux';
 import {LoginPage} from './Login';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import {getAccessToken} from "./features/auth/authSlice";
+import useToken from "./useToken";
 
 
 function Index({}) {
-    const token = useSelector(getAccessToken)
+    const { token, setToken, clearToken } = useToken();
+    console.log(`Token before if ${token}`)
 
     if(!token) {
-        console.log('Token is ' + token)
-        return <LoginPage  setToken={null}/>
+        return <LoginPage  setToken={setToken}/>
     }
 
     return (

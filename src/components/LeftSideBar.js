@@ -18,7 +18,7 @@ const LeftSideBar = () => {
             <LeftSideBarButton id="Search-button" buttonIcon={<SearchIcon/>}/>
             <LeftSideBarButton id="Account-button" buttonIcon={<ManageAccountsIcon/>}/>
             <LeftSideBarButton id="Help-button" buttonIcon={<HelpIcon/>}/>
-            <LeftSideBarButton id="Logout-button" buttonIcon={<LogoutIcon/>}/>
+            <LeftSideBarButton id="Logout-button" buttonIcon={<LogoutIcon/>} onClick={() => sessionStorage.clear() } />
             <LeftSideBarButton id="Info-button" buttonIcon={<InfoIcon/>}/>
         </div>
     )

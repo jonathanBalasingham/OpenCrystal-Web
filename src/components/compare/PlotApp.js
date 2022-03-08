@@ -21,12 +21,40 @@ import {MyResponsiveSunburst} from "./Sunburst";
 import {getAccessToken} from "../../features/auth/authSlice";
 import ListIcon from '@mui/icons-material/List';
 import {CrystalList} from "./CrystalList";
+import SearchIcon from "@mui/icons-material/Search";
+import AddIcon from '@mui/icons-material/Add';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import LogoutIcon from '@mui/icons-material/Logout';
+
 
 
 function PlotAppPlaceHolder(props) {
     return (
         <div id="plot-app-placeholder">
-            <h1>Add Crystals to Comp using </h1>
+            <div id="plot-app-placeholder-message">
+                <ul>
+                    <li>
+                        <h1>
+                            Create new crystals using <AddIcon fontSize={"large"}/>
+                        </h1>
+                    </li>
+                    <li>
+                        <h1>
+                            Search for crystals using <SearchIcon fontSize={"large"}/>
+                        </h1>
+                    </li>
+                    <li>
+                        <h1>
+                            Change account settings with <ManageAccountsIcon fontSize={"large"}/>
+                        </h1>
+                    </li>
+                    <li>
+                        <h1>
+                            Logout using <LogoutIcon fontSize={"large"}/>
+                        </h1>
+                    </li>
+                </ul>
+            </div>
         </div>
     )
 }

@@ -41,7 +41,6 @@ export function LoginPage({setToken}) {
         'Login',
         'New Account',
     ]);
-    const dispatch = useDispatch()
 
     const [submitting, setSubmitting] = useState(false);
     const [username, setUserName] = useState();
@@ -57,9 +56,10 @@ export function LoginPage({setToken}) {
             password
         });
 
+        console.log(token)
         if (token !== undefined) {
             token['user'] = username;
-            dispatch(addToken(token))
+            setToken(token)
         }
     }
 
@@ -70,7 +70,10 @@ export function LoginPage({setToken}) {
             'email': email,
             'password': newpassword
         });
-        dispatch(addToken(token));
+        //sessionStorage.setItem('jwtToken', token);
+        token['user'] = username;
+        setToken(token)
+        //dispatch(addToken(token));
     }
 
     return (

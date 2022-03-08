@@ -221,19 +221,62 @@
   color: var(--defaulttext);
 }
 
-#search-panel {
-  display: none; /* Hidden by default */
+.sidenav {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  background-color: var(--defaultsecondary); /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+.sidenav.open {
+  width: fit-content;
+  padding: 20px;
+  border-right: 1px solid var(--defaultborder)
+}
+
+@keyframes displaceContent {
+  from { transform : translateY(0em) }
+  to   { transform : translateY(3em) } /* slide down to make room for advertisements */
+}
+
+.search-panel {
   position: fixed; /* Stay in place */
   z-index: 10; /* Sit on top */
   left: 100px;
-  top: 50px;
-  width: 300px;
   height: fit-content;
   color: var(--defaulttext);
   background: var(--defaultsecondary);
   border-radius: 10px;
   border: solid 1px var(--defaultborder);
   padding: 5px;
+  top: -50%; /*Put it on the very top*/
+  transition: all .3s ease-in-out; /*make it smooth*/
+}
+
+.search-panel.open {
+  left: 100px;
+  top: 50px;
+}
+
+
+/* FADE ANIMATIONS */
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 400ms;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 400ms;
 }
 
 .close-button-container {
