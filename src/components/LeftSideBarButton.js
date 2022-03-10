@@ -7,24 +7,30 @@ import {
     settingsToggled
 } from "../features/options/optionsSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {openCreateModal} from "../features/create/createSlice";
+import {openCreateModal, toggleCreateModal} from "../features/create/createSlice";
 import {openSettingsModal} from "../features/settings/settingsFooterSlice";
-import {addToken} from "../features/auth/authSlice";
-import {openSearchPanel} from "../features/search/searchSlice";
+import {addToken, setLoggedIn} from "../features/auth/authSlice";
+import {getSearchPanelOpened, openSearchPanel, toggleSearchPanel} from "../features/search/searchSlice";
 import useToken from "../useToken";
 
 
 const LeftSideBarButton = ({ id, buttonIcon }) => {
     const dispatch = useDispatch()
     const { token, setToken, clearToken } = useToken();
+    let searchOpen = useSelector(getSearchPanelOpened)
+
+    const logout = () => {
+        clearToken()
+        dispatch(setLoggedIn({"loggedIn": false}))
+    }
 
 
     const handleButtonClick = () => {
         console.log("Inside handleButtonClick: " + id.replace('-button', ""))
         switch (id.replace("-button", "")){
-            case "Create": dispatch(openCreateModal(id)); break;
-            case "Search": dispatch(openSearchPanel(id)); break;
-            case "Logout": clearToken(); break;
+            case "Create": dispatch(toggleCreateModal(id)); break;
+            case "Search": dispatch(toggleSearchPanel(id)); break;
+            case "Logout": logout(); break;
             case "Account": dispatch(openSettingsModal(id)); break;
         }
     }

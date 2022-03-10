@@ -10,8 +10,11 @@ const createModalSlice = createSlice({
     reducers: {
         openCreateModal(state, action) {
             // ✅ This "mutating" code is okay inside of createSlice!
-            console.log("Opening modal")
             state["createModalOpened"] = true;
+            return state;
+        },
+        toggleCreateModal(state, action) {
+            state["createModalOpened"] = !state["createModalOpened"];
             return state;
         },
         closeCreateModal(state, action) {
@@ -19,10 +22,11 @@ const createModalSlice = createSlice({
             state["createModalOpened"] = false;
             return state;
         },
+
     }
 })
 
-export const { openCreateModal, closeCreateModal } = createModalSlice.actions
+export const { openCreateModal, closeCreateModal, toggleCreateModal } = createModalSlice.actions
 
 export default createModalSlice.reducer
 

@@ -3,7 +3,7 @@ import { createSlice, createSelector, current } from '@reduxjs/toolkit'
 const initialState = {
     "data": [],
     "rendering": false,
-    "graphtype": "full",
+    "graphtype": "amd",
     "k": 100,
     "measure": "pdd",
     "threshold": 5,
@@ -14,7 +14,8 @@ const initialState = {
     "thresholds":[0.01, 0.02, 0.05, 0.1],
     "linkage": "single",
     "camera": {},
-    "box": {"x0": 0, "x1": 0, "y0": 0, "y1":0}
+    "box": {"x0": 0, "x1": 0, "y0": 0, "y1":0},
+    "menuOpen": false,
 }
 
 const compareSlice = createSlice({
@@ -140,13 +141,19 @@ const compareSlice = createSlice({
                 ...state,
                 "box": action.payload,
             }
+        },
+        setMenuOpen(state, action) {
+            return {
+                ...state,
+                "menuOpen": action.payload,
+            }
         }
     }
 })
 
 export const { addComp, addComps, removeComp, setGraphType, clearComp, setK, setKx, setKy,
             setMeasure, setThreshold, setMaxThreshold, setThresholds, setKs, setLinkage,
-            setRendering, setCamera, setBox } = compareSlice.actions
+            setRendering, setCamera, setBox, setMenuOpen } = compareSlice.actions
 
 export default compareSlice.reducer
 
@@ -169,3 +176,4 @@ export const getKs = createSelector((state) => state.compareSlice, (p) => p["ks"
 export const getLinkage = createSelector((state) => state.compareSlice, (p) => p["linkage"])
 export const getCamera = createSelector((state) => state.compareSlice, (p) => p["camera"])
 export const getBox = createSelector((state) => state.compareSlice, (p) => p["box"])
+export const getMenuOpen = createSelector((state) => state.compareSlice, (p) => p["menuOpen"])

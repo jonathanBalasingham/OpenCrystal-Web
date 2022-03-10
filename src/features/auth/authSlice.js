@@ -5,6 +5,7 @@ const initialState = {
     "refresh": null,
     "user": null,
     "email": null,
+    "loggedIn": false,
 }
 
 const authSlice = createSlice({
@@ -23,10 +24,16 @@ const authSlice = createSlice({
                 ...action.payload
             };
         },
+        setLoggedIn(state, action){
+            return {
+                ...state,
+                ...action.payload
+            }
+        }
     }
 })
 
-export const { addToken, refreshToken } = authSlice.actions
+export const { addToken, refreshToken, setLoggedIn } = authSlice.actions
 
 export default authSlice.reducer
 
@@ -40,4 +47,8 @@ export const getRefreshToken = createSelector((state) => state.authSlice, (p) =>
 
 export const getCurrentUser = createSelector((state) => state.authSlice, (p) =>
     p["user"]
+)
+
+export const getLoggedIn = createSelector((state) => state.authSlice, (p) =>
+    p["loggedIn"]
 )

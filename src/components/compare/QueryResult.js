@@ -3,7 +3,7 @@ import {FaPlus} from "react-icons/fa";
 import {useDispatch, useSelector} from "react-redux";
 import {addComp, addComps} from "../../features/compare/compareSlice";
 import {BsChevronRight, BsChevronDown} from "react-icons/all";
-import {getFacet} from "../../features/search/searchSlice";
+import {getCompType, getFacet} from "../../features/search/searchSlice";
 
 
 async function getFamily(e) {
@@ -48,6 +48,8 @@ export function QueryResult({data}) {
 
     let dis = open ? "block" : "none"
     let type = useSelector(getFacet)
+    let compType = useSelector(getCompType)
+
 
     if (type === "subset") {
         return (
@@ -97,6 +99,41 @@ export function QueryResult({data}) {
                     <div className="query-result-name-with-sim">
                         <h4>{data["name"]}</h4>
                         <p>{`Distance: ${data["distance"]}`}</p>
+                    </div>
+                    <h6 className={"query-result-id"}>{data["family"]}</h6>
+                    <p className={"query-result-source"}>{data["source"]["name"]}</p>
+                    <button id={data["name"] + "-add-button"} className={"query-result-quick-add-button"} onClick={e => addToComparison(e)}>
+                        +
+                    </button>
+                </div>
+                <div id={data["name"] + "-dropdown"} className={"query-result-dropdown"}  style={{'display': dis}}>
+                    <p>Polymorph:</p>
+                    <p>Geometry: </p>
+                    <p>Disordered:</p>
+                    <p style={{'margin-bottom': '6px'}}>Family Members:</p>
+                    <button id={data["name"] + "-add-crystal-button"} className={"query-result-dropdown-button"} onClick={e => addToComparison(e)}>
+                        Add Crystal
+                    </button>
+                    <button id={data["name"] + "-add-family-button"} className={"query-result-dropdown-button"} onClick={e => addFamily(e)}>
+                        Add Family
+                    </button>
+                </div>
+            </div>
+        )
+    } else if (type === "composition") {
+        let k = "composition"
+        if (compType === "coprime"){
+            k = "coprime_composition"
+        }
+        return (
+            <div id={data["name"] + "-accordion"} className={"query-result-accordion"}>
+                <div className="query-result" id={data["name"] + "-result"} >
+                    <button id={data["name"] + "-open-button"} className={"query-result-open-button"} onClick={() => setOpen(!open)}>
+                        {open ? <BsChevronDown /> : <BsChevronRight/>}
+                    </button>
+                    <div className="query-result-name-with-sim">
+                        <h4>{data["name"]}</h4>
+                        <p>{`${data[k]}`}</p>
                     </div>
                     <h6 className={"query-result-id"}>{data["family"]}</h6>
                     <p className={"query-result-source"}>{data["source"]["name"]}</p>

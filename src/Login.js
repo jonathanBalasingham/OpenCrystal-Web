@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { useTabs, TabPanel } from "react-headless-tabs"
 import {TabSelector} from "./components/TabSelector";
 import 'tailwindcss/tailwind.css';
-import {addToken, refreshToken} from "./features/auth/authSlice";
+import {addToken, refreshToken, setLoggedIn} from "./features/auth/authSlice";
 import {useDispatch} from "react-redux";
 import { Canvas, useFrame } from '@react-three/fiber'
 import Ball from "./Logo";
@@ -48,6 +48,7 @@ export function LoginPage({setToken}) {
     const [newusername, setNewUserName] = useState();
     const [newpassword, setNewPassword] = useState();
     const [email, setEmail] = useState()
+    let dispatch = useDispatch()
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -60,6 +61,7 @@ export function LoginPage({setToken}) {
         if (token !== undefined) {
             token['user'] = username;
             setToken(token)
+            dispatch(setLoggedIn({"loggedIn": true}))
         }
     }
 
@@ -73,6 +75,7 @@ export function LoginPage({setToken}) {
         //sessionStorage.setItem('jwtToken', token);
         token['user'] = username;
         setToken(token)
+        dispatch(setLoggedIn({"loggedIn": true}))
         //dispatch(addToken(token));
     }
 

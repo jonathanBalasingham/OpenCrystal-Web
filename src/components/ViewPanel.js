@@ -174,9 +174,9 @@ function Atom(props) {
     const [hovered, hover] = useState(false)
     const [clicked, click] = useState(false)
     // Subscribe this component to the render-loop, rotate the mesh every frame
-    useFrame((state, delta) => {
-        ref.current.rotation.y += 0.005; ref.current.rotation.x += 0.01
-    })
+    //useFrame((state, delta) => {
+    //    ref.current.rotation.y += 0.005; ref.current.rotation.x += 0.01
+    // })
 
     return (
         <mesh
@@ -207,40 +207,6 @@ function Line({ start, end }) {
 }
 
 
-function Bond(props) {
-    const ref = useRef()
-    // Hold state for hovered and clicked events
-    const [hovered, hover] = useState(false)
-    const [clicked, click] = useState(false)
-    const boxGeometry = new THREE.BoxGeometry( 1, 1, 1 );
-    const object = new THREE.Mesh( boxGeometry, new THREE.MeshPhongMaterial( 0xffffff ) );
-
-    const position1 = props["position1"]
-    const position2 = props["position2"]
-
-    const start = new THREE.Vector3(position1.x, position1.y, position1.z);
-    const end = new THREE.Vector3(position2.x, position2.y, position2.z);
-    start.multiplyScalar( 75 );
-    end.multiplyScalar( 75 );
-    object.position.copy( start );
-    object.position.lerp( end, 0.5 );
-    object.scale.set( 5, 5, start.distanceTo( end ) );
-    object.lookAt( end );
-
-    return (
-        <mesh
-            position={[position1.x, position1.y, position1.z]}
-            ref={ref}
-            scale={clicked ? 1 : 1}
-            onClick={(event) => click(!clicked)}
-            onPointerOver={(event) => hover(true)}
-            onPointerOut={(event) => hover(false)}>
-            <boxGeometry args={[1,1,1]}/>
-            <meshBasicMaterial wireframe={false} color={"0xffffff"} />
-        </mesh>
-    )
-}
-
 function Controls() {
     // Get notified on changes to state
     const snap = useSnapshot(state)
@@ -252,6 +218,36 @@ function Controls() {
             {/* makeDefault makes the controls known to r3f, now transform-controls can auto-disable them when active */}
             <OrbitControls makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 1.75} />
         </>
+    )
+}
+
+
+const Molecule = ({dataset}) => {
+    const ref = useRef()
+
+    useFrame((state, delta) => {
+        ref.current.rotation.y += 0.02;
+        ref.current.rotation.x += 0.01;
+    })
+
+    let atomSet = dataset["motif"].map((i) => {
+        return (
+            <Atom position={[i["x"], i["y"], i["z"]]} symbol={i["symbol"]} />
+        )
+    })
+
+    let bondSet = dataset["bonds"].map((i) => {
+        return (
+            <Line start={[i["position1"][0], i["position1"][1], i["position1"][2]]}
+                  end={[i["position2"][0], i["position2"][1], i["position2"][2]]}/>
+        )
+    })
+
+    return (
+        <group ref={ref}>
+            { atomSet }
+            { bondSet }
+        </group>
     )
 }
 
@@ -280,28 +276,12 @@ function MoleculeView() {
 
     if (dataset != null && !loading && dataset.motif) {
 
-        let atomSet = dataset["motif"].map((i) => {
-            return (
-                <Atom position={[i["x"], i["y"], i["z"]]} symbol={i["symbol"]} />
-            )
-        })
-
-        let bondSet = dataset["bonds"].map((i) => {
-            return (
-                <Line start={[i["position1"][0], i["position1"][1], i["position1"][2]]}
-                      end={[i["position2"][0], i["position2"][1], i["position2"][2]]}/>
-            )
-        })
-
         atoms =
             <Canvas id="view-panel-canvas" style={{"height": "400px", "width": "95%"}}
                     camera={{ position: [10, 10, 10], fov: 62 }}>
                 <ambientLight />
                 <pointLight position={[1, 1, 1]} />
-                <group>
-                    { atomSet }
-                    { bondSet }
-                </group>
+                <Molecule dataset={dataset}/>
                 <Controls/>
             </Canvas>
 

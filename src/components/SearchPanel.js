@@ -11,7 +11,9 @@ import {
     getFacet,
     getK, getResultSize,
     getSearchPanelOpened,
-    getResults
+    getResults,
+    getNorm,
+    getCompType,
 } from "../features/search/searchSlice";
 import {getCreateModalOpened} from "../features/create/createSlice";
 import CloseIcon from '@mui/icons-material/Close';
@@ -21,9 +23,9 @@ import cx from "classnames";
 import { CSSTransition } from "react-transition-group";
 
 
-async function search(query, facet, token) {
+async function search(query, facet, k, resSize, n, compType, token) {
     console.log("doing something")
-    return fetch(`/api/search/${facet}/${query}?result_size=100&k=100&n=2`, {
+    return fetch(`/api/search/${facet}/${query}?result_size=${resSize}&k=${k}&n=${n}&comp=${compType}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -37,6 +39,8 @@ function SearchPanelSettings({}){
     let k = useSelector(getK)
     let resSize = useSelector(getResultSize)
     let facet = useSelector(getFacet)
+    let n = useSelector(getNorm)
+    let compType = useSelector(getCompType)
 
     const changeFacet = (e) => {
         dispatch(change({"facet": e.target.value}))
@@ -47,15 +51,28 @@ function SearchPanelSettings({}){
         <div id="search-panel-settings">
             <select name="By:" id="search-facet" value={facet} onChange={ e => changeFacet(e)}>
                 <option value="name">Name</option>
-                <option value="similarity">Similarity</option>
+                <option value="similarity">Distance</option>
                 <option value="subset">Subset</option>
+                <option value="composition">Composition</option>
             </select>
-            <p>{`Nearest Neighbors (Similarity Only): ${k}`}</p>
-            <input type="range" id="search-k" name="search-k" onChange={e => dispatch(change({"k": e.target.value}))}
-                   min="1" max="100" value={k} step="1" />
             <p>{`Result Size: ${resSize}`}</p>
             <input type="range" id="search-result-size" name="search-result-size" onChange={e => dispatch(change({"resultSize": e.target.value}))}
                    min="10" max="500" value={resSize} step="10" />
+           <br/>
+           <h6>Distance</h6>
+            <p>{`Nearest Neighbors (Distance Only): ${k}`}</p>
+            <input type="range" id="search-k" name="search-k" onChange={e => dispatch(change({"k": e.target.value}))}
+                   min="1" max="100" value={k} step="1" />
+            <p>{`Norm (Distance Only): ${n}`}</p>
+            <input type="range" id="search-n" name="search-n" onChange={e => dispatch(change({"n": e.target.value}))}
+                   min="0" max="10" value={n} step="1" />
+            <br/>
+            <h6>Composition</h6>
+            <select name="Form:" id="composition-facet" value={compType}
+                    onChange={ e => dispatch(change({"compType": e.target.value}))}>
+                <option value="standard">Standard</option>
+                <option value="coprime">Coprime</option>
+            </select>
         </div>
     )
 }
@@ -71,6 +88,10 @@ function SearchPanel({}) {
     let open = useSelector(getSearchPanelOpened)
     let currentContent = useSelector(getContent)
     let results = useSelector(getResults)
+    let k = useSelector(getK)
+    let resSize = useSelector(getResultSize)
+    let n = useSelector(getNorm)
+    let compType = useSelector(getCompType)
 
 
     let htmlresults = <p style={{'text-align': 'center',
@@ -81,7 +102,7 @@ function SearchPanel({}) {
     const fetchResults = async() => {
         dispatch(change({"results": {'data': [], 'loading': true}}))
         dispatch(changeContent("results"))
-        const res = await search(query, facet, token)
+        const res = await search(query, facet, k, resSize, n, compType, token)
         dispatch(change({"results": {'data': res, 'loading': false}}))
     }
 

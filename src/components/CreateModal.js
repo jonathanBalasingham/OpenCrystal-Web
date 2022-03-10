@@ -8,12 +8,25 @@ import React, {useState} from "react";
 import ScienceIcon from '@mui/icons-material/Science';
 import ListIcon from '@mui/icons-material/List';
 import StorageIcon from '@mui/icons-material/Storage';
+import cx from 'classnames';
+import {InputField} from './InputField';
+
+
 
 
 function CreateCrystalPanel(props) {
     return (
-        <div id="create-crystal-panel">
+        <div id="create-crystal-panel" className="create-crystal-panel">
+            <h6>From CIF:</h6>
+            <input type="file" id="myFile" name="filename"/>
+            <div className="create-crystal-options">
+                <div className="create-crystal-options-meta">
+                    <InputField label={"Name"} ph={"Name"} name={"name-input"} id={"name-input"} />
+                </div>
+                <div className="create-crystal-options-geometry">
 
+                </div>
+            </div>
         </div>
     )
 }
@@ -39,9 +52,6 @@ function CreateModal({}) {
     const dispatch = useDispatch()
     const modalOpened = useSelector(getCreateModalOpened)
 
-    if (modalOpened)
-        vis = 'block'
-
     const [tab, setTab] = useState('crystal')
     const getClass = (currentTab, thisTab) => {
         if (currentTab === thisTab)
@@ -60,7 +70,7 @@ function CreateModal({}) {
     }
 
     return (
-        <div className="create-modal" style={{'display': vis}}>
+        <div className={cx("create-modal", {"open": modalOpened})} >
             <div className="create-modal-content">
                 <div className="close-button-container">
                     <button onClick={() => dispatch(closeCreateModal(false))}>

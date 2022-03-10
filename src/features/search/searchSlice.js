@@ -11,6 +11,7 @@ const initialState = {
         "data": [],
         "loading": false,
     },
+    "compType": "standard",
 };
 
 const searchPanelSlice = createSlice({
@@ -27,6 +28,10 @@ const searchPanelSlice = createSlice({
             state["searchPanelOpened"] = false;
             return state;
         },
+        toggleSearchPanel(state, action) {
+          state["searchPanelOpened"] = !state["searchPanelOpened"];
+          return state
+        },
         changeContent(state, action){
             console.log("Changing content");
             state["currentContent"] = action.payload;
@@ -41,7 +46,7 @@ const searchPanelSlice = createSlice({
     }
 })
 
-export const { openSearchPanel, closeSearchPanel, changeContent, change } = searchPanelSlice.actions
+export const { openSearchPanel, closeSearchPanel, changeContent, change, toggleSearchPanel } = searchPanelSlice.actions
 
 export default searchPanelSlice.reducer
 
@@ -65,4 +70,12 @@ export const getResultSize = createSelector((state) => state.searchPanelSlice, (
 
 export const getResults = createSelector((state) => state.searchPanelSlice, (p) =>
     p["results"]
+)
+
+export const getNorm = createSelector((state) => state.searchPanelSlice, (p) =>
+    p["n"]
+)
+
+export const getCompType = createSelector((state) => state.searchPanelSlice, (p) =>
+    p["compType"]
 )

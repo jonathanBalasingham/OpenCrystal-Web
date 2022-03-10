@@ -7,6 +7,7 @@ import {SideBarLogo} from "./SideBarLogo";
 import LogoutIcon from '@mui/icons-material/Logout';
 import HelpIcon from '@mui/icons-material/Help';
 import InfoIcon from '@mui/icons-material/Info';
+import PreviewIcon from '@mui/icons-material/Preview';
 
 
 const LeftSideBar = () => {
@@ -16,7 +17,7 @@ const LeftSideBar = () => {
             <SideBarLogo/>
             <LeftSideBarButton id="Create-button" buttonIcon={<AddIcon/>}/>
             <LeftSideBarButton id="Search-button" buttonIcon={<SearchIcon/>}/>
-            <LeftSideBarButton id="Account-button" buttonIcon={<ManageAccountsIcon/>}/>
+            <LeftSideBarButton id="View-button" buttonIcon={<PreviewIcon/>}/>
             <LeftSideBarButton id="Help-button" buttonIcon={<HelpIcon/>}/>
             <LeftSideBarButton id="Logout-button" buttonIcon={<LogoutIcon/>} onClick={() => sessionStorage.clear() } />
             <LeftSideBarButton id="Info-button" buttonIcon={<InfoIcon/>}/>

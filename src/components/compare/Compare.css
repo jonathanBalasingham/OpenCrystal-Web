@@ -87,7 +87,7 @@ svg[name=svg-container-graph-id] {
         'chev name name add'
         'chev id1 id2 add';
     grid-template-rows: 35px 15px;
-    grid-template-columns: 40px 110px 60px 50px;
+    grid-template-columns: 40px 120px 70px 30px;
     padding: 5px;
     margin-top: 10px;
     border-radius: 10px;
@@ -406,4 +406,72 @@ div.react-sigma-v2 {
     max-height: 40vh;
     overflow: scroll;
     overflow-x: hidden;
+}
+
+.open-plot-app-menu {
+    width: 20px;
+    display: grid;
+    height: 100vh;
+    z-index: 1;
+    float: right;
+    position: relative;
+    background: var(--defaultsecondary);
+    border-left: 1px solid var(--defaultborder);
+    align-content: center;
+    justify-content: center;
+}
+
+.open-plot-app-menu.clicked {
+    background: transparent;
+    border: none;
+}
+
+.open-plot-app-menu.clicked:hover {
+    background: transparent;
+    cursor: auto;
+}
+
+.open-plot-app-menu:hover {
+    cursor: pointer;
+    background: var(--defaulthover);
+}
+
+
+.app-menu {
+    position: fixed; /* Stay in place */
+    z-index: 10; /* Sit on top */
+    height: 98vh;
+    color: var(--defaulttext);
+    background: var(--defaultsecondary);
+    border-radius: 10px;
+    border: solid 1px var(--defaultborder);
+    padding: 10px;
+    right: -100%; /*Put it on the very top*/
+    transition: all .3s ease-in-out; /*make it smooth*/
+    top: 10px;
+    width: 25%;
+}
+
+.app-menu.open {
+    right: 1%;
+}
+
+.app-menu-container {
+    padding-top: 10px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    height: 95%;
+    width: 100%;
+}
+
+.app-menu-container::-webkit-scrollbar {
+    width: 5px;
+    background: var(--defaultsecondary);
+}
+
+.app-menu-container > h6 {
+    font-style: italic;
+    font-size: 12px;
+    border-bottom: solid 1px var(--defaultborder);
+    padding: 3px;
 }

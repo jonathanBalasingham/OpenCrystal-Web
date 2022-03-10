@@ -181,31 +181,23 @@
 
 
 .create-modal {
-  display: none; /* Hidden by default */
+  display: block; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 10; /* Sit on top */
   left: 0;
-  top: 0;
+  top: -200%;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background: inherit;
+  transition: all .5s ease-in-out;
 }
 
-.create-modal:before {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 10; /* Sit on top */
+.create-modal.open {
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  box-shadow: inset 0 0 0 3000px rgba(150, 150, 150, 0.192);
-  filter: blur(10px);
-  border-radius: 15px;
-  content: '';
 }
+
 
 /* settings-modal Content/Box */
 .create-modal-content {
@@ -219,6 +211,103 @@
   position: relative;
   left: 30%;
   color: var(--defaulttext);
+}
+
+.create-crystal-panel {
+  padding: 10px;
+}
+
+.create-crystal-panel input[type=file]::file-selector-button {
+  border: 1px solid var(--defaultborder);
+  color: var(--defaulttext);
+  background: var(--defaultsecondary);
+  border-radius: 5px;
+}
+
+.create-crystal-panel input[type=file]::file-selector-button:hover {
+  background: var(--defaulthover);
+  cursor: pointer;
+}
+
+.create-crystal-panel > h6 {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--defaulttext)
+}
+
+.create-crystal-options {
+  display: grid;
+  grid-template-areas:
+    "meta geometry";
+  grid-template-columns: 30% 70%;
+}
+
+.form__group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.form__field {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--defaultborder);
+  outline: 0;
+  font-size: 0.7rem;
+  color: var(--defaulttext);
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: transparent;
+  }
+
+  &:placeholder-shown ~ .form__label {
+    font-size: 1rem;
+    cursor: text;
+    top: 20px;
+  }
+}
+
+.form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 0.5rem;
+  color: var(--defaulttext);
+}
+
+.form__field:focus {
+  ~ .form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 0.5rem;
+    color: var(--defaulttext);
+    font-weight:500;
+  }
+  padding-bottom: 6px;
+  font-weight: 500;
+  border-width: 3px;
+  border-image: linear-gradient(to right, var(--defaulthover), var(--defaultborder));
+  border-image-slice: 1;
+}
+/* reset input */
+.form__field{
+  &:required,&:invalid { box-shadow:none; }
+}
+
+.create-crystal-options-meta {
+  grid-area: meta;
+}
+
+.create-crystal-options-geometry {
+  grid-area: geometry;
 }
 
 .sidenav {
@@ -250,7 +339,7 @@
   border-radius: 10px;
   border: solid 1px var(--defaultborder);
   padding: 5px;
-  top: -50%; /*Put it on the very top*/
+  top: -100%; /*Put it on the very top*/
   transition: all .3s ease-in-out; /*make it smooth*/
 }
 
