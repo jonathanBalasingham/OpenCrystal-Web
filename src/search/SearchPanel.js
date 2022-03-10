@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from 'react'
 import {FaSearch} from "react-icons/fa"
 import {array} from "prop-types";
-import {QueryResult} from "./compare/QueryResult";
+import {QueryResult} from "../components/search/QueryResult";
 import {useDispatch, useSelector} from "react-redux";
 import {getAccessToken} from "../features/auth/authSlice";
 import {
@@ -57,15 +57,15 @@ function SearchPanelSettings({}){
             </select>
             <p>{`Result Size: ${resSize}`}</p>
             <input type="range" id="search-result-size" name="search-result-size" onChange={e => dispatch(change({"resultSize": e.target.value}))}
-                   min="10" max="500" value={resSize} step="10" />
+                   min="10" max="500" value={resSize} step="10" className={"range-style"}  />
            <br/>
            <h6>Distance</h6>
             <p>{`Nearest Neighbors (Distance Only): ${k}`}</p>
             <input type="range" id="search-k" name="search-k" onChange={e => dispatch(change({"k": e.target.value}))}
-                   min="1" max="100" value={k} step="1" />
+                   min="1" max="100" value={k} step="1" className={"range-style"}  />
             <p>{`Norm (Distance Only): ${n}`}</p>
             <input type="range" id="search-n" name="search-n" onChange={e => dispatch(change({"n": e.target.value}))}
-                   min="0" max="10" value={n} step="1" />
+                   min="0" max="10" value={n} step="1" className={"range-style"}  />
             <br/>
             <h6>Composition</h6>
             <select name="Form:" id="composition-facet" value={compType}

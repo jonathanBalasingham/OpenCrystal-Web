@@ -4,7 +4,7 @@ import {getAccessToken} from "../features/auth/authSlice";
 import CloseIcon from '@mui/icons-material/Close';
 import ListIcon from '@mui/icons-material/List';
 import SettingsIcon from '@mui/icons-material/Settings';
-import {getViewOpened, getContent, changeContent, getObject, closeView} from "../features/view/viewSlice";
+import {getPreviewOpened, getContent, changeContent, getObject, closePreview} from "../features/preview/previewSlice";
 import { Canvas, useFrame, Color, useThree} from '@react-three/fiber'
 import { OrbitControls, TransformControls, ContactShadows, useGLTF, useCursor } from '@react-three/drei'
 import { proxy, useSnapshot } from 'valtio'
@@ -207,7 +207,7 @@ function Line({ start, end }) {
 }
 
 
-function Controls() {
+export function Controls() {
     // Get notified on changes to state
     const snap = useSnapshot(state)
     const scene = useThree((state) => state.scene)
@@ -222,12 +222,12 @@ function Controls() {
 }
 
 
-const Molecule = ({dataset}) => {
+export const Molecule = ({dataset, rotX, rotY}) => {
     const ref = useRef()
 
     useFrame((state, delta) => {
-        ref.current.rotation.y += 0.02;
-        ref.current.rotation.x += 0.01;
+        ref.current.rotation.y += rotY;
+        ref.current.rotation.x += rotX;
     })
 
     let atomSet = dataset["motif"].map((i) => {
@@ -237,6 +237,9 @@ const Molecule = ({dataset}) => {
     })
 
     let bondSet = dataset["bonds"].map((i) => {
+        if (i.position1 === null || i.position2 === null) {
+            return
+        }
         return (
             <Line start={[i["position1"][0], i["position1"][1], i["position1"][2]]}
                   end={[i["position2"][0], i["position2"][1], i["position2"][2]]}/>
@@ -281,7 +284,7 @@ function MoleculeView() {
                     camera={{ position: [10, 10, 10], fov: 62 }}>
                 <ambientLight />
                 <pointLight position={[1, 1, 1]} />
-                <Molecule dataset={dataset}/>
+                <Molecule dataset={dataset} rotX={0.001} rotY={0.005}/>
                 <Controls/>
             </Canvas>
 
@@ -297,11 +300,11 @@ function MoleculeView() {
 }
 
 
-function ViewPanel({}) {
+function PreviewPanel({}) {
     let dispatch = useDispatch()
 
     let token = useSelector(getAccessToken)
-    let modalOpened = useSelector(getViewOpened)
+    let modalOpened = useSelector(getPreviewOpened)
     let currentContent = useSelector(getContent)
 
     let vis  = 'none'
@@ -318,7 +321,7 @@ function ViewPanel({}) {
     return (
         <div id="view-panel" style={{'display': vis}}>
             <div className="close-button-container">
-                <button onClick={() => dispatch(closeView(false))}>
+                <button onClick={() => dispatch(closePreview(false))}>
                     <CloseIcon fontSize={"small"}/>
                 </button>
                 <button onClick={() => dispatch(changeContent("settings"))}>
@@ -334,4 +337,4 @@ function ViewPanel({}) {
 
 }
 
-export default ViewPanel;
+export default PreviewPanel;

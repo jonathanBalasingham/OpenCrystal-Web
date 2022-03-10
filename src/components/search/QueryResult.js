@@ -4,6 +4,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {addComp, addComps} from "../../features/compare/compareSlice";
 import {BsChevronRight, BsChevronDown} from "react-icons/all";
 import {getCompType, getFacet} from "../../features/search/searchSlice";
+import {getOpenApp} from "../../features/app/appSlice";
+import {addView} from "../../features/view/viewSlice";
 
 
 async function getFamily(e) {
@@ -26,10 +28,14 @@ async function getSubset(name) {
 }
 
 export function QueryResult({data}) {
+    let currentApp = useSelector(getOpenApp)
     const dispatch = useDispatch()
-    const addToComparison = (e) => {
+    const addCrystal = (e) => {
         let name = e.target.id.replace("-add-button", "").replace("-add-crystal-button", "")
-        dispatch(addComp(name))
+        if (currentApp === "compare")
+            dispatch(addComp(name))
+        else
+            dispatch(addView(name))
     }
 
     const addSubset = async(e) => {
@@ -71,7 +77,7 @@ export function QueryResult({data}) {
                     <h4 className={"query-result-name"}>{data["name"]}</h4>
                     <h6 className={"query-result-id"}>{data["family"]}</h6>
                     <p className={"query-result-source"}>{data["source"]["name"]}</p>
-                    <button id={data["name"] + "-add-button"} className={"query-result-quick-add-button"} onClick={e => addToComparison(e)}>
+                    <button id={data["name"] + "-add-button"} className={"query-result-quick-add-button"} onClick={e => addCrystal(e)}>
                         +
                     </button>
                 </div>
@@ -80,7 +86,7 @@ export function QueryResult({data}) {
                     <p>Geometry: </p>
                     <p>Disordered:</p>
                     <p style={{'margin-bottom': '6px'}}>Family Members:</p>
-                    <button id={data["name"] + "-add-crystal-button"} className={"query-result-dropdown-button"} onClick={e => addToComparison(e)}>
+                    <button id={data["name"] + "-add-crystal-button"} className={"query-result-dropdown-button"} onClick={e => addCrystal(e)}>
                         Add Crystal
                     </button>
                     <button id={data["name"] + "-add-family-button"} className={"query-result-dropdown-button"} onClick={e => addFamily(e)}>
@@ -102,7 +108,7 @@ export function QueryResult({data}) {
                     </div>
                     <h6 className={"query-result-id"}>{data["family"]}</h6>
                     <p className={"query-result-source"}>{data["source"]["name"]}</p>
-                    <button id={data["name"] + "-add-button"} className={"query-result-quick-add-button"} onClick={e => addToComparison(e)}>
+                    <button id={data["name"] + "-add-button"} className={"query-result-quick-add-button"} onClick={e => addCrystal(e)}>
                         +
                     </button>
                 </div>
@@ -111,7 +117,7 @@ export function QueryResult({data}) {
                     <p>Geometry: </p>
                     <p>Disordered:</p>
                     <p style={{'margin-bottom': '6px'}}>Family Members:</p>
-                    <button id={data["name"] + "-add-crystal-button"} className={"query-result-dropdown-button"} onClick={e => addToComparison(e)}>
+                    <button id={data["name"] + "-add-crystal-button"} className={"query-result-dropdown-button"} onClick={e => addCrystal(e)}>
                         Add Crystal
                     </button>
                     <button id={data["name"] + "-add-family-button"} className={"query-result-dropdown-button"} onClick={e => addFamily(e)}>
@@ -137,7 +143,7 @@ export function QueryResult({data}) {
                     </div>
                     <h6 className={"query-result-id"}>{data["family"]}</h6>
                     <p className={"query-result-source"}>{data["source"]["name"]}</p>
-                    <button id={data["name"] + "-add-button"} className={"query-result-quick-add-button"} onClick={e => addToComparison(e)}>
+                    <button id={data["name"] + "-add-button"} className={"query-result-quick-add-button"} onClick={e => addCrystal(e)}>
                         +
                     </button>
                 </div>
@@ -146,7 +152,7 @@ export function QueryResult({data}) {
                     <p>Geometry: </p>
                     <p>Disordered:</p>
                     <p style={{'margin-bottom': '6px'}}>Family Members:</p>
-                    <button id={data["name"] + "-add-crystal-button"} className={"query-result-dropdown-button"} onClick={e => addToComparison(e)}>
+                    <button id={data["name"] + "-add-crystal-button"} className={"query-result-dropdown-button"} onClick={e => addCrystal(e)}>
                         Add Crystal
                     </button>
                     <button id={data["name"] + "-add-family-button"} className={"query-result-dropdown-button"} onClick={e => addFamily(e)}>

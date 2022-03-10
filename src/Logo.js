@@ -12,7 +12,7 @@ export default function Ball(props) {
     useFrame((state, delta) => {
         ref.current.rotation.y += 0.005; ref.current.rotation.x += 0.01
     })
-    // Return the view, these are regular Threejs elements expressed in JSX
+    // Return the preview, these are regular Threejs elements expressed in JSX
     return (
         <mesh
             {...props}

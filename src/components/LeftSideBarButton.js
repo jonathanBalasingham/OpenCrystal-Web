@@ -12,6 +12,7 @@ import {openSettingsModal} from "../features/settings/settingsFooterSlice";
 import {addToken, setLoggedIn} from "../features/auth/authSlice";
 import {getSearchPanelOpened, openSearchPanel, toggleSearchPanel} from "../features/search/searchSlice";
 import useToken from "../useToken";
+import {openCompareApp, openViewApp} from "../features/app/appSlice";
 
 
 const LeftSideBarButton = ({ id, buttonIcon }) => {
@@ -30,6 +31,8 @@ const LeftSideBarButton = ({ id, buttonIcon }) => {
         switch (id.replace("-button", "")){
             case "Create": dispatch(toggleCreateModal(id)); break;
             case "Search": dispatch(toggleSearchPanel(id)); break;
+            case "View": dispatch(openViewApp(id)); break;
+            case "Compare": dispatch(openCompareApp(id)); break;
             case "Logout": logout(); break;
             case "Account": dispatch(openSettingsModal(id)); break;
         }

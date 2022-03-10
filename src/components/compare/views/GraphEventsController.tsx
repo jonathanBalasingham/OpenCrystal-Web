@@ -1,7 +1,7 @@
 import { useRegisterEvents, useSigma } from "react-sigma-v2";
 import { FC, useEffect } from "react";
 import {useDispatch} from "react-redux";
-import {changeObject, openView} from "../../../features/view/viewSlice";
+import {changeObject, openPreview} from "../../../features/preview/previewSlice";
 import {setBox, setCamera} from "../../../features/compare/compareSlice";
 
 function getMouseLayer() {
@@ -24,7 +24,7 @@ const GraphEventsController: FC<{ setHoveredNode: (node: string | null) => void 
         if (!graph.getNodeAttribute(node, "hidden")) {
           console.log(graph.getNodeAttribute(node, "key"))
           dispatch(changeObject(graph.getNodeAttribute(node, "key")))
-          dispatch(openView(true))
+          dispatch(openPreview(true))
         }
       },
       enterNode({ node }) {

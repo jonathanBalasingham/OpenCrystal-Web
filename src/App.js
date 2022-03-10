@@ -2,7 +2,7 @@ import './App.scss';
 import Dashboard from './components/Dashboard';
 import * as React from "react";
 import LeftSideBar from "./components/LeftSideBar"
-import CreateModal from "./components/CreateModal";
+import CreateModal from "./components/create/CreateModal";
 import SettingsModal from "./components/SettingsModal";
 
 function App() {

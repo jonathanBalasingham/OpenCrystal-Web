@@ -1,10 +1,10 @@
-import './Dashboard.css'
+import './Dashboard.scss'
 import {BrowserRouter, Route} from "react-router-dom";
 import * as React from "react";
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import ApplicationBay from "./ApplicationBay";
-import SearchPanel from "./SearchPanel";
-import ViewPanel from "./ViewPanel";
+import SearchPanel from "../search/SearchPanel";
+import PreviewPanel from "./PreviewPanel";
 
 
 function Dashboard() {
@@ -12,7 +12,7 @@ function Dashboard() {
     return (
         <div className="dashboard">
             <SearchPanel/>
-            <ViewPanel/>
+            <PreviewPanel/>
             <ApplicationBay/>
         </div>
     )

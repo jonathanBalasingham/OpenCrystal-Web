@@ -32,6 +32,7 @@ body > #root > div {
   --defaulthover: #3e4c59;
   --defaulttext: #cbd2d9;
   --defaultIcon: #673ab7;
+  --defaultshadow: #1b1c1e;
   color: var(--defaulttext)
 }
 

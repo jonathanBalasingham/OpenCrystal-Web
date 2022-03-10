@@ -1,41 +1,19 @@
 import * as React from "react";
 import { useSelector } from "react-redux";
-import { getOpenApplicationBay, getOpenOptionsPanel } from "../features/options/optionsSlice";
 import { CompareApp } from "./compare/CompareApp"
+import {getOpenApp} from "../features/app/appSlice";
+import { ViewApp} from "./view/ViewApp";
 
 function ApplicationBay() {
-    let marginLeft = '26px'
-    const openAppBay = useSelector(getOpenApplicationBay)
-    const openPanel = useSelector(getOpenOptionsPanel)
+    const openApp = useSelector(getOpenApp)
 
-    //if (openPanel !== 'NONE')
-      //  marginLeft = '326px'
-
-    let innerApplication;
-    switch (openAppBay) {
-        case 'Compare-app':
-            innerApplication = <CompareApp/>
-            break;
-        case 'View-app':
-            innerApplication = <div id="view-app-container">
-                <div id="molecule-plot-container">
-
-                </div>
-                <div id="cif-editor-container">
-
-                </div>
-            </div>
-
-            break;
-        case 'Database-app':
-            innerApplication = <div><p>db</p></div>
-            break;
-
-    }
+    let app = <CompareApp/>;
+    if (openApp === "view")
+        app = <ViewApp/>
 
     return (
         <div className="application-bay">
-            <CompareApp/>
+            {app}
         </div>
     )
 }

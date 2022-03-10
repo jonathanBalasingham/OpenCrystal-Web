@@ -2,14 +2,15 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     closeCreateModal,
     getCreateModalOpened,
-} from "../features/create/createSlice";
+} from "../../features/create/createSlice";
 import CloseIcon from "@mui/icons-material/Close";
 import React, {useState} from "react";
 import ScienceIcon from '@mui/icons-material/Science';
 import ListIcon from '@mui/icons-material/List';
 import StorageIcon from '@mui/icons-material/Storage';
 import cx from 'classnames';
-import {InputField} from './InputField';
+import {InputField} from '../../base/InputField';
+import {retry} from "@reduxjs/toolkit/query";
 
 
 
@@ -48,16 +49,12 @@ function CreateSubsetPanel(props) {
 }
 
 function CreateModal({}) {
-    let vis  = 'none'
     const dispatch = useDispatch()
     const modalOpened = useSelector(getCreateModalOpened)
 
     const [tab, setTab] = useState('crystal')
     const getClass = (currentTab, thisTab) => {
-        if (currentTab === thisTab)
-            return "create-modal-tab-button-selected"
-        else
-            return "create-modal-tab-button"
+        return cx("create-modal-tab-button", {"selected": currentTab === thisTab})
     }
 
     const getTabContent = (currentTab) => {

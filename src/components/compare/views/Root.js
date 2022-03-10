@@ -12,7 +12,7 @@ import DescriptionPanel from "./DescriptionPanel";
 import ClustersPanel from "./ClustersPanel";
 import SearchField from "./SearchField";
 import drawLabel from "../canvas-utils";
-
+import { ViewAppMenu } from "../CompareAppMenu";
 import "react-sigma-v2/lib/react-sigma-v2.css";
 import { GrClose } from "react-icons/gr";
 import { BiRadioCircleMarked, BiBookContent } from "react-icons/bi";
@@ -183,28 +183,32 @@ const Root = () => {
                             </div>
                             <div className="panels">
                                 <SearchField filters={filtersState} />
-                                <ClustersPanel
-                                    clusters={dataset.clusters}
-                                    filters={filtersState}
-                                    setClusters={(clusters) =>
-                                        setFiltersState((filters) => ({
-                                            ...filters,
-                                            clusters,
-                                        }))
-                                    }
-                                    toggleCluster={(cluster) => {
-                                        setFiltersState((filters) => ({
-                                            ...filters,
-                                            clusters: filters.clusters[cluster]
-                                                ? omit(filters.clusters, cluster)
-                                                : { ...filters.clusters, [cluster]: true },
-                                        }));
-                                    }}
-                                />
                             </div>
                         </div>
                     </>
                 )}
+                <ViewAppMenu
+                    clustersPanel={
+                        <ClustersPanel
+                            clusters={dataset.clusters}
+                            filters={filtersState}
+                            setClusters={(clusters) =>
+                                setFiltersState((filters) => ({
+                                    ...filters,
+                                    clusters,
+                                }))
+                            }
+                            toggleCluster={(cluster) => {
+                                setFiltersState((filters) => ({
+                                    ...filters,
+                                    clusters: filters.clusters[cluster]
+                                        ? omit(filters.clusters, cluster)
+                                        : { ...filters.clusters, [cluster]: true },
+                                }));
+                            }}
+                        />
+                    }
+                />
             </SigmaContainer>
         </div>
     );

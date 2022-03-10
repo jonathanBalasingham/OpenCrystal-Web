@@ -4,7 +4,7 @@
     'sidebar main';
   grid-gap: 0;
   padding: 0;
-  grid-template-columns: 60px calc(100vw - 60px);
+  grid-template-columns: 65px calc(100vw - 60px);
   grid-template-rows: 100vh;
 }
 
@@ -12,16 +12,6 @@
   background: var(--defaultsecondary);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
 .App-header {
   background-color: #282c34;
@@ -33,27 +23,6 @@
   font-size: calc(10px + 2vmin);
   color: white;
   grid-area: header;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-#TopMenuBar {
-  height: 40px;
-  width: 100%;
-  background: var(--defaultsecondary);
-  border-bottom: 1px solid var(--defaultborder);
-  grid-area: header2;
 }
 
 .show>.dropdown-menu {
@@ -328,24 +297,31 @@
   from { transform : translateY(0em) }
   to   { transform : translateY(3em) } /* slide down to make room for advertisements */
 }
-
 .search-panel {
-  position: fixed; /* Stay in place */
-  z-index: 10; /* Sit on top */
+  position: fixed;
+
+  /* Stay in place */
+  z-index: 10;
+
+  /* Sit on top */
   left: 100px;
   height: fit-content;
   color: var(--defaulttext);
   background: var(--defaultsecondary);
   border-radius: 10px;
-  border: solid 1px var(--defaultborder);
+  box-shadow: 0 0 6px 1px var(--defaultshadow);
   padding: 5px;
-  top: -100%; /*Put it on the very top*/
-  transition: all .3s ease-in-out; /*make it smooth*/
-}
+  top: -100%;
 
-.search-panel.open {
-  left: 100px;
-  top: 50px;
+  /*Put it on the very top*/
+  transition: all .3s ease-in-out;
+
+  /*make it smooth*/
+
+  &.open {
+    left: 100px;
+    top: 50px;
+  }
 }
 
 
@@ -424,7 +400,6 @@
 #create-modal-tabs {
   border-bottom: 1px solid var(--defaultborder);
 }
-
 .create-modal-tab-button {
   border: none;
   width: 110px;
@@ -434,23 +409,77 @@
   background: transparent;
   border-bottom: 2px solid transparent;
   font-size: 14px;
+
+  &.selected {
+    border: none;
+    width: 110px;
+    outline: none;
+    height: 35px;
+    color: var(--defaulttext);
+    background: transparent;
+    border-bottom: 2px solid var(--defaulttext);
+    font-size: 14px;
+  }
+
+  &:hover {
+    border-bottom: 2px solid var(--defaulthover);
+  }
+
+  &:focus {
+    border-bottom: 2px solid var(--defaulttext);
+  }
 }
 
-.create-modal-tab-button-selected {
-  border: none;
-  width: 110px;
-  outline: none;
-  height: 35px;
-  color: var(--defaulttext);
-  background: transparent;
-  border-bottom: 2px solid var(--defaulttext);
-  font-size: 14px;
+input[type='range'] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  &:focus {
+    outline: none;
+  }
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+  }
+  &::-moz-range-thumb {
+    border: none;
+  }
 }
 
-.create-modal-tab-button:hover {
-  border-bottom: 2px solid var(--defaulthover);
-}
+.range-style {
+  height: 25px;
+  padding: 10px;
+  background: var(--defaultprimary);
+  border-radius: 10px;
+  box-shadow: -2px -2px 8px var(--defaultshadow), 2px 2px 8px rgba(var(--defaultshadow), 0.5);
+  margin: 2px;
+  @mixin track-style {
+    display: flex;
+    align-items: center;
+    height: 5px;
+    border-radius: 10px;
+    box-shadow: inset -2px -2px 8px var(--defaulttext), inset 2px 2px 8px rgba(black, 0.5);
+  }
 
-.create-modal-tab-button:focus {
-  border-bottom: 2px solid var(--defaulttext);
+  @mixin thumb-style {
+    position: relative;
+    top: -50%;
+    width: 12px;
+    height: 12px;
+    background-color: var(--defaultsecondary);
+    background-image: linear-gradient(-45deg, rgba(var(--defaulttext), 0.3), transparent);
+    border-radius: 50%;
+    box-shadow: -1px -1px 2px var(--defaultshadow), 1px 1px 2px rgba(var(--defaultshadow), 0.3);
+  }
+  &::-webkit-slider-runnable-track {
+    @include track-style;
+  }
+  &::-webkit-slider-thumb {
+    @include thumb-style;
+  }
+  &::-moz-range-track {
+    @include track-style;
+  }
+  &::-moz-range-thumb {
+    @include thumb-style;
+  }
 }
