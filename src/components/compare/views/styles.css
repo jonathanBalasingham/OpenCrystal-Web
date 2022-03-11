@@ -158,7 +158,8 @@ ul > li {
   color: var(--defaulttext);
   padding: 1em;
   border-radius: var(--border-radius);
-  border: 1px solid var(--defaultborder);
+  border: none;
+  box-shadow: 0 0 2px 1px var(--defaultshadow);
 }
 .panel:not(:last-child) {
   margin-bottom: 0.5em;
@@ -254,9 +255,15 @@ ul > li {
   font-family: Lato, sans-serif;
   font-size: 1em;
   background: var(--defaultsecondary);
-  border: 1px solid var(--defaultborder);
+  border: none;
   color: var(--defaulttext);
+  box-shadow: 0 0 2px 1px var(--defaultshadow);
 }
+
+.search-wrapper > input[type="search"]:focus {
+  box-shadow: 0 0 5px 1px var(--defaultshadow);
+}
+
 .search-wrapper > .icon {
   position: absolute;
   width: 1em;

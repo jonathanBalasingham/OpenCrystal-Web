@@ -2,9 +2,37 @@
 .view-app {
   height: 100%;
   width: 100%;
-  padding: 10px;
+  display: flex;
+
+
+  .view-app-menu {
+    order: 2;
+    z-index: 1;
+    /* Sit on top */
+    color: var(--defaulttext);
+    background: var(--defaultsecondary);
+    box-shadow: 0 0 6px 2px var(--defaultshadow);
+    padding: 10px;
+
+    /*Put it on the very top*/
+    transition: all .3s ease-in-out;
+
+    /*make it smooth*/
+    width: 25%;
+
+    &.open {
+      right: 1%;
+    }
+  }
 
   > .view-app-canvas {
+    order: 1;
     background: var(--defaultprimary);
+    width: 75%;
   }
+}
+
+#view-app-placeholder {
+  display: grid;
+  height: 100vh;
 }

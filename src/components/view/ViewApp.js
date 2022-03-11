@@ -5,13 +5,13 @@ import {useEffect, useState} from "react";
 import {Canvas} from "@react-three/fiber";
 import {Molecule, Controls} from "../PreviewPanel";
 import {getComp} from "../../features/compare/compareSlice";
-import {ViewAppPlaceHolder} from "./ViewAppPlaceholder";
+import {Plane, ViewAppPlaceHolder} from "./ViewAppPlaceholder";
 import {Loading} from "../../Loading";
 import "./view.scss"
 import {getViewObject} from "../../features/view/viewSlice";
+import {OpenViewMenu, ViewAppMenu} from "./ViewAppMenu";
 
 export const ViewApp = () => {
-    const comp = useSelector(getComp)
     let currentObject = useSelector(getViewObject)
 
     const [dataset, setDataset] = useState(null);
@@ -54,18 +54,21 @@ export const ViewApp = () => {
     if (dataset != null && !loading && dataset.motif) {
 
         content =
-            <Canvas id="view-app-canvas" style={{"height": "100%", "width": "100%"}}
-                    camera={{ position: [10, 10, 10], fov: 62 }}>
-                <ambientLight />
-                <pointLight position={[1, 1, 1]} />
-                <Molecule dataset={dataset} rotY={0.005} rotX={0.0}/>
-                <Controls/>
-            </Canvas>
+            <>
+                <Canvas className="view-app-canvas"
+                        camera={{ position: [10, 10, 10], fov: 62 }}>
+                    <ambientLight />
+                    <pointLight position={[1, 1, 1]} />
+                    <Molecule dataset={dataset} rotY={0.005} rotX={0.0}/>
+                    <Plane/>
+                    <Controls/>
+                </Canvas>
+                <ViewAppMenu/>
+            </>
 
     }
     return (
         <div className={"view-app"}>
-            <p className="view-title">{currentObject}</p>
             { content }
         </div>
     )

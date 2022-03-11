@@ -21,7 +21,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from '@mui/icons-material/Add';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LogoutIcon from '@mui/icons-material/Logout';
-import {ViewAppMenu, OpenPlotMenu} from './CompareAppMenu';
+import {ViewAppMenu, OpenCompareMenu} from './CompareAppMenu';
 
 
 
@@ -65,19 +65,26 @@ export function CompareApp({}) {
     let graph = <CompareAppPlaceHolder/>;
 
     if (comp.length !== 0) {
-        console.log("In here")
         if (graphType === "circle"){
-            graph = <MyResponsiveCirclePacking/>
+            graph = <>
+                <OpenCompareMenu/>
+                <MyResponsiveCirclePacking/>
+            </>
         } else if (graphType === "sunburst") {
-            graph = <MyResponsiveSunburst/>
+            graph = <>
+                <OpenCompareMenu/>
+                <MyResponsiveSunburst/>
+            </>
         } else {
-            graph = <Root/>
+            graph = <>
+                <OpenCompareMenu/>
+                <Root/>
+            </>
         }
     }
 
     return (
         <>
-            <OpenPlotMenu/>
             <div id="plot-app">
                 { graph }
             </div>

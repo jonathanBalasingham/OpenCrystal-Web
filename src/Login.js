@@ -1,4 +1,4 @@
-import './index.css'
+import './index.scss'
 import {useReducer, useState} from "react";
 import * as React from "react";
 import PropTypes from 'prop-types';

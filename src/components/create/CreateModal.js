@@ -9,7 +9,7 @@ import ScienceIcon from '@mui/icons-material/Science';
 import ListIcon from '@mui/icons-material/List';
 import StorageIcon from '@mui/icons-material/Storage';
 import cx from 'classnames';
-import {InputField} from '../../base/InputField';
+import {InputField} from '../base/InputField';
 import {retry} from "@reduxjs/toolkit/query";
 
 

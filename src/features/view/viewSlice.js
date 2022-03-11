@@ -2,6 +2,7 @@ import { createSlice, createSelector } from '@reduxjs/toolkit'
 
 const initialState = {
     currentObject: undefined,
+    menuOpen: false,
 };
 
 const viewSlice = createSlice({
@@ -18,15 +19,24 @@ const viewSlice = createSlice({
                 ...action.payload
             };
         },
+        setMenuOpen(state, action) {
+            return {
+                ...state,
+                "menuOpen": action.payload,
+            }
+        },
     }
 })
 
-export const { change, addView } = viewSlice.actions
+export const { change, addView, setMenuOpen } = viewSlice.actions
 
 export default viewSlice.reducer
 
 export const getViewObject = createSelector((state) => state.viewSlice, (p) =>
     p["currentObject"]
 )
+
+export const getMenuOpen = createSelector((state) => state.viewSlice, (p) => p["menuOpen"])
+
 
 

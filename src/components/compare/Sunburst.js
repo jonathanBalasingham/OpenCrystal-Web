@@ -1,8 +1,10 @@
 import { ResponsiveSunburst } from '@nivo/sunburst'
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {getComp, getKs, getLinkage, getThresholds} from "../../features/compare/compareSlice";
 import {getAccessToken} from "../../features/auth/authSlice";
+import {CompareAppMenu} from "./CompareAppMenu";
+import {Loading} from "../../Loading";
 
 
 const flatten = data =>
@@ -20,7 +22,7 @@ const findObject = (data, name) => data.find(searchedName => searchedName.name =
 export const MyResponsiveSunburst = () => {
     const [dataReady, setDataReady] = useState(false);
     const [dataset, setDataset] = useState(null);
-
+    const [loading, setLoading] = useState(false)
     let thresholds = useSelector(getThresholds)
     let linkage = useSelector(getLinkage)
     let ks = useSelector(getKs)
@@ -28,6 +30,7 @@ export const MyResponsiveSunburst = () => {
     let names = useSelector(getComp)
 
     useEffect(() => {
+        setLoading(true)
         fetch('/api/compare/job', {
             method: 'POST',
             headers: {
@@ -46,49 +49,63 @@ export const MyResponsiveSunburst = () => {
                     .then(res => res.json())
                     .then((dataset) => {
                         setDataset(dataset);
+                        setLoading(false)
                         requestAnimationFrame(() => setDataReady(true));
                     });
             })
     }, [ks, linkage, names, thresholds]);
 
+    if (loading)
+        return (
+            <Loading style={{"display": "grid",
+                "justify-content": "center",
+                "align-content": "center",
+                "height": "100vh",
+                "background": "var(--defaultprimary)"}}/>
+        )
+
     if (!dataset) return null;
 
 
     return (
-    <ResponsiveSunburst
-        data={dataset}
-        margin={{top: 10, right: 10, bottom: 10, left: 10}}
-        id="name"
-        value="loc"
-        cornerRadius={2}
-        borderColor={{theme: 'background'}}
-        colors={{scheme: 'nivo'}}
-        childColor={{
-            from: 'color',
-            modifiers: [
-                [
-                    'brighter',
-                    0.1
-                ]
-            ]
-        }}
-        enableArcLabels={true}
-        arcLabelsSkipAngle={10}
-        arcLabelsTextColor={{
-            from: 'color',
-            modifiers: [
-                [
-                    'darker',
-                    1.4
-                ]
-            ]
-        }}
-        transitionMode="pushIn"
-        onClick={clickedData => {
-            const foundObject = findObject(flatten(dataset.children), clickedData.id)
-            if (foundObject && foundObject.children) {
-                setDataset(foundObject)
-            }
-        }}
-    />)
+        <>
+            <ResponsiveSunburst
+                data={dataset}
+                margin={{top: 10, right: 10, bottom: 10, left: 10}}
+                id="name"
+                value="loc"
+                cornerRadius={2}
+                borderColor={{theme: 'background'}}
+                colors={{scheme: 'nivo'}}
+                childColor={{
+                    from: 'color',
+                    modifiers: [
+                        [
+                            'brighter',
+                            0.1
+                        ]
+                    ]
+                }}
+                enableArcLabels={true}
+                arcLabelsSkipAngle={10}
+                arcLabelsTextColor={{
+                    from: 'color',
+                    modifiers: [
+                        [
+                            'darker',
+                            1.4
+                        ]
+                    ]
+                }}
+                transitionMode="pushIn"
+                onClick={clickedData => {
+                    const foundObject = findObject(flatten(dataset.children), clickedData.id)
+                    if (foundObject && foundObject.children) {
+                        setDataset(foundObject)
+                    }
+                }}
+            />
+            <CompareAppMenu/>
+        </>
+    )
 }

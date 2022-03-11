@@ -22,7 +22,7 @@ import StorageIcon from "@mui/icons-material/Storage";
 import {CompareAppMenuGraphSelection} from "./CompareAppMenuGraphSelection";
 import ClustersPanel from "./views/ClustersPanel";
 
-export const OpenPlotMenu = () => {
+export const OpenCompareMenu = () => {
     let dispatch = useDispatch()
     let clicked = useSelector(getMenuOpen)
 
@@ -35,7 +35,7 @@ export const OpenPlotMenu = () => {
 }
 
 
-export const ViewAppMenu = ({clustersPanel}) => {
+export const CompareAppMenu = ({clustersPanel, searchPanel}) => {
     let open = useSelector(getMenuOpen)
     let dispatch = useDispatch()
 
@@ -52,6 +52,7 @@ export const ViewAppMenu = ({clustersPanel}) => {
                 <h6>SETTINGS</h6>
                 <CompareAppMenuSettings/>
                 <h6>CURRENT COMPARISON</h6>
+                {searchPanel}
                 {clustersPanel}
             </div>
         </div>

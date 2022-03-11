@@ -1,11 +1,12 @@
 .App {
   display: grid;
   grid-template-areas:
+    'header header'
     'sidebar main';
   grid-gap: 0;
   padding: 0;
   grid-template-columns: 65px calc(100vw - 60px);
-  grid-template-rows: 100vh;
+  grid-template-rows: 45px calc(100vh - 45px);
 }
 
 #main-header {
@@ -13,16 +14,12 @@
 }
 
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.app-header {
+  background: var(--defaultprimary);
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
   grid-area: header;
+  z-index: 100;
+  box-shadow: 1px 0 6px 2px var(--defaultshadow);
 }
 
 .show>.dropdown-menu {

@@ -12,7 +12,7 @@ import DescriptionPanel from "./DescriptionPanel";
 import ClustersPanel from "./ClustersPanel";
 import SearchField from "./SearchField";
 import drawLabel from "../canvas-utils";
-import { ViewAppMenu } from "../CompareAppMenu";
+import { CompareAppMenu } from "../CompareAppMenu";
 import "react-sigma-v2/lib/react-sigma-v2.css";
 import { GrClose } from "react-icons/gr";
 import { BiRadioCircleMarked, BiBookContent } from "react-icons/bi";
@@ -81,7 +81,6 @@ const Root = () => {
     let k_x = useSelector(getKx)
     let k_y = useSelector(getKy)
     let measure = useSelector(getMeasure)
-    let threshold = useSelector(getThreshold)
 
     const [showContents, setShowContents] = useState(false);
     const [dataReady, setDataReady] = useState(false);
@@ -181,13 +180,10 @@ const Root = () => {
                                     <GrClose />
                                 </button>
                             </div>
-                            <div className="panels">
-                                <SearchField filters={filtersState} />
-                            </div>
                         </div>
                     </>
                 )}
-                <ViewAppMenu
+                <CompareAppMenu
                     clustersPanel={
                         <ClustersPanel
                             clusters={dataset.clusters}
@@ -207,6 +203,9 @@ const Root = () => {
                                 }));
                             }}
                         />
+                    }
+                    searchPanel={
+                        <SearchField filters={filtersState} />
                     }
                 />
             </SigmaContainer>
