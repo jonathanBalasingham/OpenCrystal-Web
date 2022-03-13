@@ -1,0 +1,147 @@
+
+
+.query-result {
+  width: 98.5%;
+  height: 65px;
+  display: grid;
+  background: var(--defaultprimary);
+  color: var(--defaulttext);
+  border: 1px solid var(--defaultborder);
+  grid-template-areas: 'chev name name add' 'chev id1 id2 add';
+  grid-template-rows: 35px 15px;
+  grid-template-columns: 40px 120px 70px 30px;
+  padding: 5px;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.query-result-dropdown {
+  width: 98.5%;
+  display: grid;
+  background: var(--defaultprimary);
+  transition: all 500ms ease;
+  border: 1px solid var(--defaultborder);
+  grid-template-areas: 'field value' 'add add';
+  grid-template-rows: 100px 50px;
+  grid-template-columns: 50% 50%;
+  padding: 10px 15px;
+  margin-top: 5px;
+  border-radius: 10px;
+}
+
+.query-result-accordion {
+  margin-bottom: 2px;
+  margin-left: 2px;
+  transition: all 500ms ease;
+}
+
+.query-result-name {
+  grid-area: name;
+  font-size: 19px;
+  color: var(--defaulttext);
+}
+
+.query-result-name-with-sim {
+  grid-area: name;
+  color: var(--defaulttext);
+
+  > {
+    h4 {
+      font-size: 14px;
+      margin-bottom: 0;
+    }
+
+    p {
+      font-size: 11px;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.query-result-open-button {
+  grid-area: chev;
+  color: var(--defaulttext);
+  height: 30px;
+  width: 30px;
+  margin-top: 10px;
+  border: none;
+  background: var(--defaultprimary);
+}
+
+.query-result-quick-add-button {
+  color: var(--defaulttext);
+  background: var(--defaultprimary);
+  width: 30px;
+  height: 30px;
+  border: none;
+  margin-top: 9px;
+}
+
+.query-result-add-button:hover {
+  color: #39b7f3;
+  background: var(--defaultborder);
+  border-radius: 4px;
+  border: 2px solid darkgray;
+}
+
+.query-result-id {
+  grid-area: id1;
+  font-size: 12px;
+}
+
+.query-result-source {
+  grid-area: id2;
+  font-style: italic;
+  font-size: 12px;
+}
+
+.query-result-added {
+  display: inline-grid;
+  height: 45px;
+  width: 180px;
+  grid-template-areas: "remove name";
+  grid-template-columns: 50px 250px;
+  background: var(--defaultprimary);
+  color: var(--defaulttext);
+  border: 1px solid var(--defaultborder);
+  padding: 5px;
+  margin: 5px;
+  border-radius: 10px;
+}
+
+.query-result-remove-button {
+  grid-area: remove;
+  height: 25px;
+  width: 30px;
+  border-radius: 4px;
+  color: var(--defaulttext);
+  border: none;
+
+  &:hover {
+    background: var(--defaultborder);
+  }
+}
+
+.query-result-dropdown-button {
+  width: 120px;
+  height: 25px;
+  color: var(--defaulttext);
+  border: 2px solid var(--defaultborder);
+  border-radius: 5px;
+  display: inline;
+  grid-area: add;
+  overflow: hidden;
+  font-size: 11px;
+  margin-left: 3px;
+  background: var(--defaultprimary);
+
+  &:hover {
+    background: var(--defaultborder);
+  }
+}
+
+.query-result-dropdown p {
+  font-size: 12px;
+  margin-bottom: 1px;
+  text-align: center;
+}

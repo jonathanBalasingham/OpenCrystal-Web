@@ -40,20 +40,12 @@ export const CompareAppMenu = ({clustersPanel, searchPanel}) => {
     let dispatch = useDispatch()
 
     return (
-        <div className={cx("app-menu", {"open": open})}>
-            <div className="close-button-container">
-                <button onClick={() => dispatch(setMenuOpen(false))}>
-                    <CloseIcon fontSize={"small"}/>
-                </button>
-            </div>
+        <div className={cx("compare-app-menu", {"open": open})}>
             <div className={"app-menu-container"}>
                 <h6>GRAPH TYPE</h6>
                 <CompareAppMenuGraphSelection/>
                 <h6>SETTINGS</h6>
                 <CompareAppMenuSettings/>
-                <h6>CURRENT COMPARISON</h6>
-                {searchPanel}
-                {clustersPanel}
             </div>
         </div>
     )

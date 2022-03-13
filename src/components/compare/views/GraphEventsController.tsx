@@ -1,8 +1,9 @@
 import { useRegisterEvents, useSigma } from "react-sigma-v2";
 import { FC, useEffect } from "react";
 import {useDispatch} from "react-redux";
-import {changeObject, openPreview} from "../../../features/preview/previewSlice";
+import {change, changeObject, openPreview} from "../../../features/preview/previewSlice";
 import {setBox, setCamera} from "../../../features/compare/compareSlice";
+import {getPosition} from "sigma/core/captors/captor";
 
 function getMouseLayer() {
   return document.querySelector(".sigma-mouse");
@@ -20,9 +21,12 @@ const GraphEventsController: FC<{ setHoveredNode: (node: string | null) => void 
    */
   useEffect(() => {
     registerEvents({
-      clickNode({ node }) {
+      clickNode({ node, event }) {
         if (!graph.getNodeAttribute(node, "hidden")) {
           console.log(graph.getNodeAttribute(node, "key"))
+          const x = event.clientX
+          const y = event.clientY
+          dispatch(change({x: x, y: y}))
           dispatch(changeObject(graph.getNodeAttribute(node, "key")))
           dispatch(openPreview(true))
         }
@@ -31,6 +35,7 @@ const GraphEventsController: FC<{ setHoveredNode: (node: string | null) => void 
         setHoveredNode(node);
         // TODO: Find a better way to get the DOM mouse layer:
         const mouseLayer = getMouseLayer();
+
         if (mouseLayer) mouseLayer.classList.add("mouse-pointer");
       },
       leaveNode() {

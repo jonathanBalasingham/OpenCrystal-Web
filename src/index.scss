@@ -23,16 +23,27 @@ body {
   padding: 0;
 }
 
+
+@mixin gloss-white {
+  background: #ffffff; /* Old browsers */
+  background: -moz-linear-gradient(top, #ffffff 0%, #f3f3f3 50%, #ededed 62%, #ffffff 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #ffffff 0%,#f3f3f3 50%,#ededed 62%,#ffffff 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #ffffff 0%,#f3f3f3 50%,#ededed 62%,#ffffff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+}
+
+$primary: #111827;
+
 body > #root > div {
   height: 100vh;
   overflow: hidden;
-  --defaultprimary: #1F2933;
+  --defaultprimary: #111827;
   --defaultsecondary: #323F4B;
-  --defaultborder: #616e7c;
+  --defaultborder: #171f31;
   --defaulthover: #3e4c59;
-  --defaulttext: #cbd2d9;
+  --defaulttext: #9ca3af;
   --defaultIcon: #673ab7;
-  --defaultshadow: #1b1c1e;
+  --defaultshadow: #111;
   color: var(--defaulttext)
 }
 
@@ -49,14 +60,12 @@ body > #root > div {
 #login-form {
   height: 330px;
   width: 400px;
-  background: var(--defaultprimary);
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 25px;
   border-radius: 5px;
 }
-
 
 #submit-login-button, #submit-create-button {
   width: 300px;
@@ -77,24 +86,23 @@ body > #root > div {
   background: var(--defaulthover);
 }
 
-#login-tabs nav button {
-  background: var(--defaultprimary);
-  border: none;
-  width: 200px;
-  padding: 10px;
-  border-bottom: 2px solid var(--defaultprimary);
-  color: var(--defaulttext);
-}
-
-#login-tabs nav button:hover {
-  border-bottom: 2px solid var(--defaulthover);
-}
-
-#login-tabs nav button:focus {
-  border-bottom: 2px solid var(--defaultborder);
-}
-
 #login-tabs {
+  nav button {
+    border: none;
+    width: 200px;
+    padding: 10px;
+    border-bottom: 2px solid var(--defaultprimary);
+    color: var(--defaulttext);
+
+    &:hover {
+      border-bottom: 2px solid var(--defaulthover);
+    }
+
+    &:focus {
+      border-bottom: 2px solid var(--defaultborder);
+    }
+  }
+
   width: 400px;
   height: 460px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -103,34 +111,36 @@ body > #root > div {
   color: var(--defaulttext);
 }
 
-fieldset p {
-  margin-bottom: 1px;
-  margin-top: 5px;
-}
+fieldset {
+  p {
+    margin-bottom: 1px;
+    margin-top: 5px;
+  }
 
-fieldset input {
-  border: none;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19);
-  background: var(--defaultprimary);
-  height: 30px;
-  padding-left: 10px;
-  width: 300px;
-  margin-bottom: 10px;
-}
+  input {
+    border: none;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19);
+    background: var(--defaultprimary);
+    height: 30px;
+    padding-left: 10px;
+    width: 300px;
+    margin-bottom: 10px;
 
-fieldset input:focus {
-  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2), 0 5px 10px 0 rgba(0, 0, 0, 0.19);
-  border: none;
-  outline: none;
+    &:focus {
+      box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2), 0 5px 10px 0 rgba(0, 0, 0, 0.19);
+      border: none;
+      outline: none;
+    }
+  }
 }
 
 .p-4 {
   border-top: 1px solid var(--defaultborder);
   height: 350px;
-}
 
-.p-4 form {
-  margin-left: 26px;
+  form {
+    margin-left: 26px;
+  }
 }
 
 #main-title {

@@ -16,6 +16,9 @@ const initialState = {
     "camera": {},
     "box": {"x0": 0, "x1": 0, "y0": 0, "y1":0},
     "menuOpen": false,
+    "previewListOpen": false,
+    "previewList": [],
+    "crystalListOpen": false,
 }
 
 const compareSlice = createSlice({
@@ -147,13 +150,42 @@ const compareSlice = createSlice({
                 ...state,
                 "menuOpen": action.payload,
             }
+        },
+        toggleMenu(state, action){
+            state["menuOpen"] = !state["menuOpen"]
+            return state
+        },
+        togglePreviewList(state, action){
+            state["previewListOpen"] = !state["previewListOpen"]
+            return state
+        },
+        toggleCrystalList(state, action){
+            state["crystalListOpen"] = !state["crystalListOpen"]
+            return state
+        },
+        addToPreviewList(state, action) {
+            let newState = state["previewList"]
+            if (!state["previewList"].includes(action.payload))
+                newState = state["previewList"].concat([action.payload])
+
+            return {
+                ...state,
+                "previewList": newState
+            };
+        },
+        removeFromPreviewList(state, action) {
+            return {
+                ...state,
+                "previewList": state["previewList"].filter(x => x !== action.payload)
+            };
         }
     }
 })
 
 export const { addComp, addComps, removeComp, setGraphType, clearComp, setK, setKx, setKy,
             setMeasure, setThreshold, setMaxThreshold, setThresholds, setKs, setLinkage,
-            setRendering, setCamera, setBox, setMenuOpen } = compareSlice.actions
+            setRendering, setCamera, setBox, setMenuOpen, toggleMenu, togglePreviewList,
+            toggleCrystalList, removeFromPreviewList, addToPreviewList } = compareSlice.actions
 
 export default compareSlice.reducer
 
@@ -177,3 +209,5 @@ export const getLinkage = createSelector((state) => state.compareSlice, (p) => p
 export const getCamera = createSelector((state) => state.compareSlice, (p) => p["camera"])
 export const getBox = createSelector((state) => state.compareSlice, (p) => p["box"])
 export const getMenuOpen = createSelector((state) => state.compareSlice, (p) => p["menuOpen"])
+export const getPreviewList = createSelector((state) => state.compareSlice, (p) => p["previewList"])
+export const getPreviewListOpen = createSelector((state) => state.compareSlice, (p) => p["previewListOpen"])

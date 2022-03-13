@@ -9,20 +9,22 @@ import HelpIcon from '@mui/icons-material/Help';
 import InfoIcon from '@mui/icons-material/Info';
 import PreviewIcon from '@mui/icons-material/Preview';
 import CompareIcon from '@mui/icons-material/Compare';
+import HomeIcon from '@mui/icons-material/Home'
 
 
 const LeftSideBar = () => {
 
     return (
         <div  id="left-side-bar">
-            <SideBarLogo/>
-            <LeftSideBarButton id="Create-button" buttonIcon={<AddIcon/>}/>
-            <LeftSideBarButton id="Search-button" buttonIcon={<SearchIcon/>}/>
-            <LeftSideBarButton id="Compare-button" buttonIcon={<CompareIcon/>}/>
-            <LeftSideBarButton id="View-button" buttonIcon={<PreviewIcon/>}/>
-            <LeftSideBarButton id="Help-button" buttonIcon={<HelpIcon/>}/>
-            <LeftSideBarButton id="Logout-button" buttonIcon={<LogoutIcon/>} onClick={() => sessionStorage.clear() } />
-            <LeftSideBarButton id="Info-button" buttonIcon={<InfoIcon/>}/>
+            <div className={"top-buttons"}>
+                <LeftSideBarButton id="Home-button" buttonIcon={<HomeIcon/>}/>
+                <LeftSideBarButton id="Create-button" buttonIcon={<AddIcon/>}/>
+                <LeftSideBarButton id="Compare-button" buttonIcon={<CompareIcon/>}/>
+                <LeftSideBarButton id="View-button" buttonIcon={<PreviewIcon/>}/>
+            </div>
+            <div className={"bottom-buttons"}>
+                <LeftSideBarButton id="Info-button" buttonIcon={<InfoIcon/>}/>
+            </div>
         </div>
     )
 

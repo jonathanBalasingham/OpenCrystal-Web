@@ -4,6 +4,8 @@ const initialState = {
     previewOpened: false,
     currentObject: null,
     currentContent: "molecule",
+    x: 0,
+    y: 0,
 };
 
 const previewSlice = createSlice({
@@ -53,4 +55,13 @@ export const getObject = createSelector((state) => state.previewSlice, (p) =>
 export const getContent = createSelector((state) => state.previewSlice, (p) =>
     p["currentContent"]
 )
+
+export const getX = createSelector((state) => state.previewSlice, (p) =>
+    p["x"]
+)
+
+export const getY = createSelector((state) => state.previewSlice, (p) =>
+    p["y"]
+)
+
 

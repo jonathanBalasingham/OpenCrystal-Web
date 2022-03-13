@@ -4,11 +4,23 @@ import {getAccessToken} from "../features/auth/authSlice";
 import CloseIcon from '@mui/icons-material/Close';
 import ListIcon from '@mui/icons-material/List';
 import SettingsIcon from '@mui/icons-material/Settings';
-import {getPreviewOpened, getContent, changeContent, getObject, closePreview} from "../features/preview/previewSlice";
+import AddIcon from '@mui/icons-material/Add';
+
+import {
+    getPreviewOpened,
+    getContent,
+    changeContent,
+    getObject,
+    closePreview,
+    getX,
+    getY,
+} from "../features/preview/previewSlice";
+import { removeFromPreviewList, addToPreviewList } from "../features/compare/compareSlice";
 import { Canvas, useFrame, Color, useThree} from '@react-three/fiber'
 import { OrbitControls, TransformControls, ContactShadows, useGLTF, useCursor } from '@react-three/drei'
 import { proxy, useSnapshot } from 'valtio'
 import * as THREE from "three";
+
 
 
 
@@ -255,23 +267,25 @@ export const Molecule = ({dataset, rotX, rotY}) => {
 }
 
 
-function MoleculeView() {
-    let currentObject = useSelector(getObject)
+function MoleculeView({name}) {
+    let token = useSelector(getAccessToken)
+
     const [dataset, setDataset] = useState(null);
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         setLoading(true)
-        fetch(`/api/molecule/full/${currentObject}`, {
+        fetch(`/api/molecule/full/${name}`, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${token}`
             }
         }).then(data => data.json())
             .then((d) => {
                 setDataset(d)
                 setLoading(false)
             })
-    }, [currentObject])
+    }, [name, token])
 
     let atoms = <div className="no-atom-geometry-content">
         <p>No Geometry found.</p>
@@ -280,8 +294,8 @@ function MoleculeView() {
     if (dataset != null && !loading && dataset.motif) {
 
         atoms =
-            <Canvas id="view-panel-canvas" style={{"height": "400px", "width": "95%"}}
-                    camera={{ position: [10, 10, 10], fov: 62 }}>
+            <Canvas className="preview-panel-canvas"
+                    camera={{ position: [7, 7, 7], fov: 62 }}>
                 <ambientLight />
                 <pointLight position={[1, 1, 1]} />
                 <Molecule dataset={dataset} rotX={0.001} rotY={0.005}/>
@@ -291,11 +305,30 @@ function MoleculeView() {
     }
     return (
         <>
-            <p className="view-title">{currentObject}</p>
             { atoms }
-            <a href={`https://www.ccdc.cam.ac.uk/structures/Search?Ccdcid=${currentObject}&DatabaseToSearch=Published`}
-                style={{"color": "var(--default-text)"}}>See on CCDC</a>
         </>
+    )
+}
+
+export const PreviewListItem = ({name}) => {
+    const dispatch = useDispatch()
+
+    return (
+        <div className="preview-list-item">
+            <div className="top-container">
+                <div className={"left-content"}>
+                    <p className="preview-title">{name}</p>
+                </div>
+                <div className={"right-content"}>
+                    <a href={`https://www.ccdc.cam.ac.uk/structures/Search?Ccdcid=${name}&DatabaseToSearch=Published`}
+                       style={{"color": "var(--default-text)"}}>CCDC</a>
+                    <button onClick={() => dispatch(removeFromPreviewList(name))}>
+                        <CloseIcon fontSize={"small"}/>
+                    </button>
+                </div>
+            </div>
+            <MoleculeView name={name}/>
+        </div>
     )
 }
 
@@ -303,9 +336,12 @@ function MoleculeView() {
 function PreviewPanel({}) {
     let dispatch = useDispatch()
 
-    let token = useSelector(getAccessToken)
     let modalOpened = useSelector(getPreviewOpened)
     let currentContent = useSelector(getContent)
+    let x = useSelector(getX)
+    let y = useSelector(getY)
+    let currentObject = useSelector(getObject)
+
 
     let vis  = 'none'
     if (modalOpened)
@@ -316,20 +352,24 @@ function PreviewPanel({}) {
         if (currentContent === "settings")
             content = <ViewPanelSettings/>;
         else if (currentContent === "molecule")
-            content = <MoleculeView/>
+            content = <MoleculeView name={currentObject}/>
     }
     return (
-        <div id="view-panel" style={{'display': vis}}>
-            <div className="close-button-container">
-                <button onClick={() => dispatch(closePreview(false))}>
-                    <CloseIcon fontSize={"small"}/>
-                </button>
-                <button onClick={() => dispatch(changeContent("settings"))}>
-                    <SettingsIcon fontSize={"small"}/>
-                </button>
-                <button onClick={() => dispatch(changeContent("results"))}>
-                    <ListIcon fontSize={"small"}/>
-                </button>
+        <div className="preview-panel" style={{'display': vis, "left": `${x}px`, "top": `${y}px`}}>
+            <div className="top-container">
+                <div className={"left-content"}>
+                    <p className="preview-title">{currentObject}</p>
+                </div>
+                <div className={"right-content"}>
+                    <a href={`https://www.ccdc.cam.ac.uk/structures/Search?Ccdcid=${currentObject}&DatabaseToSearch=Published`}
+                       style={{"color": "var(--default-text)"}}>CCDC</a>
+                    <button onClick={() => dispatch(addToPreviewList(currentObject))}>
+                        <AddIcon fontSize={"small"}/>
+                    </button>
+                    <button onClick={() => dispatch(closePreview(false))}>
+                        <CloseIcon fontSize={"small"}/>
+                    </button>
+                </div>
             </div>
             {content}
         </div>

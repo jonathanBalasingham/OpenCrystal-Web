@@ -1,11 +1,11 @@
 .App {
   display: grid;
   grid-template-areas:
-    'header header'
-    'sidebar main';
+    'header'
+    'main';
   grid-gap: 0;
   padding: 0;
-  grid-template-columns: 65px calc(100vw - 60px);
+  grid-template-columns: 100vw;
   grid-template-rows: 45px calc(100vh - 45px);
 }
 
@@ -20,7 +20,46 @@
   grid-area: header;
   z-index: 100;
   box-shadow: 1px 0 6px 2px var(--defaultshadow);
+  justify-content: space-between;
+
+  .content-left {
+    order: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 10px;
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  .content-right {
+    order: 2;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 10px;
+    > * {
+      margin-left: 20px;
+    }
+  }
+
+  .header-button {
+    background: transparent;
+    border: none;
+    height: 100%;
+    font-size: 11px;
+    padding: 3px;
+    color: var(--defaulttext);
+    &:hover {
+      color: var(--defaulthover);
+    }
+
+  }
+
 }
+
+
 
 .show>.dropdown-menu {
   display: block;
@@ -49,35 +88,46 @@
   float: left;
   height: 39px;
 }
-
 /* Dropdown Content (Hidden by Default) */
+
 .dropdown-content {
   display: none;
   position: absolute;
   background-color: #f1f1f1;
   min-width: 160px;
-  box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.2);
   color: var(--defaulttext);
   z-index: 1;
+
+  a {
+    color: var(--defaulttext);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+
+    &:hover {
+      background-color: var(--defaultborder);
+    }
+  }
 }
 
 /* Links inside the dropdown */
-.dropdown-content a {
-  color: var(--defaulttext);
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: var(--defaultborder);}
 
 /* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover {
+  .dropdown-content {
+    display: block;
+  }
+
+  .dropbtn {
+    background-color: var(--defaultborder);
+  }
+}
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {background-color: var(--defaultborder);}
-
 #Settings-button {
   background: red;
 }
@@ -294,32 +344,6 @@
   from { transform : translateY(0em) }
   to   { transform : translateY(3em) } /* slide down to make room for advertisements */
 }
-.search-panel {
-  position: fixed;
-
-  /* Stay in place */
-  z-index: 10;
-
-  /* Sit on top */
-  left: 100px;
-  height: fit-content;
-  color: var(--defaulttext);
-  background: var(--defaultsecondary);
-  border-radius: 10px;
-  box-shadow: 0 0 6px 1px var(--defaultshadow);
-  padding: 5px;
-  top: -100%;
-
-  /*Put it on the very top*/
-  transition: all .3s ease-in-out;
-
-  /*make it smooth*/
-
-  &.open {
-    left: 100px;
-    top: 50px;
-  }
-}
 
 
 /* FADE ANIMATIONS */
@@ -353,10 +377,6 @@
   border: none;
 }
 
-.close-button-container > button:hover {
-  background: var(--defaulthover);
-  border-radius: 5px;
-}
 
 #search-panel-settings p {
   font-size: 12px;

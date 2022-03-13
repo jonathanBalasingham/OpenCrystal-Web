@@ -22,11 +22,33 @@
 
 #left-side-bar {
     width: 65px;
-    background: var(--defaultsecondary);
-    box-shadow: 0 0 6px 1px var(--defaultshadow);
+    background: var(--defaultprimary);
+    border-right: 1px solid var(--defaultborder);
     float: left;
-    grid-area: sidebar;
     z-index: 1;
+    overflow-x: hidden;
+    display: grid;
+    align-content: space-between;
+    padding-top: 60px;
+    padding-bottom: 20px;
+    /*
+    -moz-transition: opacity 0.5s ease-in-out;
+    -ms-transition: opacity 0.5s ease-in-out;
+    -o-transition: opacity 0.5s ease-in-out;
+    -webkit-transition:width .2s linear;
+    transition:width .2s linear;
+    -webkit-transform:translateZ(0) scale(1,1);
+
+    &:hover {
+        width: 200px;
+        -moz-transition: opacity 0.5s ease-in-out;
+        -ms-transition: opacity 0.5s ease-in-out;
+        -o-transition: opacity 0.5s ease-in-out;
+        -webkit-transition:width .2s linear;
+        transition:width .2s linear;
+        -webkit-transform:translateZ(0) scale(1,1);
+    }
+    */
 }
 
 .left-side-bar-button {
@@ -35,14 +57,15 @@
     padding: 5px;
     text-align: center;
     border: none;
-    margin: 5px;
+    margin: 5px 0;
     background: inherit;
     color: var(--defaulttext);
+    border-left: 3px solid transparent;
 
     &:hover {
         /*background-color: rgb(232, 232, 232);*/
-        border-radius: 5px;
-        background: var(--defaulthover);
+        border-left: 3px solid var(--defaultborder);
+        color: var(--defaulthover);
 
         span {
             /*background-color: rgb(232, 232, 232);*/
@@ -119,7 +142,7 @@
     display: grid;
     align-content: center;
     justify-content: center;
-    height: 100vh;
+    height: 100%;
 }
 
 #plot-app-placeholder-message {

@@ -6,6 +6,7 @@ import {BsChevronRight, BsChevronDown} from "react-icons/all";
 import {getCompType, getFacet} from "../../features/search/searchSlice";
 import {getOpenApp} from "../../features/app/appSlice";
 import {addView} from "../../features/view/viewSlice";
+import "./search.scss"
 
 
 async function getFamily(e) {

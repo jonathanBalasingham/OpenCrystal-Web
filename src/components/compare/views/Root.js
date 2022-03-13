@@ -30,14 +30,13 @@ import {
     setMaxThreshold, setRendering
 } from "../../../features/compare/compareSlice";
 import {Loading} from "../../../Loading";
+import PreviewPanel from "../../PreviewPanel";
 
 
 function XYAxis() {
     let box = useSelector(getBox)
     let dispatch = useDispatch()
     let sigma = useSigma()
-    console.log("Box is")
-    console.log(box)
 
     useEffect(() => {
         console.log("inside request animation frame")
@@ -51,7 +50,6 @@ function XYAxis() {
             "y0": point00.y,
             "x1": point11.x
         }
-        console.log(box)
         dispatch(setCamera(box))
     });
 
@@ -169,6 +167,7 @@ const Root = () => {
                 {dataReady && (
                     <>
                         <XYAxis/>
+                        <PreviewPanel/>
                         <div className="contents">
                             <div className="ico">
                                 <button
@@ -183,31 +182,6 @@ const Root = () => {
                         </div>
                     </>
                 )}
-                <CompareAppMenu
-                    clustersPanel={
-                        <ClustersPanel
-                            clusters={dataset.clusters}
-                            filters={filtersState}
-                            setClusters={(clusters) =>
-                                setFiltersState((filters) => ({
-                                    ...filters,
-                                    clusters,
-                                }))
-                            }
-                            toggleCluster={(cluster) => {
-                                setFiltersState((filters) => ({
-                                    ...filters,
-                                    clusters: filters.clusters[cluster]
-                                        ? omit(filters.clusters, cluster)
-                                        : { ...filters.clusters, [cluster]: true },
-                                }));
-                            }}
-                        />
-                    }
-                    searchPanel={
-                        <SearchField filters={filtersState} />
-                    }
-                />
             </SigmaContainer>
         </div>
     );
