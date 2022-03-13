@@ -159,3 +159,11 @@ input:-webkit-autofill {
   -webkit-background-clip: text;
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
+
+select {
+  border-radius: 5px;
+  border: 1px solid var(--defaultborder);
+  background: transparent;
+  outline: none;
+  color: var(--defaulttext);
+}

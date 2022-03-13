@@ -19,7 +19,7 @@ export const SearchResults = () => {
     if (results.data.length === 0) {
         htmlresults = <p style={{'text-align': 'center',
             'color': 'var(--defaulttext)',
-            'position': 'relative', 'top': '5%', 'text-style':'italic'}}>No Results to show..</p>
+            'position': 'relative', 'top': '45%', 'left':'20%', 'text-style':'italic'}}>No Results to show..</p>
     }
 
     if (results.loading)

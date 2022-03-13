@@ -10,7 +10,7 @@
 }
 
 #main-header {
-  background: var(--defaultsecondary);
+  background: var(--defaultprimary);
 }
 
 
@@ -74,7 +74,7 @@
 }
 
 .dropbtn {
-  background-color: var(--defaultsecondary);
+  background-color: var(--defaultprimary);
   color: var(--defaulttext);
   font-size: 16px;
   border: none;
@@ -217,7 +217,7 @@
 
 /* settings-modal Content/Box */
 .create-modal-content {
-  background-color: var(--defaultsecondary);
+  background-color: var(--defaultprimary);
   padding: 20px;
   border: 1px solid var(--defaultborder);
   border-radius: 8px;
@@ -227,6 +227,7 @@
   position: relative;
   left: 30%;
   color: var(--defaulttext);
+  box-shadow: 0 0 6px 3px var(--defaultshadow);
 }
 
 .create-crystal-panel {
@@ -236,7 +237,7 @@
 .create-crystal-panel input[type=file]::file-selector-button {
   border: 1px solid var(--defaultborder);
   color: var(--defaulttext);
-  background: var(--defaultsecondary);
+  background: var(--defaultprimary);
   border-radius: 5px;
 }
 
@@ -329,7 +330,7 @@
 .sidenav {
   height: 100%; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
-  background-color: var(--defaultsecondary); /* Black*/
+  background-color: var(--defaultprimary); /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
 }
@@ -391,7 +392,7 @@
   width: 700px;
   height: fit-content;
   color: var(--defaulttext);
-  background: var(--defaultsecondary);
+  background: var(--defaultprimary);
   border-radius: 10px;
   border: solid 1px var(--defaultborder);
   padding: 5px;
@@ -482,7 +483,7 @@ input[type='range'] {
     top: -50%;
     width: 12px;
     height: 12px;
-    background-color: var(--defaultsecondary);
+    background-color: var(--defaultprimary);
     background-image: linear-gradient(-45deg, rgba(var(--defaulttext), 0.3), transparent);
     border-radius: 50%;
     box-shadow: -1px -1px 2px var(--defaultshadow), 1px 1px 2px rgba(var(--defaultshadow), 0.3);
