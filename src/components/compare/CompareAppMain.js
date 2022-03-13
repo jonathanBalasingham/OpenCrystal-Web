@@ -9,6 +9,7 @@ import ClustersPanel from "./views/ClustersPanel";
 import {omit} from "lodash";
 import SearchField from "./views/SearchField";
 import {CompareAppMenu} from "./CompareAppMenu";
+import {CrystalList} from "../search/CrystalList";
 
 
 export function CompareAppMain({}) {
@@ -18,6 +19,7 @@ export function CompareAppMain({}) {
             <SearchPanel/>
             <CompareAppPlot/>
             <PreviewList/>
+            <CrystalList/>
             <CompareAppMenu/>
         </div>
     )

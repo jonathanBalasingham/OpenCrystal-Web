@@ -2,17 +2,15 @@
 
 .query-result {
   width: 98.5%;
-  height: 65px;
   display: grid;
   background: var(--defaultprimary);
   color: var(--defaulttext);
   border: 1px solid var(--defaultborder);
   grid-template-areas: 'chev name name add' 'chev id1 id2 add';
-  grid-template-rows: 35px 15px;
-  grid-template-columns: 40px 120px 70px 30px;
-  padding: 5px;
   margin-top: 10px;
-  border-radius: 10px;
+  border-radius: 5px;
+  align-content: center;
+  padding: 3px;
 }
 
 .query-result-dropdown {
@@ -37,8 +35,9 @@
 
 .query-result-name {
   grid-area: name;
-  font-size: 19px;
+  font-size: 1rem;
   color: var(--defaulttext);
+  margin: 0;
 }
 
 .query-result-name-with-sim {
@@ -47,12 +46,12 @@
 
   > {
     h4 {
-      font-size: 14px;
+      font-size: .9rem;
       margin-bottom: 0;
     }
 
     p {
-      font-size: 11px;
+      font-size: .7rem;
       margin-bottom: 0;
     }
   }
@@ -61,9 +60,6 @@
 .query-result-open-button {
   grid-area: chev;
   color: var(--defaulttext);
-  height: 30px;
-  width: 30px;
-  margin-top: 10px;
   border: none;
   background: var(--defaultprimary);
 }
@@ -71,10 +67,8 @@
 .query-result-quick-add-button {
   color: var(--defaulttext);
   background: var(--defaultprimary);
-  width: 30px;
-  height: 30px;
+
   border: none;
-  margin-top: 9px;
 }
 
 .query-result-add-button:hover {
@@ -86,13 +80,15 @@
 
 .query-result-id {
   grid-area: id1;
-  font-size: 12px;
+  font-size: .7rem;
+  margin: 0;
 }
 
 .query-result-source {
   grid-area: id2;
   font-style: italic;
-  font-size: 12px;
+  font-size: .7rem;
+  margin: 0;
 }
 
 .query-result-added {
@@ -123,7 +119,6 @@
 }
 
 .query-result-dropdown-button {
-  width: 120px;
   height: 25px;
   color: var(--defaulttext);
   border: 2px solid var(--defaultborder);
@@ -144,4 +139,15 @@
   font-size: 12px;
   margin-bottom: 1px;
   text-align: center;
+}
+
+.search-query {
+  color: var(--defaulttext);
+  background: var(--defaultprimary);
+  border: 1px solid var(--defaultborder);
+  border-radius: 5px;
+
+  &:focus {
+    outline: 2px solid var(--defaultborder);
+  }
 }

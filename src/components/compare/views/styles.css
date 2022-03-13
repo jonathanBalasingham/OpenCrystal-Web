@@ -111,7 +111,7 @@ div.ico > button > * {
 }
 
 button.btn {
-  background: var(--defaultsecondary);
+  background: var(--defaultprimary);
   color: var(--defaulttext);
   border: 1px solid var(--defaultborder);
   outline: none;
@@ -151,19 +151,32 @@ ul > li {
  * ****************
  */
 .panel {
-  background: var(--defaultsecondary);
+  background: var(--defaultprimary);
   color: var(--defaulttext);
   padding: 1em;
   border-radius: var(--border-radius);
   border: none;
   box-shadow: 0 0 2px 1px var(--defaultshadow);
+  display: none;
 }
+
+.panel.open {
+  display: block;
+  max-height: 40vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.panel.open:hover {
+  box-shadow: 0 0 5px 2px var(--defaultshadow);
+}
+
 .panel:not(:last-child) {
   margin-bottom: 0.5em;
 }
 .panel h2 button {
   float: right;
-  background: var(--defaultsecondary);
+  background: var(--defaultprimary);
   border: 1px solid var(--defaultborder);
   border-radius: var(--border-radius);
   font-size: 1.2em;
@@ -241,6 +254,11 @@ ul > li {
  */
 .search-wrapper {
   position: relative;
+  display: none;
+}
+
+.search-wrapper.open {
+  display: block;
 }
 .search-wrapper > input[type="search"] {
   width: calc(100%);
@@ -251,7 +269,7 @@ ul > li {
   padding: 1em 1em 1em 3em;
   font-family: Lato, sans-serif;
   font-size: 1em;
-  background: var(--defaultsecondary);
+  background: var(--defaultprimary);
   border: none;
   color: var(--defaulttext);
   box-shadow: 0 0 2px 1px var(--defaultshadow);

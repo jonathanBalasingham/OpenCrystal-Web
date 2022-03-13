@@ -4,6 +4,7 @@ import { BsInfoCircle } from "react-icons/all";
 import Panel from "./Panel";
 
 const DescriptionPanel: FC = () => {
+  let vis = false
   return (
     <Panel
       initiallyDeployed
@@ -12,6 +13,7 @@ const DescriptionPanel: FC = () => {
           <BsInfoCircle className="text-muted" /> Description
         </>
       }
+      vis={vis}
     >
       <p>
         This map represents a <i>network</i> of Wikipedia articles around the topic of "Data vizualisation". Each{" "}

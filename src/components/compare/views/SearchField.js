@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSigma } from "react-sigma-v2";
 import { BsSearch } from "react-icons/bs";
+import {useSelector} from "react-redux";
+import {getSearchFieldOpen} from "../../../features/compare/compareSlice";
+import cx from "classnames"
 
 /**
  * This component is basically a fork from React-sigma-v2's SearchControl
@@ -13,6 +16,7 @@ const SearchField = ({ filters }) => {
   const [search, setSearch] = useState("");
   const [values, setValues] = useState([]);
   const [selected, setSelected] = useState(null);
+  let vis = useSelector(getSearchFieldOpen)
 
   useEffect(() => {
     const newValues = [];
@@ -67,7 +71,7 @@ const SearchField = ({ filters }) => {
   };
 
   return (
-    <div className="search-wrapper">
+    <div className={cx("search-wrapper", {"open": vis})}>
       <input
         type="search"
         placeholder="Search in nodes..."

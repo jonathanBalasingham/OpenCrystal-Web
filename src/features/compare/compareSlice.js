@@ -19,6 +19,8 @@ const initialState = {
     "previewListOpen": false,
     "previewList": [],
     "crystalListOpen": false,
+    "clusterPanelOpen": true,
+    "searchFieldOpen": true,
 }
 
 const compareSlice = createSlice({
@@ -159,6 +161,10 @@ const compareSlice = createSlice({
             state["previewListOpen"] = !state["previewListOpen"]
             return state
         },
+        openPreviewList(state, action){
+            state["previewListOpen"] = true
+            return state
+        },
         toggleCrystalList(state, action){
             state["crystalListOpen"] = !state["crystalListOpen"]
             return state
@@ -178,14 +184,23 @@ const compareSlice = createSlice({
                 ...state,
                 "previewList": state["previewList"].filter(x => x !== action.payload)
             };
-        }
+        },
+        toggleSearchField(state, action){
+            state["searchFieldOpen"] = !state["searchFieldOpen"]
+            return state
+        },
+        toggleClusterPanel(state, action){
+            state["clusterPanelOpen"] = !state["clusterPanelOpen"]
+            return state
+        },
     }
 })
 
 export const { addComp, addComps, removeComp, setGraphType, clearComp, setK, setKx, setKy,
             setMeasure, setThreshold, setMaxThreshold, setThresholds, setKs, setLinkage,
             setRendering, setCamera, setBox, setMenuOpen, toggleMenu, togglePreviewList,
-            toggleCrystalList, removeFromPreviewList, addToPreviewList } = compareSlice.actions
+            toggleCrystalList, removeFromPreviewList, addToPreviewList, openPreviewList,
+            toggleClusterPanel, toggleSearchField} = compareSlice.actions
 
 export default compareSlice.reducer
 
@@ -211,3 +226,6 @@ export const getBox = createSelector((state) => state.compareSlice, (p) => p["bo
 export const getMenuOpen = createSelector((state) => state.compareSlice, (p) => p["menuOpen"])
 export const getPreviewList = createSelector((state) => state.compareSlice, (p) => p["previewList"])
 export const getPreviewListOpen = createSelector((state) => state.compareSlice, (p) => p["previewListOpen"])
+export const getSearchFieldOpen = createSelector((state) => state.compareSlice, (p) => p["searchFieldOpen"])
+export const getClusterPanelOpen = createSelector((state) => state.compareSlice, (p) => p["clusterPanelOpen"])
+export const getCrystalListOpen = createSelector((state) => state.compareSlice, (p) => p["crystalListOpen"])

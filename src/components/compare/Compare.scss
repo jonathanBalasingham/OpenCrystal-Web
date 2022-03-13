@@ -3,19 +3,6 @@
     width: 100%;
 }
 
-#compare-search-query {
-    width: 80%;
-    margin: 5px;
-    border: none;
-    border-bottom: 1px solid var(--defaultborder);
-    background: transparent;
-    color: var(--defaulttext);
-
-    &:focus {
-        border-bottom: 2px solid var(--defaulthover);
-        outline: none;
-    }
-}
 
 #compare-search-button {
     width: 15%;
@@ -242,8 +229,7 @@ div.react-sigma-v2 {
 }
 
 #current-crystal-list {
-    max-height: 40vh;
-    overflow: scroll;
+    overflow: auto;
     overflow-x: hidden;
 }
 
@@ -398,16 +384,34 @@ div.react-sigma-v2 {
             display: flex;
         }
 
+        .search-facet {
+            background: transparent;
+            border: 1px solid var(--defaultborder);
+            border-radius: 5px;
+            color: var(--defaulttext);
+
+            option {
+                background: var(--defaultprimary);
+                color: var(--defaulttext);
+            }
+        }
+
         .left-content {
             display: flex;
             align-content: flex-start;
             align-items: center;
+            >p {
+                margin: 0 10px;
+            }
         }
 
         .right-content {
             display: flex;
             align-content: flex-end;
             align-items: center;
+            > * {
+                margin: 0 5px;
+            }
         }
 
         .compare-search-query {
@@ -425,6 +429,19 @@ div.react-sigma-v2 {
     .compare-app-main {
         grid-area: main;
         display: flex;
+
+        .top-filter {
+            width: 100%;
+            background: var(--defaultprimary);
+            color: var(--defaulttext);
+            border: 1px solid var(--defaultborder);
+            padding: 0 5px;
+            border-radius: 5px;
+
+            &:focus {
+                outline: var(--defaulttext);
+            }
+        }
 
         .search-panel {
             order: 0;
@@ -464,6 +481,7 @@ div.react-sigma-v2 {
             height: 100%;
             max-width: 100%;
             flex-grow: 3;
+            overflow: hidden;
 
 
             .preview-panel {
@@ -528,6 +546,7 @@ div.react-sigma-v2 {
             -webkit-transition:width .2s linear;
             transition:width .2s linear;
             -webkit-transform:translateZ(0) scale(1,1);
+            overflow: hidden;
 
             &.open {
                 width: 15%;
@@ -540,6 +559,7 @@ div.react-sigma-v2 {
             .preview-list-item {
                 border-radius: 10px;
                 border: 1px solid var(--defaultborder);
+                margin: 5px 0;
 
                 .top-container {
                     display: flex;
@@ -547,6 +567,10 @@ div.react-sigma-v2 {
                     font-size: 12px;
                     border-bottom: 1px solid var(--defaultborder);
                     padding: 4px;
+
+                    p {
+                        margin-bottom: 0;
+                    }
 
                     .left-content {
                         display: flex;
@@ -563,13 +587,32 @@ div.react-sigma-v2 {
             }
         }
 
-        .compare-app-menu {
+        .crystal-list {
             order: 3;
             width: 0;
             z-index: 1;
             -webkit-transition:width .2s linear;
             transition:width .2s linear;
             -webkit-transform:translateZ(0) scale(1,1);
+            background: var(--defaultprimary);
+            &.open {
+                width: 12%;
+                border-left: 1px solid var(--defaultborder);
+                overflow: auto;
+                scrollbar-width: thin;
+                padding: 10px;
+            }
+        }
+
+        .compare-app-menu {
+            order: 4;
+            width: 0;
+            z-index: 1;
+            -webkit-transition:width .2s linear;
+            transition:width .2s linear;
+            -webkit-transform:translateZ(0) scale(1,1);
+            background: var(--defaultprimary);
+
             &.open {
                 width: 18%;
                 border-left: 1px solid var(--defaultborder);

@@ -1,38 +1,174 @@
 
 .view-app {
+  display: grid;
+  grid-template-areas:
+        "top-bar"
+        "main";
+
   height: 100%;
-  width: 100%;
-  display: flex;
+  $top-bar-height: 50px;
+  grid-template-rows: $top-bar-height calc(100% - #{$top-bar-height});
 
+  scrollbar-color: var(--defaulttext) var(--defaultborder);
 
-  .view-app-menu {
-    order: 2;
-    z-index: 1;
-    /* Sit on top */
+  button {
     color: var(--defaulttext);
-    background: var(--defaultsecondary);
-    box-shadow: 0 0 6px 2px var(--defaultshadow);
-    padding: 10px;
+    background: transparent;
+    border: none;
 
-    /*Put it on the very top*/
-    transition: all .3s ease-in-out;
-
-    /*make it smooth*/
-    width: 25%;
-
-    &.open {
-      right: 1%;
+    &:hover {
+      color: var(--defaulthover);
     }
   }
 
-  > .view-app-canvas {
-    order: 1;
-    background: var(--defaultprimary);
-    width: 75%;
+  button.active {
+    border: 1px solid var(--defaultborder);
+  }
+
+  .view-app-top-bar {
+    height: 50px;
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+    grid-area: top-bar;
+    border-bottom: 1px solid var(--defaultborder);
+    align-items: center;
+    z-index: 1;
+    .search-bar {
+      display: flex;
+    }
+
+    .search-facet {
+      background: transparent;
+      border: 1px solid var(--defaultborder);
+      border-radius: 5px;
+      color: var(--defaulttext);
+
+      option {
+        background: var(--defaultprimary);
+        color: var(--defaulttext);
+      }
+    }
+
+    .left-content {
+      display: flex;
+      align-content: flex-start;
+      align-items: center;
+      >p {
+        margin: 0 10px;
+      }
+    }
+
+    .right-content {
+      display: flex;
+      align-content: flex-end;
+      align-items: center;
+      > * {
+        margin: 0 5px;
+      }
+    }
+
+    .view-search-query {
+      color: var(--defaulttext);
+      background: var(--defaultprimary);
+      border: 1px solid var(--defaultborder);
+      border-radius: 5px;
+
+      &:focus {
+        outline: 2px solid var(--defaultborder);
+      }
+    }
+  }
+
+
+
+  .view-app-main {
+    grid-area: main;
+    display: flex;
+
+    .top-filter {
+      width: 100%;
+      background: var(--defaultprimary);
+      color: var(--defaulttext);
+      border: 1px solid var(--defaultborder);
+      padding: 0 5px;
+      border-radius: 5px;
+
+      &:focus {
+        outline: var(--defaulttext);
+      }
+    }
+
+    .search-panel {
+      order: 0;
+      height: 100%;
+      width: 0;
+      color: var(--defaulttext);
+      background: var(--defaultprimary);
+      padding: 0;
+      /*Put it on the very top*/
+      -webkit-transition:width .2s linear;
+      transition:width .2s linear;
+      -webkit-transform:translateZ(0) scale(1,1);
+      /*make it smooth*/
+      overflow: hidden;
+      z-index: 2;
+      border-right: 1px solid var(--defaultborder);
+
+      &.open {
+        width: 20%;
+        padding: 5px;
+      }
+
+      .search-results-container {
+        background: var(--defaultprimary);
+        padding: 20px;
+        color: var(--defaulttext);
+        scrollbar-width: thin;
+        height: calc(100% - 10px);
+        width: 100%;
+        overflow: auto;
+      }
+    }
+
+    .view-app-main-canvas {
+      background: var(--defaultprimary);
+      order: 1;
+      height: 100%;
+      max-width: 100%;
+      flex-grow: 3;
+      overflow: hidden;
+
+      .view-app-canvas {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+    }
+
+    .view-app-menu {
+      order: 4;
+      width: 0;
+      z-index: 1;
+      -webkit-transition:width .2s linear;
+      transition:width .2s linear;
+      -webkit-transform:translateZ(0) scale(1,1);
+      background: var(--defaultprimary);
+
+      &.open {
+        width: 18%;
+        border-left: 1px solid var(--defaultborder);
+        overflow: auto;
+        scrollbar-width: thin;
+        padding: 10px;
+      }
+    }
   }
 }
 
 #view-app-placeholder {
   display: grid;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
 }

@@ -1,28 +1,18 @@
 import {useDispatch, useSelector} from "react-redux";
 import {change, getCompType, getFacet, getK, getNorm, getResultSize} from "../../features/search/searchSlice";
 import React from "react";
+import {SearchFacetSettings} from "./SearchFacetSettings";
 
 export function SearchSettings({}){
     let dispatch = useDispatch()
     let k = useSelector(getK)
     let resSize = useSelector(getResultSize)
-    let facet = useSelector(getFacet)
     let n = useSelector(getNorm)
     let compType = useSelector(getCompType)
 
-    const changeFacet = (e) => {
-        dispatch(change({"facet": e.target.value}))
-        dispatch(change({"results": {'data': [], 'loading': false}}))
-    }
 
     return (
         <div id="search-panel-settings">
-            <select name="By:" id="search-facet" value={facet} onChange={ e => changeFacet(e)}>
-                <option value="name">Name</option>
-                <option value="similarity">Distance</option>
-                <option value="subset">Subset</option>
-                <option value="composition">Composition</option>
-            </select>
             <p>{`Result Size: ${resSize}`}</p>
             <input type="range" id="search-result-size" name="search-result-size" onChange={e => dispatch(change({"resultSize": e.target.value}))}
                    min="10" max="500" value={resSize} step="10" className={"range-style"}  />

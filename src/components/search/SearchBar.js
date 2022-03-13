@@ -12,6 +12,7 @@ import {
 } from "../../features/search/searchSlice";
 import {getAccessToken} from "../../features/auth/authSlice";
 import {FaSearch} from "react-icons/fa";
+import "./search.scss"
 
 export const SearchBar = () => {
     const dispatch = useDispatch()
@@ -49,7 +50,7 @@ export const SearchBar = () => {
     return (
         <div className="search-bar">
             <form onSubmit={fetchResults}>
-                <input className={"compare-search-query"}  placeholder={"Search"}
+                <input className={"search-query"}  placeholder={"Search"}
                        onChange={e => setQuery(e.target.value)}
                        onFocus={() => dispatch(openSearchPanel(""))} />
             </form>

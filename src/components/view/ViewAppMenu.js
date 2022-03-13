@@ -25,11 +25,6 @@ export const ViewAppMenu = ({clustersPanel, searchPanel}) => {
 
     return (
         <div className={cx("view-app-menu", {"open": open})}>
-            <div className="close-button-container">
-                <button onClick={() => dispatch(setMenuOpen(false))}>
-                    <CloseIcon fontSize={"small"}/>
-                </button>
-            </div>
             <div className={"app-menu-container"}>
                 <h6>GRAPH TYPE</h6>
                 <h6>SETTINGS</h6>

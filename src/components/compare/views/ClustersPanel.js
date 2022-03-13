@@ -1,14 +1,18 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useSigma } from "react-sigma-v2";
-import { sortBy, values, keyBy, mapValues } from "lodash";
+import React, {useEffect, useMemo, useState} from "react";
+import {useSigma} from "react-sigma-v2";
+import {keyBy, mapValues, sortBy, values} from "lodash";
 
-import { MdGroupWork } from "react-icons/md";
+import {MdGroupWork} from "react-icons/md";
 import Panel from "./Panel";
-import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/all";
+import {AiOutlineCheckCircle, AiOutlineCloseCircle} from "react-icons/all";
+import {useSelector} from "react-redux";
+import {getClusterPanelOpen} from "../../../features/compare/compareSlice";
 
 const ClustersPanel = ({ clusters, filters, toggleCluster, setClusters }) => {
   const sigma = useSigma();
   const graph = sigma.getGraph();
+  let vis = useSelector(getClusterPanelOpen)
+  const [filter, setFilter] = useState("")
 
   const nodesPerCluster = useMemo(() => {
     const index = {};
@@ -31,6 +35,12 @@ const ClustersPanel = ({ clusters, filters, toggleCluster, setClusters }) => {
     });
   }, [filters, graph]);
 
+  if (filter !== ""){
+    clusters = clusters.filter(function (c) {
+      return c.key.toLowerCase().indexOf(filter.toLowerCase()) >= 0
+    });
+  }
+
   const sortedClusters = useMemo(
     () => sortBy(clusters, (cluster) => -nodesPerCluster[cluster.key]),
     [clusters, nodesPerCluster],
@@ -51,6 +61,7 @@ const ClustersPanel = ({ clusters, filters, toggleCluster, setClusters }) => {
           )}
         </>
       }
+      vis={vis}
     >
       <p className="buttons">
         <button className="btn" onClick={() => setClusters(mapValues(keyBy(clusters, "key"), () => true))}>
@@ -60,7 +71,8 @@ const ClustersPanel = ({ clusters, filters, toggleCluster, setClusters }) => {
           <AiOutlineCloseCircle /> Uncheck all
         </button>
       </p>
-      <ul>
+      <input className={"top-filter"}  placeholder={"Filter"} onChange={e => setFilter(e.target.value)} />
+             <ul>
         {sortedClusters.map((cluster) => {
           const nodesCount = nodesPerCluster[cluster.key];
           const visibleNodesCount = visibleNodesPerCluster[cluster.key] || 0;

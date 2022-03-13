@@ -24,7 +24,7 @@ export const Plane = () => {
 export function ViewAppPlaceHolder(props) {
     return (
         <div id="view-app-placeholder">
-            <Canvas id="view-app-canvas" style={{"height": "100%", "width": "100%"}}
+            <Canvas className="view-app-canvas" style={{"height": "100%", "width": "100%"}}
                     camera={{ position: [10, 10, 10], fov: 62 }}>
                 <ambientLight />
                 <pointLight position={[1, 1, 1]} />

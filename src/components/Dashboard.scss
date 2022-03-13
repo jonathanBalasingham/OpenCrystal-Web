@@ -188,8 +188,8 @@
     position: absolute;
     bottom: 20px;
     z-index: 2;
-    width: 20vw;
-    height: 20vh;
+    width: 14vw;
+    height: 15vh;
     display: grid;
     grid-template: "tick10 axis" "tick00 tick01";
     grid-template-columns: 40px auto;
@@ -198,15 +198,15 @@
     padding: 4px;
 
     &:hover {
-        background: var(--defaultsecondary);
+        background: var(--defaultprimary);
         border-radius: 4px;
         border: 1px solid var(--defaultborder);
     }
 }
 
 #xy-axis-inner {
-    width: 14vw;
-    height: 14vh;
+    width: 10vw;
+    height: 10vh;
     border-bottom: 1px solid var(--defaulttext);
     border-left: 1px solid var(--defaulttext);
     grid-area: axis;

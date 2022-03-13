@@ -25,10 +25,14 @@ const viewSlice = createSlice({
                 "menuOpen": action.payload,
             }
         },
+        toggleMenu(state, action) {
+            state["menuOpen"] = !state["menuOpen"]
+            return state;
+        }
     }
 })
 
-export const { change, addView, setMenuOpen } = viewSlice.actions
+export const { change, addView, setMenuOpen, toggleMenu } = viewSlice.actions
 
 export default viewSlice.reducer
 

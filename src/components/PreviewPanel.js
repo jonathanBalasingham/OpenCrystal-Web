@@ -15,11 +15,12 @@ import {
     getX,
     getY,
 } from "../features/preview/previewSlice";
-import { removeFromPreviewList, addToPreviewList } from "../features/compare/compareSlice";
+import { removeFromPreviewList, addToPreviewList, openPreviewList } from "../features/compare/compareSlice";
 import { Canvas, useFrame, Color, useThree} from '@react-three/fiber'
 import { OrbitControls, TransformControls, ContactShadows, useGLTF, useCursor } from '@react-three/drei'
 import { proxy, useSnapshot } from 'valtio'
 import * as THREE from "three";
+import {LoadingCustom} from "../Loading";
 
 
 
@@ -287,9 +288,16 @@ function MoleculeView({name}) {
             })
     }, [name, token])
 
-    let atoms = <div className="no-atom-geometry-content">
-        <p>No Geometry found.</p>
-    </div>
+    if (loading) {
+        return <LoadingCustom width={"100%"} height={"100%"} innerHeight={"95%"} innerWidth={"50px"}/>
+    }
+
+    let atoms;
+    if (!loading) {
+        atoms = <div className="no-atom-geometry-content">
+            <p>No Geometry found.</p>
+        </div>
+    }
 
     if (dataset != null && !loading && dataset.motif) {
 
@@ -321,6 +329,7 @@ export const PreviewListItem = ({name}) => {
                 </div>
                 <div className={"right-content"}>
                     <a href={`https://www.ccdc.cam.ac.uk/structures/Search?Ccdcid=${name}&DatabaseToSearch=Published`}
+                       target={"_blank"}
                        style={{"color": "var(--default-text)"}}>CCDC</a>
                     <button onClick={() => dispatch(removeFromPreviewList(name))}>
                         <CloseIcon fontSize={"small"}/>
@@ -362,8 +371,13 @@ function PreviewPanel({}) {
                 </div>
                 <div className={"right-content"}>
                     <a href={`https://www.ccdc.cam.ac.uk/structures/Search?Ccdcid=${currentObject}&DatabaseToSearch=Published`}
+                       target={"_blank"}
                        style={{"color": "var(--default-text)"}}>CCDC</a>
-                    <button onClick={() => dispatch(addToPreviewList(currentObject))}>
+                    <button onClick={() => {
+                        dispatch(addToPreviewList(currentObject))
+                        dispatch(openPreviewList(""))
+                        dispatch(closePreview(false))
+                    }}>
                         <AddIcon fontSize={"small"}/>
                     </button>
                     <button onClick={() => dispatch(closePreview(false))}>

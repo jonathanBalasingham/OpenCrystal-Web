@@ -1,13 +1,14 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import { MdExpandLess, MdExpandMore } from "react-icons/md";
 import AnimateHeight from "react-animate-height";
+import cx from "classnames"
 
 const DURATION = 300;
 
-const Panel: FC<{ title: JSX.Element | string; initiallyDeployed?: boolean }> = ({
+const Panel: FC<{ title: JSX.Element | string; initiallyDeployed?: boolean; vis: boolean }> = ({
   title,
   initiallyDeployed,
-  children,
+  children, vis
 }) => {
   const [isDeployed, setIsDeployed] = useState(initiallyDeployed || false);
   const dom = useRef<HTMLDivElement>(null);
@@ -20,7 +21,7 @@ const Panel: FC<{ title: JSX.Element | string; initiallyDeployed?: boolean }> = 
   }, [isDeployed]);
 
   return (
-    <div className="panel" ref={dom}>
+    <div className={cx("panel", {"open": vis})} ref={dom}>
       <h2>
         {title}{" "}
         <button type="button" onClick={() => setIsDeployed((v) => !v)}>
