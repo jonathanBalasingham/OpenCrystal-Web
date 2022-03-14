@@ -29,7 +29,7 @@ export function SearchSettings({}){
             <select name="Form:" id="composition-facet" value={compType}
                     onChange={ e => dispatch(change({"compType": e.target.value}))}>
                 <option value="standard">Standard</option>
-                <option value="coprime">Coprime</option>
+                <option value="coprime">Prime</option>
             </select>
         </div>
     )
