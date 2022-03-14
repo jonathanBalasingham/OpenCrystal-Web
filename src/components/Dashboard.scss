@@ -146,12 +146,11 @@
 }
 
 #plot-app-placeholder-message {
-    color: var(--defaultsecondary);
     padding: 50px;
     border-radius: 10px;
-    border: solid 2px var(--defaultsecondary);
     font-family: 'Lato', serif;
-
+    color: var(--defaultborder);
+    border: solid 2px var(--defaultborder);
     > ul {
         font-size: 2.5rem;
         list-style: disc;

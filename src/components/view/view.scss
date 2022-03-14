@@ -11,6 +11,10 @@
 
   scrollbar-color: var(--defaulttext) var(--defaultborder);
 
+  &.hidden {
+    display: none;
+  }
+
   button {
     color: var(--defaulttext);
     background: transparent;

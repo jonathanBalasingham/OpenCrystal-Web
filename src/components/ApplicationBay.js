@@ -7,13 +7,10 @@ import { ViewApp} from "./view/ViewApp";
 function ApplicationBay() {
     const openApp = useSelector(getOpenApp)
 
-    let app = <CompareApp/>;
-    if (openApp === "view")
-        app = <ViewApp/>
-
     return (
         <div className="application-bay">
-            {app}
+            <CompareApp/>
+            <ViewApp/>
         </div>
     )
 }
