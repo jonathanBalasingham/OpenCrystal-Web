@@ -52,7 +52,7 @@
 }
 
 .left-side-bar-button {
-    width: 85%;
+    width: 100%;
     height: 55px;
     padding: 5px;
     text-align: center;
@@ -62,9 +62,13 @@
     color: var(--defaulttext);
     border-left: 3px solid transparent;
 
+    &.selected {
+        border-left: 3px solid var(--defaulttext);
+    }
+
     &:hover {
         /*background-color: rgb(232, 232, 232);*/
-        border-left: 3px solid var(--defaultborder);
+        border-left: 3px solid var(--defaulthover);
         color: var(--defaulthover);
 
         span {

@@ -12,13 +12,15 @@ import {openSettingsModal} from "../features/settings/settingsFooterSlice";
 import {addToken, setLoggedIn} from "../features/auth/authSlice";
 import {getSearchPanelOpened, openSearchPanel, toggleSearchPanel} from "../features/search/searchSlice";
 import useToken from "../useToken";
-import {openCompareApp, openViewApp} from "../features/app/appSlice";
+import {getOpenApp, openCompareApp, openViewApp} from "../features/app/appSlice";
+import cx from "classnames"
 
 
 const LeftSideBarButton = ({ id, buttonIcon }) => {
     const dispatch = useDispatch()
     const { token, setToken, clearToken } = useToken();
     let searchOpen = useSelector(getSearchPanelOpened)
+    let openApp = useSelector(getOpenApp)
 
     const logout = () => {
         clearToken()
@@ -38,19 +40,10 @@ const LeftSideBarButton = ({ id, buttonIcon }) => {
         }
     }
 
-    const openPanel = useSelector(getOpenOptionsPanel)
-    /*
-    let bc = "#f8f9fa"
-    let color = "rgb(50,50,50)"
-    if (id.replace("-button", "") === openPanel.replace("-panel", "")) {
-        bc = "rgb(232, 232, 232)"
-        color = "#12acf5"
-    }
-    */
 
     return (
         <>
-            <button onClick={handleButtonClick} className="left-side-bar-button">
+            <button onClick={handleButtonClick} className={cx("left-side-bar-button", {"selected": openApp === id.replace("-button", "").toLowerCase()})}>
                 { buttonIcon }
             </button>
         </>
