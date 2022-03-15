@@ -415,38 +415,6 @@
   border-bottom: 1px solid var(--defaultborder);
 }
 
-#create-modal-tabs {
-  border-bottom: 1px solid var(--defaultborder);
-}
-.create-modal-tab-button {
-  border: none;
-  width: 110px;
-  outline: none;
-  height: 35px;
-  color: var(--defaulttext);
-  background: transparent;
-  border-bottom: 2px solid transparent;
-  font-size: 14px;
-
-  &.selected {
-    border: none;
-    width: 110px;
-    outline: none;
-    height: 35px;
-    color: var(--defaulttext);
-    background: transparent;
-    border-bottom: 2px solid var(--defaulttext);
-    font-size: 14px;
-  }
-
-  &:hover {
-    border-bottom: 2px solid var(--defaulthover);
-  }
-
-  &:focus {
-    border-bottom: 2px solid var(--defaulttext);
-  }
-}
 
 input[type='range'] {
   -webkit-appearance: none;

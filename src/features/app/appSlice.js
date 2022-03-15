@@ -16,10 +16,14 @@ const appSlice = createSlice({
             state["openApp"] = "compare"
             return state;
         },
+        openCreateApp(state, action) {
+            state["openApp"] = "create"
+            return state
+        }
     }
 })
 
-export const { openCompareApp, openViewApp } = appSlice.actions
+export const { openCompareApp, openViewApp, openCreateApp } = appSlice.actions
 
 export default appSlice.reducer
 

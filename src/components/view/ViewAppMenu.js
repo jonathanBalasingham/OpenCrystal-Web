@@ -4,6 +4,7 @@ import cx from "classnames";
 import {BiChevronLeft} from "react-icons/bi";
 import * as React from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import {PeriodicTable} from "./PeriodicTable";
 
 
 export const OpenViewMenu = () => {
@@ -25,10 +26,9 @@ export const ViewAppMenu = ({clustersPanel, searchPanel}) => {
 
     return (
         <div className={cx("view-app-menu", {"open": open})}>
-            <div className={"app-menu-container"}>
-                <h6>GRAPH TYPE</h6>
-                <h6>SETTINGS</h6>
-                <h6>CURRENT COMPARISON</h6>
+            <div className={"view-app-menu-container"}>
+                <h6>ELEMENT SETTINGS</h6>
+                <PeriodicTable/>
             </div>
         </div>
     )

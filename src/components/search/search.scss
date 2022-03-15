@@ -26,6 +26,25 @@
   padding: 10px 15px;
   margin-top: 5px;
   border-radius: 10px;
+
+  .query-result-dropdown-data {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    p {
+      padding: 2px;
+    }
+
+    .query-result-dropdown-data-label {
+      min-width: fit-content;
+    }
+
+    query-result-dropdown-data-value {
+      max-width: 50%;
+      word-break: break-word;
+    }
+  }
 }
 
 .query-result-accordion {

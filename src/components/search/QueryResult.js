@@ -6,6 +6,7 @@ import {BsChevronRight, BsChevronDown} from "react-icons/all";
 import {getCompType, getFacet} from "../../features/search/searchSlice";
 import {getOpenApp} from "../../features/app/appSlice";
 import {addView} from "../../features/view/viewSlice";
+import {QueryResultDropdownData} from "./QueryResultDropdownData";
 import "./search.scss"
 
 
@@ -83,10 +84,12 @@ export function QueryResult({data}) {
                     </button>
                 </div>
                 <div id={data["name"] + "-dropdown"} className={"query-result-dropdown"}  style={{'display': dis}}>
-                    <p>Polymorph:</p>
-                    <p>Geometry: </p>
-                    <p>Disordered:</p>
-                    <p style={{'margin-bottom': '6px'}}>Family Members:</p>
+                    <QueryResultDropdownData label={"Composition:"} value={data["composition"]}/>
+                    <QueryResultDropdownData label={"Prime Composition:"} value={data["coprime_composition"]}/>
+                    <QueryResultDropdownData label={"Chemical Name:"} value={data["chemical_name"]}/>
+                    <QueryResultDropdownData label={"Polymorph:"} value={data["polymorph"]}/>
+                    <QueryResultDropdownData label={"Has 3D Structure:"} value={data["has_3d_structure"]}/>
+                    <QueryResultDropdownData label={"Is Disordered:"} value={data["is_disordered"]}/>
                     <button id={data["name"] + "-add-crystal-button"} className={"query-result-dropdown-button"} onClick={e => addCrystal(e)}>
                         Add Crystal
                     </button>

@@ -1,0 +1,131 @@
+
+.create-app {
+  display: grid;
+  grid-template-areas:
+        "top-bar"
+        "main";
+
+  height: 100%;
+  $top-bar-height: 50px;
+  grid-template-rows: $top-bar-height calc(100% - #{$top-bar-height});
+
+  scrollbar-color: var(--defaulttext) var(--defaultborder);
+
+  &.hidden {
+    display: none;
+  }
+
+  button {
+    color: var(--defaulttext);
+    background: transparent;
+    border: none;
+
+    &:hover {
+      color: var(--defaulthover);
+    }
+  }
+
+  button.active {
+    border: 1px solid var(--defaultborder);
+  }
+
+  .create-app-top-bar {
+    height: 50px;
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+    grid-area: top-bar;
+    border-bottom: 1px solid var(--defaultborder);
+    align-items: center;
+    z-index: 1;
+
+    .left-content {
+      display: flex;
+      align-content: flex-start;
+      align-items: center;
+      >p {
+        margin: 0 10px;
+      }
+
+      height: 100%;
+      .create-app-tabs {
+        height: 100%;
+        border-bottom: 1px solid var(--defaultborder);
+      }
+      .create-app-tab-button {
+        border: none;
+        width: 110px;
+        outline: none;
+        color: var(--defaulttext);
+        background: transparent;
+        border-bottom: 2px solid transparent;
+        font-size: 14px;
+        height: 100%;
+
+        &.selected {
+          border: none;
+          width: 110px;
+          outline: none;
+          color: var(--defaulttext);
+          background: transparent;
+          border-bottom: 2px solid var(--defaulttext);
+          font-size: 14px;
+        }
+
+        &:hover {
+          border-bottom: 2px solid var(--defaulthover);
+        }
+
+        &:focus {
+          border-bottom: 2px solid var(--defaulttext);
+        }
+      }
+    }
+
+    .right-content {
+      display: flex;
+      align-content: flex-end;
+      align-items: center;
+      > * {
+        margin: 0 5px;
+      }
+    }
+  }
+
+
+  .create-app-main {
+    grid-area: main;
+    display: flex;
+
+    .top-filter {
+      width: 100%;
+      background: var(--defaultprimary);
+      color: var(--defaulttext);
+      border: 1px solid var(--defaultborder);
+      padding: 0 5px;
+      border-radius: 5px;
+
+      &:focus {
+        outline: var(--defaulttext);
+      }
+    }
+
+    .create-app-menu {
+      order: 4;
+      width: 0;
+      z-index: 1;
+      -webkit-transition:width .2s linear;
+      transition:width .2s linear;
+      -webkit-transform:translateZ(0) scale(1,1);
+      background: var(--defaultprimary);
+
+      &.open {
+        width: 18%;
+        border-left: 1px solid var(--defaultborder);
+        overflow: auto;
+        scrollbar-width: thin;
+        padding: 10px;
+      }
+    }
+  }
+}

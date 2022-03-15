@@ -152,21 +152,486 @@
     }
 
     .view-app-menu {
-      order: 4;
       width: 0;
       z-index: 1;
       -webkit-transition:width .2s linear;
       transition:width .2s linear;
       -webkit-transform:translateZ(0) scale(1,1);
       background: var(--defaultprimary);
+      position: fixed;
+      right: 0;
+
+
+      .view-app-menu-container {
+        height: 100%;
+        padding: 5px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        width: 100%;
+
+        >h6 {
+          font-size: .8rem;
+          border-bottom: 1px solid var(--defaultborder);
+          padding: 3px;
+          font-style: italic;
+
+        }
+      }
 
       &.open {
-        width: 18%;
+        width: min-content;
         border-left: 1px solid var(--defaultborder);
         overflow: auto;
         scrollbar-width: thin;
-        padding: 10px;
+        padding: 5px;
+        height: calc(100% - 95px);
+        box-shadow: -1px 1px 4px 1px var(--defaultshadow);
+        z-index: 0;
       }
+
+
+      .periodic-table {
+        display: grid;
+        grid-template: repeat(7, auto) / repeat(18, auto);
+        grid-gap: 1px;
+
+        --reactive-nonmetal: #f0ff8f;
+        --alkali-metal: #f66;
+        --alkaline-earth-metal: #ffdead;
+        --noble-gas: #c0ffff;
+        --transition-metal: #ffc0c0;
+        --post-transition-metal: #ccc;
+        --metaloid: #cc9;
+        --unknown: #e8e8e8;
+        --lanthanide: #ffbfff;
+        --actinide: #f9c;
+
+        &__element {
+          padding: 2px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          border: 1px solid var(--base-text-color);
+          background: var(--background-color);
+          color: var(--base-text-color);
+
+          &:hover {
+            background: var(--defaultborder);
+            cursor: pointer;
+          }
+
+          .atomic-number {
+            order: 1;
+            align-self: flex-start;
+            font-size: 0.4rem;
+
+            &.atomic-number--green {
+              color: green;
+            }
+
+            &.atomic-number--red {
+              color: red;
+            }
+          }
+
+          .symbol {
+            font-size: 0.5rem;
+            font-weight: bold;
+            order: 2;
+          }
+
+          .name {
+            font-size: 0.4rem;
+            order: 3;
+          }
+
+          .atomic-weight {
+            font-size: 0.3rem;
+            order: 4;
+          }
+
+          &.periodic-table__element--reactive-nonmetal {
+            .symbol {
+              color: var(--reactive-nonmetal);
+            }
+            &.c {
+              grid-area: 2 / 14;
+            }
+            &.n {
+              grid-area: 2 / 15;
+            }
+            &.o {
+              grid-area: 2 / 16;
+            }
+            &.f {
+              grid-area: 2 / 17;
+            }
+
+            &.p {
+              grid-area: 3 / 15;
+            }
+            &.s {
+              grid-area: 3 / 16;
+            }
+            &.cl {
+              grid-area: 3 / 17;
+            }
+
+            &.se {
+              grid-area: 4 / 16;
+            }
+            &.br {
+              grid-area: 4 / 17;
+            }
+
+            &.i {
+              grid-area: 5 / 17;
+            }
+          }
+
+          &.periodic-table__element--alkali-metal {
+            .symbol {
+              color: var(--alkali-metal);
+            }
+            grid-column: 1;
+            &.li {
+              grid-row: 2;
+            }
+
+            &.na {
+              grid-row: 3;
+            }
+
+            &.k {
+              grid-row: 4;
+            }
+
+            &.rb {
+              grid-row: 5;
+            }
+
+            &.cs {
+              grid-row: 6;
+            }
+
+            &.fr {
+              grid-row: 7;
+            }
+          }
+
+          &.periodic-table__element--alkaline-earth-metal {
+            .symbol {
+              color: var(--alkaline-earth-metal);
+            }
+            grid-column: 2;
+            &.be {
+              grid-row: 2;
+            }
+
+            &.mg {
+              grid-row: 3;
+            }
+
+            &.ca {
+              grid-row: 4;
+            }
+
+            &.sr {
+              grid-row: 5;
+            }
+
+            &.ba {
+              grid-row: 6;
+            }
+
+            &.ra {
+              grid-row: 7;
+            }
+          }
+
+          &.periodic-table__element--noble-gas {
+            .symbol {
+              color: var(--noble-gas);
+            }
+            grid-column: 18;
+          }
+
+          &.periodic-table__element--transition-metal {
+            .symbol {
+              color: var(--transition-metal);
+            }
+            &.sc {
+              grid-area: 4 / 3;
+            }
+
+            &.y {
+              grid-area: 5 / 3;
+            }
+
+            &.ti {
+              grid-area: 4 / 4;
+            }
+            &.zr {
+              grid-area: 5 / 4;
+            }
+            &.hf {
+              grid-area: 6 / 4;
+            }
+            &.rf {
+              grid-area: 7 / 4;
+            }
+
+            &.v {
+              grid-area: 4 / 5;
+            }
+            &.nb {
+              grid-area: 5 / 5;
+            }
+            &.ta {
+              grid-area: 6 / 5;
+            }
+            &.db {
+              grid-area: 7 / 5;
+            }
+
+            &.cr {
+              grid-area: 4 / 6;
+            }
+            &.mo {
+              grid-area: 5 / 6;
+            }
+            &.w {
+              grid-area: 6 / 6;
+            }
+            &.sg {
+              grid-area: 7 / 6;
+            }
+
+            &.mn {
+              grid-area: 4 / 7;
+            }
+            &.tc {
+              grid-area: 5 / 7;
+            }
+            &.re {
+              grid-area: 6 / 7;
+            }
+            &.bh {
+              grid-area: 7 / 7;
+            }
+
+            &.fe {
+              grid-area: 4 / 8;
+            }
+            &.ru {
+              grid-area: 5 / 8;
+            }
+            &.os {
+              grid-area: 6 / 8;
+            }
+            &.hs {
+              grid-area: 7 / 8;
+            }
+
+            &.co {
+              grid-area: 4 / 9;
+            }
+            &.rh {
+              grid-area: 5 / 9;
+            }
+            &.ir {
+              grid-area: 6 / 9;
+            }
+
+            &.ni {
+              grid-area: 4 / 10;
+            }
+            &.pd {
+              grid-area: 5 / 10;
+            }
+            &.pt {
+              grid-area: 6 / 10;
+            }
+
+            &.cu {
+              grid-area: 4 / 11;
+            }
+            &.ag {
+              grid-area: 5 / 11;
+            }
+            &.au {
+              grid-area: 6 / 11;
+            }
+          }
+
+          &.periodic-table__element--post-transition-metal {
+            .symbol {
+              color: var(--post-transition-metal);
+            }
+
+            &.zn {
+              grid-area: 4 / 12;
+            }
+            &.cd {
+              grid-area: 5 / 12;
+            }
+            &.hg {
+              grid-area: 6 / 12;
+            }
+            &.cn {
+              grid-area: 7 / 12;
+            }
+
+            &.al {
+              grid-area: 3 / 13;
+            }
+            &.ga {
+              grid-area: 4 / 13;
+            }
+            &.in {
+              grid-area: 5 / 13;
+            }
+            &.tl {
+              grid-area: 6 / 13;
+            }
+
+            &.sn {
+              grid-area: 5 / 14;
+            }
+            &.pb {
+              grid-area: 6 / 14;
+            }
+
+            &.bi {
+              grid-area: 6 / 15;
+            }
+
+            &.po {
+              grid-area: 6 / 16;
+            }
+          }
+
+          &.periodic-table__element--metaloid {
+            .symbol {
+              color: var(--metaloid);
+            }
+            &.b {
+              grid-area: 2 / 13;
+            }
+
+            &.si {
+              grid-area: 3 / 14;
+            }
+
+            &.ge {
+              grid-area: 4 / 14;
+            }
+            &.as {
+              grid-area: 4 / 15;
+            }
+
+            &.sb {
+              grid-area: 5 / 15;
+            }
+            &.te {
+              grid-area: 5 / 16;
+            }
+
+            &.at {
+              grid-area: 6 / 17;
+            }
+          }
+
+          &.periodic-table__element--unknown {
+            .symbol {
+              color: var(--unknown);
+            }
+            &.og {
+              grid-area: 7 / 18;
+            }
+          }
+
+          &.periodic-table__element--lanthanide {
+            .symbol {
+              color: var(--lanthanide);
+            }
+            &.la {
+              grid-column: 3;
+              grid-row: 6;
+            }
+          }
+
+          &.periodic-table__element--actinide {
+            .symbol {
+              color: var(--actinide);
+            }
+            &.ac {
+              grid-column: 3;
+              grid-row: 7;
+            }
+          }
+        }
+      }
+
+      .periodic-subtable {
+        display: grid;
+        grid-template: repeat(2, auto) / repeat(14, auto);
+        margin-top: 10px;
+        grid-gap: 2px;
+
+        &__element {
+          padding: 3px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          border: 1px solid var(--base-text-color);
+
+          .atomic-number {
+            order: 1;
+            align-self: flex-start;
+            font-size: 0.4rem;
+            &.atomic-number--green {
+              color: green;
+            }
+
+            &.atomic-number--red {
+              color: red;
+            }
+          }
+
+          .symbol {
+            font-size: 0.7rem;
+            font-weight: bold;
+            order: 2;
+          }
+
+          .name {
+            font-size: 0.6rem;
+            order: 3;
+          }
+
+          .atomic-weight {
+            font-size: 0.5rem;
+            order: 4;
+          }
+
+          &.periodic-subtable__element--lanthanide {
+            .symbol {
+              color: var(--lanthanide);
+            }
+            grid-row: 1;
+          }
+          &.periodic-subtable__element--actinide {
+            .symbol {
+              color: var(--actinide);
+            }
+            grid-row: 2;
+          }
+        }
+      }
+
     }
   }
 }
