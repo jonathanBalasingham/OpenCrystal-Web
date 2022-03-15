@@ -14,7 +14,7 @@ export const SearchFacetSettings = () => {
 
     return (
         <select name="By:" className="search-facet" value={facet} onChange={ e => changeFacet(e)}>
-            <option value="name">Name</option>
+            <option value="name">Reference Code</option>
             <option value="similarity">Distance</option>
             <option value="subset">Subset</option>
             <option value="composition">Composition</option>
