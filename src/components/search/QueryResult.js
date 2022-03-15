@@ -7,6 +7,8 @@ import {getCompType, getFacet} from "../../features/search/searchSlice";
 import {getOpenApp} from "../../features/app/appSlice";
 import {addView} from "../../features/view/viewSlice";
 import {QueryResultDropdownData} from "./QueryResultDropdownData";
+import BlockIcon from "@mui/icons-material/Block"
+import AddIcon from "@mui/icons-material/Add"
 import "./search.scss"
 
 
@@ -58,6 +60,33 @@ export function QueryResult({data}) {
     let type = useSelector(getFacet)
     let compType = useSelector(getCompType)
 
+    let addButton = <button id={data["name"] + "-add-button"} className={"query-result-quick-add-button"} onClick={e => addSubset(e)}>
+        <AddIcon/>
+    </button>
+
+    if (!data["has_3d_structure"] || data["is_disordered"]){
+        addButton  = <button className={"query-result-quick-add-button"}>
+            <BlockIcon/>
+        </button>
+    }
+
+    let dropdown =  <div id={data["name"] + "-dropdown"} className={"query-result-dropdown"}  style={{'display': dis}}>
+        <QueryResultDropdownData label={"Composition:"} value={data["composition"]}/>
+        <QueryResultDropdownData label={"Prime Composition:"} value={data["coprime_composition"]}/>
+        <QueryResultDropdownData label={"Chemical Name:"} value={data["chemical_name"]}/>
+        <QueryResultDropdownData label={"Polymorph:"} value={data["polymorph"]}/>
+        <QueryResultDropdownData label={"Has 3D Structure:"} value={data["has_3d_structure"]}/>
+        <QueryResultDropdownData label={"Is Disordered:"} value={data["is_disordered"]}/>
+        <div className={"query-result-dropdown-button-row"}>
+            <button id={data["name"] + "-add-crystal-button"} className={"query-result-dropdown-button"} onClick={e => addCrystal(e)}>
+                Add Crystal
+            </button>
+            <button id={data["name"] + "-add-family-button"} className={"query-result-dropdown-button"} onClick={e => addFamily(e)}>
+                Add Family
+            </button>
+        </div>
+    </div>
+
 
     if (type === "subset") {
         return (
@@ -65,7 +94,7 @@ export function QueryResult({data}) {
                 <h5 className={"query-result-name"} style={{"font-size":"15px"}}>{`${data["name"]}`}</h5>
                 <h6 className={"query-result-id"}>{`Entries: ${data["entries"]}`}</h6>
                 <button id={data["name"] + "-add-button"} className={"query-result-quick-add-button"} onClick={e => addSubset(e)}>
-                    +
+                    <AddIcon/>
                 </button>
             </div>
         )
@@ -79,24 +108,9 @@ export function QueryResult({data}) {
                     <h4 className={"query-result-name"}>{data["name"]}</h4>
                     <h6 className={"query-result-id"}>{data["family"]}</h6>
                     <p className={"query-result-source"}>{data["source"]["name"]}</p>
-                    <button id={data["name"] + "-add-button"} className={"query-result-quick-add-button"} onClick={e => addCrystal(e)}>
-                        +
-                    </button>
+                    {addButton}
                 </div>
-                <div id={data["name"] + "-dropdown"} className={"query-result-dropdown"}  style={{'display': dis}}>
-                    <QueryResultDropdownData label={"Composition:"} value={data["composition"]}/>
-                    <QueryResultDropdownData label={"Prime Composition:"} value={data["coprime_composition"]}/>
-                    <QueryResultDropdownData label={"Chemical Name:"} value={data["chemical_name"]}/>
-                    <QueryResultDropdownData label={"Polymorph:"} value={data["polymorph"]}/>
-                    <QueryResultDropdownData label={"Has 3D Structure:"} value={data["has_3d_structure"]}/>
-                    <QueryResultDropdownData label={"Is Disordered:"} value={data["is_disordered"]}/>
-                    <button id={data["name"] + "-add-crystal-button"} className={"query-result-dropdown-button"} onClick={e => addCrystal(e)}>
-                        Add Crystal
-                    </button>
-                    <button id={data["name"] + "-add-family-button"} className={"query-result-dropdown-button"} onClick={e => addFamily(e)}>
-                        Add Family
-                    </button>
-                </div>
+                {dropdown}
             </div>
         )
     } else if (type === "similarity") {
@@ -112,22 +126,9 @@ export function QueryResult({data}) {
                     </div>
                     <h6 className={"query-result-id"}>{data["family"]}</h6>
                     <p className={"query-result-source"}>{data["source"]["name"]}</p>
-                    <button id={data["name"] + "-add-button"} className={"query-result-quick-add-button"} onClick={e => addCrystal(e)}>
-                        +
-                    </button>
+                    {addButton}
                 </div>
-                <div id={data["name"] + "-dropdown"} className={"query-result-dropdown"}  style={{'display': dis}}>
-                    <p>Polymorph:</p>
-                    <p>Geometry: </p>
-                    <p>Disordered:</p>
-                    <p style={{'margin-bottom': '6px'}}>Family Members:</p>
-                    <button id={data["name"] + "-add-crystal-button"} className={"query-result-dropdown-button"} onClick={e => addCrystal(e)}>
-                        Add Crystal
-                    </button>
-                    <button id={data["name"] + "-add-family-button"} className={"query-result-dropdown-button"} onClick={e => addFamily(e)}>
-                        Add Family
-                    </button>
-                </div>
+                {dropdown}
             </div>
         )
     } else if (type === "composition") {
@@ -147,22 +148,9 @@ export function QueryResult({data}) {
                     </div>
                     <h6 className={"query-result-id"}>{data["family"]}</h6>
                     <p className={"query-result-source"}>{data["source"]["name"]}</p>
-                    <button id={data["name"] + "-add-button"} className={"query-result-quick-add-button"} onClick={e => addCrystal(e)}>
-                        +
-                    </button>
+                    {addButton}
                 </div>
-                <div id={data["name"] + "-dropdown"} className={"query-result-dropdown"}  style={{'display': dis}}>
-                    <p>Polymorph:</p>
-                    <p>Geometry: </p>
-                    <p>Disordered:</p>
-                    <p style={{'margin-bottom': '6px'}}>Family Members:</p>
-                    <button id={data["name"] + "-add-crystal-button"} className={"query-result-dropdown-button"} onClick={e => addCrystal(e)}>
-                        Add Crystal
-                    </button>
-                    <button id={data["name"] + "-add-family-button"} className={"query-result-dropdown-button"} onClick={e => addFamily(e)}>
-                        Add Family
-                    </button>
-                </div>
+                {dropdown}
             </div>
         )
     }

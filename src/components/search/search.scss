@@ -27,6 +27,14 @@
   margin-top: 5px;
   border-radius: 10px;
 
+  .query-result-dropdown-button-row {
+    display: flex;
+    align-content: space-between;
+    button {
+      width: 50%;
+      border: 1px solid var(--defaultborder);
+    }
+  }
   .query-result-dropdown-data {
     display: flex;
     justify-content: space-between;
@@ -43,6 +51,10 @@
     query-result-dropdown-data-value {
       max-width: 50%;
       word-break: break-word;
+      p {
+        max-width: 50%;
+        word-break: break-word;
+      }
     }
   }
 }
@@ -87,7 +99,7 @@
 .query-result-quick-add-button {
   color: var(--defaulttext);
   background: var(--defaultprimary);
-
+  grid-area: add;
   border: none;
 }
 
