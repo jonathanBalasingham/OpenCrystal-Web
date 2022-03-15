@@ -35,8 +35,8 @@ const H_SIZE = 0.2
 
 const ELEMENT_SIZE = {
     "H": H_SIZE,
-    "O": H_SIZE * 2,
-    "C": H_SIZE * 2,
+    "O": H_SIZE,
+    "C": H_SIZE,
 }
 
 const getSize = (sym) => {
@@ -167,6 +167,10 @@ const CPK = {
     uuo: [ 235, 0, 38 ]
 };
 
+function rgbToHex(r, g, b) {
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
 const modes = ['translate', 'rotate', 'scale']
 const state = proxy({ current: null, mode: 0 })
 
@@ -178,6 +182,12 @@ function ViewPanelSettings({}){
 
         </div>
     )
+}
+
+
+const getElementColor = (e) => {
+    let rgb = CPK[e]
+    return rgbToHex(rgb[0], rgb[1], rgb[2])
 }
 
 function Atom(props) {
@@ -200,7 +210,7 @@ function Atom(props) {
             onPointerOver={(event) => hover(true)}
             onPointerOut={(event) => hover(false)}>
             <sphereGeometry args={[getSize(props['symbol'])]} />
-            <meshBasicMaterial wireframe={false} color={ELEMENT_COLOR[props['symbol']]} />
+            <meshBasicMaterial wireframe={false} color={getElementColor(props['symbol'].toLowerCase())} />
         </mesh>
     )
 }

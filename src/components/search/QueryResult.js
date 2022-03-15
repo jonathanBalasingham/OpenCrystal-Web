@@ -34,8 +34,10 @@ async function getSubset(name) {
 export function QueryResult({data}) {
     let currentApp = useSelector(getOpenApp)
     const dispatch = useDispatch()
+    const [name, setName] = useState(data["name"])
+
+
     const addCrystal = (e) => {
-        let name = e.target.id.replace("-add-button", "").replace("-add-crystal-button", "")
         if (currentApp === "compare")
             dispatch(addComp(name))
         else
@@ -60,7 +62,7 @@ export function QueryResult({data}) {
     let type = useSelector(getFacet)
     let compType = useSelector(getCompType)
 
-    let addButton = <button id={data["name"] + "-add-button"} className={"query-result-quick-add-button"} onClick={e => addSubset(e)}>
+    let addButton = <button id={data["name"] + "-add-button"} className={"query-result-quick-add-button"} onClick={e => addCrystal(e)}>
         <AddIcon/>
     </button>
 
