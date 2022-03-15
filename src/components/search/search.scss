@@ -33,6 +33,15 @@
     button {
       width: 50%;
       border: 1px solid var(--defaultborder);
+
+      &:hover {
+        color: var(--defaulthover);
+      }
+
+      &.disabled {
+        color: var(--defaulthover);
+        cursor: default;
+      }
     }
   }
   .query-result-dropdown-data {
@@ -42,6 +51,7 @@
 
     p {
       padding: 2px;
+      word-break: break-word;
     }
 
     .query-result-dropdown-data-label {
@@ -163,7 +173,7 @@
   background: var(--defaultprimary);
 
   &:hover {
-    background: var(--defaultborder);
+    color: var(--defaulthover);
   }
 }
 

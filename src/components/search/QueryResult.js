@@ -9,6 +9,7 @@ import {addView} from "../../features/view/viewSlice";
 import {QueryResultDropdownData} from "./QueryResultDropdownData";
 import BlockIcon from "@mui/icons-material/Block"
 import AddIcon from "@mui/icons-material/Add"
+import cx from "classnames"
 import "./search.scss"
 
 
@@ -38,10 +39,19 @@ export function QueryResult({data}) {
 
 
     const addCrystal = (e) => {
-        if (currentApp === "compare")
-            dispatch(addComp(name))
-        else
-            dispatch(addView(name))
+        console.log("adding")
+        console.log(currentApp)
+        if (currentApp === "compare") {
+            if (data["has_3d_structure"] && !data["is_disordered"]) {
+                dispatch(addComp(name))
+            }
+        } else if (currentApp === "view") {
+            console.log("in here")
+                console.log(data["has_3d_structure"])
+            if (data["has_3d_structure"]) {
+                dispatch(addView(name))
+            }
+        }
     }
 
     const addSubset = async(e) => {
@@ -66,11 +76,20 @@ export function QueryResult({data}) {
         <AddIcon/>
     </button>
 
-    if (!data["has_3d_structure"] || data["is_disordered"]){
-        addButton  = <button className={"query-result-quick-add-button"}>
-            <BlockIcon/>
-        </button>
+    if (currentApp === "compare") {
+        if (!data["has_3d_structure"] || data["is_disordered"]){
+            addButton  = <button className={"query-result-quick-add-button"}>
+                <BlockIcon/>
+            </button>
+        }
+    } else if (currentApp === "view") {
+        if (!data["has_3d_structure"]){
+            addButton  = <button className={"query-result-quick-add-button"}>
+                <BlockIcon/>
+            </button>
+        }
     }
+
 
     let dropdown =  <div id={data["name"] + "-dropdown"} className={"query-result-dropdown"}  style={{'display': dis}}>
         <QueryResultDropdownData label={"Composition:"} value={data["composition"]}/>
@@ -80,7 +99,9 @@ export function QueryResult({data}) {
         <QueryResultDropdownData label={"Has 3D Structure:"} value={data["has_3d_structure"]}/>
         <QueryResultDropdownData label={"Is Disordered:"} value={data["is_disordered"]}/>
         <div className={"query-result-dropdown-button-row"}>
-            <button id={data["name"] + "-add-crystal-button"} className={"query-result-dropdown-button"} onClick={e => addCrystal(e)}>
+            <button id={data["name"] + "-add-crystal-button"}
+                    className={cx("query-result-dropdown-button", {"disabled": !data["has_3d_structure"] || (data["is_disordered"] && currentApp === "compare")})}
+                    onClick={() => addCrystal()}>
                 Add Crystal
             </button>
             <button id={data["name"] + "-add-family-button"} className={"query-result-dropdown-button"} onClick={e => addFamily(e)}>
