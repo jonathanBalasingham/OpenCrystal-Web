@@ -194,9 +194,12 @@
     width: 14vw;
     height: 15vh;
     display: grid;
-    grid-template: "tick10 axis" "tick00 tick01";
-    grid-template-columns: 40px auto;
-    grid-template-rows: auto 40px;
+    grid-template:
+            "tick10 axis axis"
+            "ylabel axis axis"
+            "tick00 xlabel tick01";
+    grid-template-columns: 40px auto auto;
+    grid-template-rows: auto auto 40px;
     left: 50px;
     padding: 4px;
 
@@ -213,6 +216,19 @@
     border-bottom: 1px solid var(--defaulttext);
     border-left: 1px solid var(--defaulttext);
     grid-area: axis;
+}
+
+#x-label {
+    grid-area: xlabel;
+    font-size: 10px;
+    margin-bottom: 0;
+    justify-self: center;
+}
+
+#y-label {
+    grid-area: ylabel;
+    font-size: 10px;
+    margin-bottom: 0;
 }
 
 #tick-upper-left {

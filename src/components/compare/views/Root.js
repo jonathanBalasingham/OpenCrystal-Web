@@ -35,6 +35,15 @@ import PreviewPanel from "../../PreviewPanel";
 
 function XYAxis() {
     let box = useSelector(getBox)
+    let gt = useSelector(getGraphType)
+    let amdx = useSelector(getKx)
+    let amdy = useSelector(getKy)
+    let xlab = "x"
+    let ylab = "y"
+    if (gt === "amd") {
+        xlab = `AMD ${amdx}`
+        ylab = `AMD ${amdy}`
+    }
     let dispatch = useDispatch()
     let sigma = useSigma()
 
@@ -61,8 +70,14 @@ function XYAxis() {
             <div id="tick-upper-left" className="tick">
                 <p>{box["y1"].toFixed(2)}</p>
             </div>
+            <div id={"y-label"}>
+                <p>{ylab}</p>
+            </div>
             <div id="tick-lower-left" className="tick">
                 <p>{`(${box["x0"].toFixed(2)}, ${box["y0"].toFixed(2)})`}</p>
+            </div>
+            <div id={"x-label"}>
+                <p>{xlab}</p>
             </div>
             <div id="tick-lower-right" className="tick">
                 <p>{box["x1"].toFixed(2)}</p>
