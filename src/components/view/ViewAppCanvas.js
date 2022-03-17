@@ -9,7 +9,7 @@ import {Plane, ViewAppPlaceHolder} from "./ViewAppPlaceholder";
 import {Loading} from "../../Loading";
 import "./view.scss"
 import {getViewObject} from "../../features/view/viewSlice";
-import {OpenViewMenu, ViewAppMenu} from "./ViewAppMenu";
+import { ViewAppElementSettings} from "./ViewAppElementSettings";
 
 export const ViewAppCanvas = () => {
     let currentObject = useSelector(getViewObject)
@@ -63,7 +63,7 @@ export const ViewAppCanvas = () => {
                     <Plane/>
                     <Controls/>
                 </Canvas>
-                <ViewAppMenu/>
+                <ViewAppElementSettings/>
             </>
 
     }

@@ -12,7 +12,7 @@ import WorkspacesIcon from "@mui/icons-material/Workspaces"
 import ManageSearchIcon from "@mui/icons-material/ManageSearch"
 import {toggleMenu} from "../../features/view/viewSlice";
 import {SearchFacetSettings} from "../search/SearchFacetSettings";
-
+import { DiAtom } from 'react-icons/di';
 
 export function ViewAppTopBar() {
     const dispatch = useDispatch()
@@ -34,7 +34,7 @@ export function ViewAppTopBar() {
                 </div>
                 <div className={"right-content"}>
                     <button onClick={() => dispatch(toggleMenu(true))}>
-                        <SettingsIcon/>
+                        <DiAtom size={"24"}/>
                     </button>
                     <button >
                         <DeleteIcon/>

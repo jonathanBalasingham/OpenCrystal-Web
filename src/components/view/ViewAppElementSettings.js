@@ -5,24 +5,22 @@ import {BiChevronLeft} from "react-icons/bi";
 import * as React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import {PeriodicTable} from "./PeriodicTable";
+import {useState} from "react";
 
 
-export const OpenViewMenu = () => {
-    let dispatch = useDispatch()
-    let clicked = useSelector(getMenuOpen)
-
+const ElementSettings = (elem) => {
     return (
-        <div className={cx("open-plot-app-menu", {"clicked": clicked})}
-             onClick={() => dispatch(setMenuOpen(true))}>
-            <BiChevronLeft/>
+        <div className={"element-settings"}>
+
         </div>
     )
 }
 
 
-export const ViewAppMenu = ({clustersPanel, searchPanel}) => {
-    let open = useSelector(getMenuOpen)
+export const ViewAppElementSettings = ({}) => {
+    let open = useSelector(getMenuOpen) === "element"
     let dispatch = useDispatch()
+    const [elem, setElem] = useState("");
 
     return (
         <div className={cx("view-app-menu", {"open": open})}>

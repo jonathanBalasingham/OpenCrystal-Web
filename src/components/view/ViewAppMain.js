@@ -3,7 +3,7 @@ import './view.scss'
 import  'csv-parser'
 import SearchPanel from "../search/SearchPanel";
 import {ViewAppCanvas} from "./ViewAppCanvas";
-import {ViewAppMenu} from "./ViewAppMenu";
+import {ViewAppElementSettings} from "./ViewAppElementSettings";
 
 
 export function ViewAppMain({}) {
@@ -12,7 +12,7 @@ export function ViewAppMain({}) {
         <div className="view-app-main">
             <SearchPanel/>
             <ViewAppCanvas/>
-            <ViewAppMenu/>
+            <ViewAppElementSettings/>
         </div>
     )
 }

@@ -1,7 +1,16 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit'
 
 const initialState = {
+    readingFile: false,
     createModalOpened: false,
+    currentTab: "crystal",
+    newSubsetName: "",
+    newSubsetItems: [],
+    setAtoms: [],
+    setBonds: [],
+    setSymmetry: "",
+    setUnitCell: [],
+    setIsDisordered: false,
 };
 
 const createModalSlice = createSlice({
@@ -22,14 +31,31 @@ const createModalSlice = createSlice({
             state["createModalOpened"] = false;
             return state;
         },
-
+        setTab(state, action) {
+            state["currentTab"] = action.payload;
+            return state
+        },
+        setReadingFile(state, action) {
+            state["readingFile"] = action.payload;
+            return state
+        }
     }
 })
 
-export const { openCreateModal, closeCreateModal, toggleCreateModal } = createModalSlice.actions
+export const { openCreateModal, closeCreateModal, setTab, setReadingFile } = createModalSlice.actions
 
 export default createModalSlice.reducer
 
 export const getCreateModalOpened = createSelector((state) => state.createModalSlice, (p) =>
     p["createModalOpened"]
 )
+
+export const getCurrentTab = createSelector((state) => state.createModalSlice, (p) =>
+    p["currentTab"]
+)
+
+export const isReadingFile = createSelector((state) => state.createModalSlice, (p) =>
+    p["readingFile"]
+)
+
+

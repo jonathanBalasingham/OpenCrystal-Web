@@ -3,13 +3,13 @@
 export const PeriodicTable = () => {
     return (
         <div className="periodic-table">
-            <div className="periodic-table__element periodic-table__element--alkali-metal li">
+            <div id={"Li"} className="periodic-table__element periodic-table__element--alkali-metal li">
                 <div className="name">Lithium</div>
                 <div className="atomic-number">3</div>
                 <div className="symbol">Li</div>
                 <div className="atomic-weight">6.94</div>
             </div>
-            <div className="periodic-table__element periodic-table__element--alkali-metal na">
+            <div id={"Na"} className="periodic-table__element periodic-table__element--alkali-metal na">
                 <div className="name">Sodium</div>
                 <div className="atomic-number">11</div>
                 <div className="symbol">Na</div>

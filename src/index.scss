@@ -168,3 +168,20 @@ select {
   outline: none;
   color: var(--defaulttext);
 }
+
+input[type="text"] {
+  color: var(--defaulttext);
+  background: var(--defaultprimary);
+  border: 1px solid var(--defaultborder);
+  border-radius: 5px;
+
+  &:focus {
+    outline: 2px solid var(--defaultborder);
+  }
+}
+
+label {
+  color: var(--defaulttext);
+  font-size: 12px;
+  margin-bottom: 1px;
+}
