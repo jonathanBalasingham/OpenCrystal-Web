@@ -19,7 +19,7 @@ import { BiRadioCircleMarked, BiBookContent } from "react-icons/bi";
 import { BsArrowsFullscreen, BsFullscreenExit, BsZoomIn, BsZoomOut } from "react-icons/bs";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    getBox,
+    getBox, getBreakout,
     getCamera,
     getComp,
     getGraphType,
@@ -94,6 +94,7 @@ const Root = () => {
     let k_x = useSelector(getKx)
     let k_y = useSelector(getKy)
     let measure = useSelector(getMeasure)
+    let breakout = useSelector(getBreakout)
 
     const [showContents, setShowContents] = useState(false);
     const [dataReady, setDataReady] = useState(false);
@@ -119,9 +120,9 @@ const Root = () => {
         })
             .then((data) => data.json())
             .then((d) => {
-                let url = `/api/compare/${graphType}/${measure}/${k}?threshold=${5}&names=${d["callback"]}`
+                let url = `/api/compare/${graphType}/${measure}/${k}?threshold=${5}&names=${d["callback"]}&breakout=${breakout}`
                 if (graphType === "amd"){
-                    url = `/api/compare/${graphType}/${k_x}/${k_y}?names=${d["callback"]}`
+                    url = `/api/compare/${graphType}/${k_x}/${k_y}?names=${d["callback"]}&breakout=${breakout}`
                 }
                 return url
             })
@@ -142,7 +143,7 @@ const Root = () => {
                     });
             })
 
-    }, [dispatch, graphType, k, k_x, k_y, measure, names]);
+    }, [breakout, dispatch, graphType, k, k_x, k_y, measure, names]);
 
 
     if (loading)

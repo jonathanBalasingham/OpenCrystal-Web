@@ -617,6 +617,10 @@ div.react-sigma-v2 {
             -webkit-transform:translateZ(0) scale(1,1);
             background: var(--defaultprimary);
 
+            select {
+                width: 100%;
+            }
+
             &.open {
                 width: 18%;
                 border-left: 1px solid var(--defaultborder);

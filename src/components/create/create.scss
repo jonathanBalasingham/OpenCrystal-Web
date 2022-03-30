@@ -102,6 +102,19 @@
       margin-top: 3px;
     }
 
+    .checked-input {
+      display: flex;
+    }
+
+    .creation-progress {
+      display: grid;
+      justify-content: center;
+      align-content: center;
+      width: 100%;
+
+
+    }
+
     .top-filter {
       width: 100%;
       background: var(--defaultprimary);

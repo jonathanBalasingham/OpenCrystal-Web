@@ -21,6 +21,7 @@ import ScienceIcon from "@mui/icons-material/Science";
 import StorageIcon from "@mui/icons-material/Storage";
 import {CompareAppMenuGraphSelection} from "./CompareAppMenuGraphSelection";
 import ClustersPanel from "./views/ClustersPanel";
+import {CompareAppMenuClusterSelection} from "./CompareAppMenuClusterSelection";
 
 export const OpenCompareMenu = () => {
     let dispatch = useDispatch()
@@ -35,7 +36,7 @@ export const OpenCompareMenu = () => {
 }
 
 
-export const CompareAppMenu = ({clustersPanel, searchPanel}) => {
+export const CompareAppMenu = () => {
     let open = useSelector(getMenuOpen)
     let dispatch = useDispatch()
 
@@ -44,6 +45,7 @@ export const CompareAppMenu = ({clustersPanel, searchPanel}) => {
             <div className={"app-menu-container"}>
                 <h6>GRAPH TYPE</h6>
                 <CompareAppMenuGraphSelection/>
+                <CompareAppMenuClusterSelection/>
                 <h6>SETTINGS</h6>
                 <CompareAppMenuSettings/>
             </div>

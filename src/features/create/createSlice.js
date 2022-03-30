@@ -11,6 +11,7 @@ const initialState = {
     setSymmetry: "",
     setUnitCell: [],
     setIsDisordered: false,
+    currentMessage: ""
 };
 
 const createModalSlice = createSlice({
@@ -38,11 +39,16 @@ const createModalSlice = createSlice({
         setReadingFile(state, action) {
             state["readingFile"] = action.payload;
             return state
+        },
+        setCurrentMessage(state, action) {
+            console.log(action.payload)
+            state["currentMessage"] = action.payload
+            return state
         }
     }
 })
 
-export const { openCreateModal, closeCreateModal, setTab, setReadingFile } = createModalSlice.actions
+export const { openCreateModal, closeCreateModal, setTab, setReadingFile, setCurrentMessage } = createModalSlice.actions
 
 export default createModalSlice.reducer
 
@@ -56,6 +62,10 @@ export const getCurrentTab = createSelector((state) => state.createModalSlice, (
 
 export const isReadingFile = createSelector((state) => state.createModalSlice, (p) =>
     p["readingFile"]
+)
+
+export const getCurrentMessage = createSelector((state) => state.createModalSlice, (p) =>
+    p["currentMessage"]
 )
 
 

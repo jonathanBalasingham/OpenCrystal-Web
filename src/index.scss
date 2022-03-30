@@ -37,13 +37,13 @@ $primary: #111827;
 body > #root > div {
   height: 100vh;
   overflow: hidden;
-  --defaultprimary: #111827;
   --defaultsecondary: #323F4B;
-  --defaultborder: #171f31;
   --defaulthover: #283847;
   --defaulttext: #9ca3af;
   --defaultIcon: #673ab7;
-  --defaultshadow: #111;
+  --defaultprimary: #252a35;
+  --defaultborder: #303644;
+  --defaultshadow: #151414;
   color: var(--defaulttext)
 }
 

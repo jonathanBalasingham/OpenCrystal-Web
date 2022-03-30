@@ -15,6 +15,7 @@ const initialState = {
     "linkage": "single",
     "camera": {},
     "box": {"x0": 0, "x1": 0, "y0": 0, "y1":0},
+    "breakout": "family",
     "menuOpen": false,
     "previewListOpen": false,
     "previewList": [],
@@ -193,6 +194,10 @@ const compareSlice = createSlice({
             state["clusterPanelOpen"] = !state["clusterPanelOpen"]
             return state
         },
+        setBreakout(state, action) {
+            state["breakout"] = action.payload
+            return state
+        }
     }
 })
 
@@ -200,7 +205,7 @@ export const { addComp, addComps, removeComp, setGraphType, clearComp, setK, set
             setMeasure, setThreshold, setMaxThreshold, setThresholds, setKs, setLinkage,
             setRendering, setCamera, setBox, setMenuOpen, toggleMenu, togglePreviewList,
             toggleCrystalList, removeFromPreviewList, addToPreviewList, openPreviewList,
-            toggleClusterPanel, toggleSearchField} = compareSlice.actions
+            toggleClusterPanel, toggleSearchField, setBreakout} = compareSlice.actions
 
 export default compareSlice.reducer
 
@@ -229,3 +234,4 @@ export const getPreviewListOpen = createSelector((state) => state.compareSlice, 
 export const getSearchFieldOpen = createSelector((state) => state.compareSlice, (p) => p["searchFieldOpen"])
 export const getClusterPanelOpen = createSelector((state) => state.compareSlice, (p) => p["clusterPanelOpen"])
 export const getCrystalListOpen = createSelector((state) => state.compareSlice, (p) => p["crystalListOpen"])
+export const getBreakout = createSelector((state) => state.compareSlice, (p) => p["breakout"])
