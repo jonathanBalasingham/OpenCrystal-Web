@@ -11,21 +11,24 @@ import BlockIcon from "@mui/icons-material/Block"
 import AddIcon from "@mui/icons-material/Add"
 import cx from "classnames"
 import "./search.scss"
+import {getAccessToken} from "../../features/auth/authSlice";
 
 
-async function getFamily(e) {
+async function getFamily(e, token) {
     let name = e.target.id.replace("-add-family-button", "")
     return fetch(`/api/compare/family/${name}`, {
         headers: {
+            'Authorization': `Bearer: ${token}`,
             'Content-Type': 'application/json'
         },
     })
         .then(data => data.json())
 }
 
-async function getSubset(name) {
+async function getSubset(name, token) {
     return fetch(`/api/subset/${name}`, {
         headers: {
+            'Authorization': `Bearer: ${token}`,
             'Content-Type': 'application/json'
         },
     })
@@ -36,6 +39,7 @@ export function QueryResult({data}) {
     let currentApp = useSelector(getOpenApp)
     const dispatch = useDispatch()
     const [name, setName] = useState(data["name"])
+    let token = useSelector(getAccessToken)
 
 
     const addCrystal = (e) => {
@@ -56,7 +60,7 @@ export function QueryResult({data}) {
 
     const addSubset = async(e) => {
         let name = e.target.id.replace("-add-button", "")
-        const res = await getSubset(name)
+        const res = await getSubset(name, token)
         dispatch(addComps(res["names"]))
     }
 
@@ -64,7 +68,7 @@ export function QueryResult({data}) {
     const [open, setOpen] = useState(false)
 
     const addFamily = async(e) => {
-        const res = await getFamily(e)
+        const res = await getFamily(e, token)
         dispatch(addComps(res["names"]))
     }
 

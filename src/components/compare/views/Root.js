@@ -31,6 +31,7 @@ import {
 } from "../../../features/compare/compareSlice";
 import {Loading} from "../../../Loading";
 import PreviewPanel from "../../PreviewPanel";
+import {getAccessToken} from "../../../features/auth/authSlice";
 
 
 function XYAxis() {
@@ -88,6 +89,7 @@ function XYAxis() {
 
 const Root = () => {
     const dispatch = useDispatch()
+    let token = useSelector(getAccessToken)
     let names = useSelector(getComp)
     let graphType = useSelector(getGraphType)
     let k = useSelector(getK)
@@ -113,6 +115,7 @@ const Root = () => {
         fetch('/api/compare/job', {
             method: 'POST',
             headers: {
+                'Authorization': `Bearer: ${token}`,
                 'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
                 'Content-Length': '<calculated when request is sent>'
             },
@@ -127,7 +130,11 @@ const Root = () => {
                 return url
             })
             .then(url => {
-                fetch(url)
+                fetch(url, {
+                    headers: {
+                        'Authorization': `Bearer: ${token}`,
+                    }
+                })
                     .then((res) => res.json())
                     .then((dataset) => {
                         setDataset(dataset);

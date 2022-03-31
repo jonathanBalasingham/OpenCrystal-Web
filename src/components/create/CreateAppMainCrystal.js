@@ -5,20 +5,15 @@ import {useDispatch, useSelector} from "react-redux";
 import {setReadingFile, setCurrentMessage, getCurrentMessage} from "../../features/create/createSlice";
 import { cifParser } from 'cif-to-json';
 import {LoadingCustom} from "../../Loading";
+import {getAccessToken} from "../../features/auth/authSlice";
 
 
-const parseCIF = (fileContents) => {
-    let result = cifParser(fileContents);
-    console.log(result)
-    return result
-}
-
-const InputItem = ({id, label}) => {
+const InputItem = ({id, label, onChange}) => {
     return (
         <div className={"input-item"}>
             <label htmlFor={id}>{label}</label>
             <br/>
-            <input type={"text"} id={id}/>
+            <input type={"text"} id={id} onChange={onChange}/>
         </div>
     )
 }
@@ -70,6 +65,15 @@ const SymmetryRow = ({data}) => {
     )
 }
 
+const SymmetryRow2 = ({data}) => {
+    console.log(data._space_group_symop_operation_xyz)
+    return (
+        <tr>
+            <td>{check(data._space_group_symop_operation_xyz)}</td>
+        </tr>
+    )
+}
+
 const CreationProgress = () => {
     let message = useSelector(getCurrentMessage)
     console.log(message)
@@ -81,6 +85,59 @@ const CreationProgress = () => {
     )
 }
 
+const extractCrystalMetaData = (cifAsJson) => {
+    return {
+        "composition": cifAsJson["_chemical_formula_sum"],
+        "chemical_name": cifAsJson["_chemical_name_common"],
+        "has_3d_structure": cifAsJson["_atom_cite"] || false,
+        "is_disordered": cifAsJson[""],
+    }
+}
+
+const extractAtoms = (cifAsJson) => {
+    if (cifAsJson["_atom_cite"]) {
+        return cifAsJson["_atom_cite"]
+    } else {
+        return []
+    }
+}
+
+const extractBonds = (cifAsJson) => {
+    if (cifAsJson["_geom_bond"]) {
+        return cifAsJson["_geom_bond"]
+    } else {
+        return []
+    }
+}
+
+const extractUnitCell = (cifAsJson) => {
+    let symm = "('"
+    if (cifAsJson._space_group_symop_operation_xyz) {
+        for (const symop in cifAsJson._space_group_symop_operation_xyz) {
+            symm += symop + "', '"
+        }
+    } else if (cifAsJson._symmetry_equiv_pos) {
+        for (const symop in cifAsJson._symmetry_equiv_pos) {
+            symm += symop._symmetry_equiv_pos_as_xyz + "', '"
+        }
+    }
+
+    let final_symm = symm.slice(0, -3) + ")"
+
+    return {
+        "a": cifAsJson["_cell_length_a"],
+        "b": cifAsJson["_cell_length_b"],
+        "c": cifAsJson["_cell_length_c"],
+        "alpha": cifAsJson["_cell_angle_alpha"],
+        "beta": cifAsJson["_cell_angle_beta"],
+        "gamma": cifAsJson["_cell_angle_gamma"],
+        "volume": cifAsJson["_cell_volume"],
+        "symmetry_operators": final_symm
+    }
+}
+
+
+
 
 export const CreateAppMainCrystal = ({open}) => {
     let dispatch = useDispatch()
@@ -88,8 +145,17 @@ export const CreateAppMainCrystal = ({open}) => {
     const [isParsed, setIsParsed] = useState(false)
     const [cifAsJson, setCifAsJson] = useState(null)
     const [refCode, setRefCode] = useState("")
-    const [atoms, setAtoms] = useState([])
-    const [bonds, setBonds] = useState([])
+    const [source, setSource] = useState("")
+    const [polymorph, setPolymorph] = useState("")
+    const [disabled, setDisabled] = useState(true)
+
+    let token = useSelector(getAccessToken)
+
+    const parseCIF = (fileContents) => {
+        let result = cifParser(fileContents);
+        console.log(result)
+        return result
+    }
 
 
     const changeHandler = async(event) => {
@@ -101,58 +167,73 @@ export const CreateAppMainCrystal = ({open}) => {
         setIsFilePicked(true);
         setCifAsJson(parsed)
         setIsParsed(true)
+        setDisabled(refCode === "" || !isFilePicked)
     };
 
     const createCrystal = async(event) => {
-        console.log("creating crystal ")
+        if (disabled)
+            return
+
+        if (refCode === "") {
+            dispatch(setCurrentMessage("Please enter a Reference Code"))
+            return
+        }
+
         if (!isFilePicked) {
             dispatch(setCurrentMessage("Please Select a CIF file"))
             return
         }
 
+        dispatch(setCurrentMessage("Extracting atoms.."))
+        let crystal = extractCrystalMetaData(cifAsJson)
+        dispatch(setCurrentMessage("Extracting atoms.."))
+        let atoms = extractAtoms(cifAsJson)
+        dispatch(setCurrentMessage("Extracting bonds.."))
+        let bonds = extractBonds(cifAsJson)
+        dispatch(setCurrentMessage("Extracting unit cell.."))
+        let unitCell = extractUnitCell(cifAsJson)
+
         dispatch(setCurrentMessage("Checking Reference Code.."))
-        fetch(`/api/crystal/${refCode}`, {
-            method: 'GET',
+        fetch(`/api/crystal/meta`, {
+            method: "POST",
             headers: {
-                'Authorization': `Bearer: `,
+                'Authorization': `Bearer: ${token}`,
                 'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
                 'Content-Length': '<calculated when request is sent>'
-            }
-        }).then(data => {
-            let j = data.json()
-            if (j.length() !== 0) {
-                setCurrentMessage("Reference Code Already Exists")
-                return
+            },
+            body: JSON.stringify({
+                ...crystal,
+                "polymorph": polymorph,
+                "source": source,
+                "name": refCode,
+            })
+        }).then((resp) => {
+            dispatch(setCurrentMessage("Adding Crystal Meta data.."))
+            if (resp.status !== 200) {
+                dispatch(setCurrentMessage(resp.json()["message"]))
             } else {
-                fetch(`/api/crystal`, {
-                    method: "POST",
+                fetch('/api/crystal/create', {
+                    method: 'POST',
                     headers: {
-                        'Authorization': `Bearer: `,
+                        'Authorization': `Bearer: ${token}`,
                         'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
                         'Content-Length': '<calculated when request is sent>'
+                    },
+                    body: JSON.stringify({
+                        "id": resp.json()["id"],
+                        "atoms": atoms,
+                        "bonds": bonds,
+                        "unitCell": unitCell,
+                    })
+                }).then((data) => {
+                    if (data.status !== 200) {
+                        setCurrentMessage("Error occurred during crystal creation")
+                    } else {
+                        setCurrentMessage("Crystal Creation Successful")
                     }
                 })
             }
         })
-
-        fetch('/api/molecule/create', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
-                'Content-Length': '<calculated when request is sent>'
-            },
-            body: JSON.stringify(cifAsJson)
-        })
-            .then((data) => {
-                if (data.status !== 200) {
-                    setCurrentMessage("Error occurred during crystal creation")
-                }
-                data.json()
-            })
-        dispatch(setCurrentMessage("Adding Crystal Meta data.."))
-        dispatch(setCurrentMessage("Adding Geometry"))
-        dispatch(setCurrentMessage("Finalizing.."))
-        dispatch(setCurrentMessage(""))
     }
 
     return (
@@ -163,14 +244,18 @@ export const CreateAppMainCrystal = ({open}) => {
                 <br/>
                 <div>
                     <div className="create-crystal-options-meta">
-                        <div className={"checked-input"}>
-                            <InputItem label={"Reference Code:"} id={"new-crystal-refcode"} onChange={e => setRefCode(e.target.value)}/>
-                        </div>
-                        <InputItem label={"Reference Code:"} id={"new-crystal-refcode"}/>
-                        <InputItem label={"Source: (Defaults to None)"} id={"new-crystal-source"}/>
-                        <InputItem label={"Polymorph: (Defaults to None)"} id={"new-crystal-polymorph"}/>
+                        <InputItem label={"Reference Code:"} id={"new-crystal-refcode"}
+                                   onChange={(e) => {
+                                       setRefCode(e.target.value)
+                                       setDisabled(refCode === "" || !isFilePicked)
+                                       console.log(disabled)
+                                   }} />
+                        <InputItem label={"Source: (Defaults to None)"} id={"new-crystal-source"}
+                                   onChange={(e) => setSource(e.target.value)} />
+                        <InputItem label={"Polymorph: (Defaults to None)"} id={"new-crystal-polymorph"}
+                                   onChange={(e) => setPolymorph(e.target.value)} />
                     </div>
-                    <button className={"create-crystal-options-button"} onClick={createCrystal}>Create</button>
+                    <button className={cx("create-crystal-options-button", {disabled: "disabled"})} onClick={createCrystal}>Create</button>
                 </div>
                 <br/>
                 <CreationProgress/>
@@ -194,6 +279,18 @@ export const CreateAppMainCrystal = ({open}) => {
                     <tbody>
                     {isParsed && cifAsJson._symmetry_equiv_pos && cifAsJson._symmetry_equiv_pos.map(function (i) {
                         return <SymmetryRow data={i}/>
+                    })}
+                    </tbody>
+                </table>
+                <table>
+                    <thead>
+                    <tr>
+                        <th colSpan="1">Space Group Symmetry Operation</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {isParsed && cifAsJson._space_group_symop_operation_xyz && cifAsJson._space_group_symop_operation_xyz.map(function (i) {
+                        return <SymmetryRow2 data={i}/>
                     })}
                     </tbody>
                 </table>

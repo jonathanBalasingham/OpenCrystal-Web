@@ -6,10 +6,11 @@ const initialState = {
     currentTab: "crystal",
     newSubsetName: "",
     newSubsetItems: [],
-    setAtoms: [],
-    setBonds: [],
+    crystal: {},
+    atoms: [],
+    bonds: [],
     setSymmetry: "",
-    setUnitCell: [],
+    unitCell: {},
     setIsDisordered: false,
     currentMessage: ""
 };
@@ -44,11 +45,28 @@ const createModalSlice = createSlice({
             console.log(action.payload)
             state["currentMessage"] = action.payload
             return state
+        },
+        setAtoms(state, action) {
+            state["atoms"] = action.payload
+            return state
+        },
+        setBonds(state, action) {
+            state["bonds"] = action.payload
+            return state
+        },
+        setUnitCell(state, action) {
+            state["unitCell"] = action.payload
+            return state
+        },
+        setCrystal(state, action) {
+            state["crystal"] = action.payload
+            return state
         }
     }
 })
 
-export const { openCreateModal, closeCreateModal, setTab, setReadingFile, setCurrentMessage } = createModalSlice.actions
+export const { openCreateModal, closeCreateModal, setTab,
+                setReadingFile, setCurrentMessage, setAtoms, setBonds, setCrystal, setUnitCell } = createModalSlice.actions
 
 export default createModalSlice.reducer
 
@@ -68,4 +86,19 @@ export const getCurrentMessage = createSelector((state) => state.createModalSlic
     p["currentMessage"]
 )
 
+export const getCrystal = createSelector((state) => state.createModalSlice, (p) =>
+    p["crystal"]
+)
+
+export const getUnitCell = createSelector((state) => state.createModalSlice, (p) =>
+    p["unitCell"]
+)
+
+export const getAtoms = createSelector((state) => state.createModalSlice, (p) =>
+    p["atoms"]
+)
+
+export const getBonds = createSelector((state) => state.createModalSlice, (p) =>
+    p["bonds"]
+)
 

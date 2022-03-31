@@ -148,6 +148,23 @@
         button {
           width: 100%;
           border: 2px solid var(--defaultborder);
+          color: var(--defaulttext);
+
+          &.disabled {
+            color: var(--defaultborder);
+            cursor: default;
+          }
+        }
+
+        .create-crystal-options-button {
+          width: 100%;
+          border: 2px solid var(--defaultborder);
+          color: var(--defaulttext);
+
+          &.disabled {
+            color: var(--defaultborder);
+            cursor: default;
+          }
         }
       }
 

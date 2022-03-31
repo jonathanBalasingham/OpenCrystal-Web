@@ -27,6 +27,7 @@ export const MyResponsiveCirclePacking = ({}) => {
         fetch('/api/compare/job', {
             method: 'POST',
             headers: {
+                'Authorization': `Bearer: ${token}`,
                 'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
                 'Content-Length': '<calculated when request is sent>'
             },
@@ -38,7 +39,11 @@ export const MyResponsiveCirclePacking = ({}) => {
                 return url
             })
             .then(url => {
-                fetch(url)
+                fetch(url, {
+                    headers: {
+                        'Authorization': `Bearer: ${token}`,
+                    }
+                })
                     .then(res => res.json())
                     .then((dataset) => {
                         setDataset(dataset);

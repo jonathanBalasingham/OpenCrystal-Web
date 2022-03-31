@@ -289,7 +289,7 @@ function MoleculeView({name}) {
         fetch(`/api/molecule/full/${name}`, {
             headers: {
                 'Content-Type': 'application/json',
-                "Authorization": `Bearer ${token}`
+                'Authorization': `Bearer: ${token}`,
             }
         }).then(data => data.json())
             .then((d) => {

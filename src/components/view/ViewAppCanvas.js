@@ -10,9 +10,11 @@ import {Loading} from "../../Loading";
 import "./view.scss"
 import {getViewObject} from "../../features/view/viewSlice";
 import { ViewAppElementSettings} from "./ViewAppElementSettings";
+import {getAccessToken} from "../../features/auth/authSlice";
 
 export const ViewAppCanvas = () => {
     let currentObject = useSelector(getViewObject)
+    let token = useSelector(getAccessToken)
 
     const [dataset, setDataset] = useState(null);
     const [loading, setLoading] = useState(false)
@@ -21,6 +23,7 @@ export const ViewAppCanvas = () => {
         setLoading(true)
         fetch(`/api/molecule/full/${currentObject}`, {
             headers: {
+                'Authorization': `Bearer: ${token}`,
                 'Content-Type': 'application/json'
             }
         }).then(data => data.json())
