@@ -12,7 +12,8 @@ const initialState = {
     setSymmetry: "",
     unitCell: {},
     setIsDisordered: false,
-    currentMessage: ""
+    currentMessage: "",
+    source: ""
 };
 
 const createModalSlice = createSlice({
@@ -61,12 +62,17 @@ const createModalSlice = createSlice({
         setCrystal(state, action) {
             state["crystal"] = action.payload
             return state
+        },
+        setSource(state, action) {
+            state["source"] = action.payload
+            return state
         }
     }
 })
 
 export const { openCreateModal, closeCreateModal, setTab,
-                setReadingFile, setCurrentMessage, setAtoms, setBonds, setCrystal, setUnitCell } = createModalSlice.actions
+                setReadingFile, setCurrentMessage, setAtoms,
+                setBonds, setCrystal, setUnitCell, setSource } = createModalSlice.actions
 
 export default createModalSlice.reducer
 
@@ -100,5 +106,9 @@ export const getAtoms = createSelector((state) => state.createModalSlice, (p) =>
 
 export const getBonds = createSelector((state) => state.createModalSlice, (p) =>
     p["bonds"]
+)
+
+export const getSource = createSelector((state) => state.createModalSlice, (p) =>
+    p["source"]
 )
 

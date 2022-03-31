@@ -5,15 +5,23 @@ import {useDispatch, useSelector} from "react-redux";
 import {setReadingFile, setCurrentMessage, getCurrentMessage} from "../../features/create/createSlice";
 import { cifParser } from 'cif-to-json';
 import {LoadingCustom} from "../../Loading";
-import {getAccessToken} from "../../features/auth/authSlice";
+import {
+    addAccessToken,
+    addRefreshToken,
+    getAccessToken,
+    getCurrentUser,
+    getRefreshToken
+} from "../../features/auth/authSlice";
+import {refresh} from "../base/refresh";
+import {CreateAppSourceDropdown} from "./CreateAppSourceDropdown";
 
 
-const InputItem = ({id, label, onChange}) => {
+const InputItem = ({id, label, onChange, value}) => {
     return (
         <div className={"input-item"}>
             <label htmlFor={id}>{label}</label>
             <br/>
-            <input type={"text"} id={id} onChange={onChange}/>
+            <input type={"text"} id={id} onChange={onChange} value={value}/>
         </div>
     )
 }
@@ -89,14 +97,25 @@ const extractCrystalMetaData = (cifAsJson) => {
     return {
         "composition": cifAsJson["_chemical_formula_sum"],
         "chemical_name": cifAsJson["_chemical_name_common"],
-        "has_3d_structure": cifAsJson["_atom_cite"] || false,
-        "is_disordered": cifAsJson[""],
+        "has_3d_structure": cifAsJson["_atom_site"] === undefined || true,
+        "is_disordered": cifAsJson["_atom_site"]["_atom_site_disorder_group"] || false,
     }
 }
 
 const extractAtoms = (cifAsJson) => {
-    if (cifAsJson["_atom_cite"]) {
-        return cifAsJson["_atom_cite"]
+    if (cifAsJson["_atom_site"]) {
+        return cifAsJson["_atom_site"].map((atom) => {
+            return {
+                "x": atom["_atom_site_fract_x"],
+                "x_cart": atom["_atom_site_cartn_x"],
+                "y": atom["_atom_site_fract_y"],
+                "y_cart": atom["_atom_site_cartn_y"],
+                "z": atom["_atom_site_fract_z"],
+                "z_cart": atom["_atom_site_cartn_z"],
+                "label": atom["_atom_site_label"],
+                "symbol": atom["_atom_site_type_symbol"]
+            }
+        })
     } else {
         return []
     }
@@ -104,25 +123,27 @@ const extractAtoms = (cifAsJson) => {
 
 const extractBonds = (cifAsJson) => {
     if (cifAsJson["_geom_bond"]) {
-        return cifAsJson["_geom_bond"]
+        return cifAsJson["_geom_bond"].map((bond) => {
+            return {
+                "label1": bond["_geom_bond_atom_site_label_1"],
+                "label2": bond["_geom_bond_atom_site_label_2"],
+                "distance": bond["_geom_bond_distance"],
+            }
+        })
     } else {
         return []
     }
 }
 
 const extractUnitCell = (cifAsJson) => {
-    let symm = "('"
+    let symm = "("
     if (cifAsJson._space_group_symop_operation_xyz) {
-        for (const symop in cifAsJson._space_group_symop_operation_xyz) {
-            symm += symop + "', '"
-        }
+        symm += cifAsJson._space_group_symop_operation_xyz.reduce((total, n) => "'" + n._space_group_symop_operation_xyz + "'," + total, "")
     } else if (cifAsJson._symmetry_equiv_pos) {
-        for (const symop in cifAsJson._symmetry_equiv_pos) {
-            symm += symop._symmetry_equiv_pos_as_xyz + "', '"
-        }
+        symm += cifAsJson._symmetry_equiv_pos.reduce((total, n) => "'" + n._symmetry_equiv_pos_as_xyz + "'," + total, "")
     }
 
-    let final_symm = symm.slice(0, -3) + ")"
+    let final_symm = symm.slice(0, -1) + ")"
 
     return {
         "a": cifAsJson["_cell_length_a"],
@@ -148,8 +169,11 @@ export const CreateAppMainCrystal = ({open}) => {
     const [source, setSource] = useState("")
     const [polymorph, setPolymorph] = useState("")
     const [disabled, setDisabled] = useState(true)
+    const [family, setFamily] = useState("")
 
     let token = useSelector(getAccessToken)
+    let refreshToken = useSelector(getRefreshToken)
+    let user = useSelector(getCurrentUser)
 
     const parseCIF = (fileContents) => {
         let result = cifParser(fileContents);
@@ -157,14 +181,13 @@ export const CreateAppMainCrystal = ({open}) => {
         return result
     }
 
-
     const changeHandler = async(event) => {
         const file = event.target.files.item(0)
         dispatch(setReadingFile(true))
         const text = await file.text();
         let parsed = parseCIF(text)
         dispatch(setReadingFile(false))
-        setIsFilePicked(true);
+        setIsFilePicked(true)
         setCifAsJson(parsed)
         setIsParsed(true)
         setDisabled(refCode === "" || !isFilePicked)
@@ -174,6 +197,35 @@ export const CreateAppMainCrystal = ({open}) => {
         if (disabled)
             return
 
+        /*
+        fetch("/api/token/refresh", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer: ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({"refresh": refreshToken})
+        })
+            .then((resp) => {
+                if (resp.status !== 200) {
+                    sessionStorage.clear()
+                    dispatch(addAccessToken(undefined))
+                    dispatch(addRefreshToken(undefined))
+                } else {
+                    let r = resp.json()
+                    console.log(r)
+                    let jwt = {
+                        "access": r.access,
+                        "refresh": r.refresh,
+                        "user": user
+                    }
+                    sessionStorage.setItem('token', JSON.stringify(jwt))
+                    dispatch(addAccessToken(jwt["access"]))
+                    dispatch(addRefreshToken(jwt["refresh"]))
+                    return jwt
+                }
+            })
+        */
         if (refCode === "") {
             dispatch(setCurrentMessage("Please enter a Reference Code"))
             return
@@ -192,45 +244,48 @@ export const CreateAppMainCrystal = ({open}) => {
         let bonds = extractBonds(cifAsJson)
         dispatch(setCurrentMessage("Extracting unit cell.."))
         let unitCell = extractUnitCell(cifAsJson)
-
         dispatch(setCurrentMessage("Checking Reference Code.."))
+
         fetch(`/api/crystal/meta`, {
             method: "POST",
             headers: {
                 'Authorization': `Bearer: ${token}`,
-                'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
-                'Content-Length': '<calculated when request is sent>'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 ...crystal,
                 "polymorph": polymorph,
                 "source": source,
                 "name": refCode,
+                "family": family,
             })
         }).then((resp) => {
             dispatch(setCurrentMessage("Adding Crystal Meta data.."))
             if (resp.status !== 200) {
                 dispatch(setCurrentMessage(resp.json()["message"]))
             } else {
-                fetch('/api/crystal/create', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer: ${token}`,
-                        'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
-                        'Content-Length': '<calculated when request is sent>'
-                    },
-                    body: JSON.stringify({
-                        "id": resp.json()["id"],
-                        "atoms": atoms,
-                        "bonds": bonds,
-                        "unitCell": unitCell,
+                resp.json().then((data) => {
+                    console.log(data)
+                    fetch('/api/crystal/create', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer: ${token}`,
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            "id": data["id"],
+                            "atoms": atoms,
+                            "bonds": bonds,
+                            "unitCell": unitCell,
+                        })
+                    }).then((data) => {
+                        if (data.status !== 200) {
+                            dispatch(setCurrentMessage("Error occurred during crystal creation"))
+                        } else {
+                            dispatch(setCurrentMessage("Crystal Creation Successful"))
+                        }
+                        dispatch(setCurrentMessage(""))
                     })
-                }).then((data) => {
-                    if (data.status !== 200) {
-                        setCurrentMessage("Error occurred during crystal creation")
-                    } else {
-                        setCurrentMessage("Crystal Creation Successful")
-                    }
                 })
             }
         })
@@ -245,13 +300,21 @@ export const CreateAppMainCrystal = ({open}) => {
                 <div>
                     <div className="create-crystal-options-meta">
                         <InputItem label={"Reference Code:"} id={"new-crystal-refcode"}
+                                   value={refCode}
                                    onChange={(e) => {
                                        setRefCode(e.target.value)
-                                       setDisabled(refCode === "" || !isFilePicked)
+                                       setFamily(e.target.value.replace(/\d+$/, ""))
+                                       setDisabled(refCode === "" || !isFilePicked || family === "")
                                        console.log(disabled)
                                    }} />
-                        <InputItem label={"Source: (Defaults to None)"} id={"new-crystal-source"}
-                                   onChange={(e) => setSource(e.target.value)} />
+                        <InputItem label={"Family:"} id={"new-crystal-family"}
+                                   value={family}
+                                   onChange={(e) => {
+                                       setFamily(e.target.value)
+                                       setDisabled(refCode === "" || !isFilePicked || family === "")
+                                   }}
+                                    />
+                        <CreateAppSourceDropdown/>
                         <InputItem label={"Polymorph: (Defaults to None)"} id={"new-crystal-polymorph"}
                                    onChange={(e) => setPolymorph(e.target.value)} />
                     </div>

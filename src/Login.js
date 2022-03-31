@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { useTabs, TabPanel } from "react-headless-tabs"
 import {TabSelector} from "./components/TabSelector";
 import 'tailwindcss/tailwind.css';
-import {addToken, refreshToken, setLoggedIn} from "./features/auth/authSlice";
+import {addAccessToken, addRefreshToken, addToken, refreshToken, setLoggedIn} from "./features/auth/authSlice";
 import {useDispatch} from "react-redux";
 import { Canvas, useFrame } from '@react-three/fiber'
 import Ball from "./Logo";
@@ -62,6 +62,8 @@ export function LoginPage({setToken}) {
             token['user'] = username;
             setToken(token)
             dispatch(setLoggedIn({"loggedIn": true}))
+            dispatch(addAccessToken(token["access"]))
+            dispatch(addRefreshToken(token["refresh"]))
         }
     }
 
@@ -76,7 +78,8 @@ export function LoginPage({setToken}) {
         token['user'] = username;
         setToken(token)
         dispatch(setLoggedIn({"loggedIn": true}))
-        //dispatch(addToken(token));
+        dispatch(addAccessToken(token["access"]))
+        dispatch(addRefreshToken(token["refresh"]))
     }
 
     return (

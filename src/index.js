@@ -6,19 +6,24 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { createStore } from 'redux';
 import store from './store';
-import {Provider, useSelector} from 'react-redux';
+import {Provider, useDispatch, useSelector} from 'react-redux';
 import {LoginPage} from './Login';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
-import {getAccessToken, getLoggedIn} from "./features/auth/authSlice";
+import {addAccessToken, addRefreshToken, getAccessToken, getLoggedIn} from "./features/auth/authSlice";
 import useToken from "./useToken";
 
 
 function Index({}) {
     const { token, setToken, clearToken } = useToken();
+    let dispatch = useDispatch()
+
 
     if(!token) {
         return <LoginPage  setToken={setToken}/>
     }
+
+    dispatch(addAccessToken(token["access"]))
+    dispatch(addRefreshToken(token["refresh"]))
 
     return (
         <div className="wrapper">

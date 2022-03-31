@@ -12,19 +12,27 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        addToken(state, action) {
-            sessionStorage.setItem('token', action.payload);
-            return {
-                ...action.payload
-            };
-        },
-        refreshToken(state, action) {
+        addAccessToken(state, action) {
+            sessionStorage.setItem('access', action.payload);
             return {
                 ...state,
-                ...action.payload
+                "access": action.payload,
             };
         },
-        setLoggedIn(state, action){
+        addRefreshToken(state, action) {
+            sessionStorage.setItem('refresh', action.payload);
+            return {
+                ...state,
+                "refresh": action.payload,
+            };
+        },
+        addUser(state, action) {
+            return {
+                ...state,
+                "user": action.payload,
+            }
+        },
+        setLoggedIn(state, action) {
             return {
                 ...state,
                 ...action.payload
@@ -33,17 +41,17 @@ const authSlice = createSlice({
     }
 })
 
-export const { addToken, refreshToken, setLoggedIn } = authSlice.actions
+export const { setLoggedIn, addUser, addAccessToken, addRefreshToken } = authSlice.actions
 
 export default authSlice.reducer
 
-export const getAccessToken = createSelector((state) => state.authSlice, (p) =>
-    sessionStorage.getItem('token')['access']
-)
+export const getAccessToken = createSelector((state) => state.authSlice, (p) => {
+    return p['access']
+})
 
-export const getRefreshToken = createSelector((state) => state.authSlice, (p) =>
-    sessionStorage.getItem('token')['refresh']
-)
+export const getRefreshToken = createSelector((state) => state.authSlice, (p) => {
+    return p['refresh']
+})
 
 export const getCurrentUser = createSelector((state) => state.authSlice, (p) =>
     p["user"]
