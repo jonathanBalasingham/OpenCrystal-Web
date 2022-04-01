@@ -11,10 +11,13 @@ export const CreateAppSourceDropdown = () => {
     const [options, setOptions] = useState([])
 
     const getSources = (e) => {
+        console.log(e.target)
         dispatch(setSource(e.target.value))
-        fetch(`/api/sources/${source}`, {
-            'Authorization': `Bearer: ${token}`,
-            'Content-Type': 'application/json',
+        fetch(`/api/sources/${e.target.value}`, {
+            headers: {
+                'Authorization': `Bearer: ${token}`,
+                'Content-Type': 'application/json',
+            }
         })
             .then((resp) => {
                 if (resp.status === 200) {
@@ -31,11 +34,12 @@ export const CreateAppSourceDropdown = () => {
             <label htmlFor={"sources-dropdown"}>{"Source"}</label>
             <br/>
             <input id="sources-dropdown" type="text" list="sources-datalist"
-                   onChange={(e) => getSources(e)} />
+                   onChange={(e) => getSources(e)}
+                   value={source}/>
             <datalist id="sources-datalist" onChange={e => getSources(e)}>
-                <option value={0}>User</option>
+                <option value={0} label={"User"}>User</option>
                 { options.map((x) => {
-                    return <option value={x.id.value}>{x.name}</option>
+                    return <option value={x.id.value} label={x.name }>{x.name}</option>
                 }) }
             </datalist>
         </div>

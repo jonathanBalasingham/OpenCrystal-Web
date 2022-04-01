@@ -13,7 +13,8 @@ const initialState = {
     unitCell: {},
     setIsDisordered: false,
     currentMessage: "",
-    source: ""
+    source: "",
+    coordinateSystem: "fract"
 };
 
 const createModalSlice = createSlice({
@@ -66,13 +67,18 @@ const createModalSlice = createSlice({
         setSource(state, action) {
             state["source"] = action.payload
             return state
+        },
+        setCoordinateSystem(state, action) {
+            state["coordinateSystem"] = action.payload
+            return state
         }
     }
 })
 
 export const { openCreateModal, closeCreateModal, setTab,
                 setReadingFile, setCurrentMessage, setAtoms,
-                setBonds, setCrystal, setUnitCell, setSource } = createModalSlice.actions
+                setBonds, setCrystal, setUnitCell, setSource,
+                setCoordinateSystem } = createModalSlice.actions
 
 export default createModalSlice.reducer
 
@@ -110,5 +116,9 @@ export const getBonds = createSelector((state) => state.createModalSlice, (p) =>
 
 export const getSource = createSelector((state) => state.createModalSlice, (p) =>
     p["source"]
+)
+
+export const getCoordinateSystem = createSelector((state) => state.createModalSlice, (p) =>
+    p["coordinateSystem"]
 )
 

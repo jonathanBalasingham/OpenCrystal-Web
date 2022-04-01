@@ -102,6 +102,29 @@
       margin-top: 3px;
     }
 
+    .button-switch {
+      display: flex;
+      margin: 10px 5px 5px;
+
+      .switch-button {
+        margin: 3px;
+        color: var(--defaulttext);
+        border: 2px solid var(--defaulttext);
+        border-radius: 5px;
+        background: var(--defaultprimary);
+
+        &:hover {
+          color: var(--defaultborder);
+          border: 2px solid var(--defaultborder);
+        }
+
+        &.active {
+          color: var(--defaultborder);
+          border: 2px solid var(--defaultborder);
+        }
+      }
+    }
+
     .checked-input {
       display: flex;
     }
@@ -132,6 +155,29 @@
       width: 100%;
       height: 100%;
       padding: 20px;
+
+      .create-subset-panel {
+        width: 30%;
+        border-radius: 5px;
+        box-shadow: 0 0 5px 2px var(--defaultshadow);
+        padding: 30px;
+        border: 1px solid var(--defaultborder);
+
+        input {
+          width: 100%;
+        }
+
+        button {
+          width: 100%;
+          border: 2px solid var(--defaultborder);
+          color: var(--defaulttext);
+
+          &.disabled {
+            color: var(--defaultborder);
+            cursor: default;
+          }
+        }
+      }
 
       .create-tab-crystal-meta-panel {
         width: 25%;

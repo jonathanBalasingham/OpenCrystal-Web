@@ -10,7 +10,13 @@ import {
     getResultSize,
     openSearchPanel
 } from "../../features/search/searchSlice";
-import {getAccessToken} from "../../features/auth/authSlice";
+import {
+    addAccessToken,
+    addRefreshToken,
+    getAccessToken,
+    getCurrentUser,
+    getRefreshToken
+} from "../../features/auth/authSlice";
 import {FaSearch} from "react-icons/fa";
 import "./search.scss"
 
@@ -24,9 +30,40 @@ export const SearchBar = () => {
     let resSize = useSelector(getResultSize)
     let n = useSelector(getNorm)
     let compType = useSelector(getCompType)
+    let refreshToken = useSelector(getRefreshToken)
+    let user = useSelector(getCurrentUser)
 
     async function search() {
         console.log("doing something")
+        fetch("/api/token/refresh", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer: ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({"refresh": refreshToken})
+        })
+            .then((resp) => {
+                if (resp.status !== 200) {
+                    sessionStorage.clear()
+                    dispatch(addAccessToken(undefined))
+                    dispatch(addRefreshToken(undefined))
+                } else {
+                    resp.json()
+                        .then((r) => {
+                            console.log(r)
+                            let jwt = {
+                                "access": r.access,
+                                "refresh": r.refresh,
+                                "user": user
+                            }
+                            sessionStorage.setItem('token', JSON.stringify(jwt))
+                            dispatch(addAccessToken(jwt["access"]))
+                            dispatch(addRefreshToken(jwt["refresh"]))
+                        })
+                }
+            })
+
         return fetch(`/api/search/${facet}/${query}?result_size=${resSize}&k=${k}&n=${n}&comp=${compType}`, {
             method: 'GET',
             headers: {
