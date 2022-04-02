@@ -296,7 +296,7 @@ function MoleculeView({name}) {
                 setDataset(d)
                 setLoading(false)
             })
-    }, [name, token])
+    }, [name])
 
     if (loading) {
         return <LoadingCustom width={"100%"} height={"100%"} innerHeight={"95%"} innerWidth={"50px"}/>
