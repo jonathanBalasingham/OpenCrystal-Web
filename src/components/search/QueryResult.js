@@ -58,8 +58,7 @@ export function QueryResult({data}) {
         }
     }
 
-    const addSubset = async(e) => {
-        let name = e.target.id.replace("-add-button", "")
+    const addSubset = async(name) => {
         const res = await getSubset(name, token)
         dispatch(addComps(res["names"]))
     }
@@ -120,7 +119,7 @@ export function QueryResult({data}) {
             <div className="query-result" id={data["name"] + "-result"} >
                 <h5 className={"query-result-name"} style={{"font-size":"15px"}}>{`${data["name"]}`}</h5>
                 <h6 className={"query-result-id"}>{`Entries: ${data["entries"]}`}</h6>
-                <button id={data["name"] + "-add-button"} className={"query-result-quick-add-button"} onClick={e => addSubset(e)}>
+                <button id={data["name"] + "-add-button"} className={"query-result-quick-add-button"} onClick={() => addSubset(data["name"])}>
                     <AddIcon/>
                 </button>
             </div>

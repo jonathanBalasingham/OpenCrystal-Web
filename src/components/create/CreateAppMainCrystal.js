@@ -223,7 +223,7 @@ const extractUnitCell = (cifAsJson) => {
         "alpha": safeParse(cifAsJson["_cell_angle_alpha"]),
         "beta": safeParse(cifAsJson["_cell_angle_beta"]),
         "gamma": safeParse(cifAsJson["_cell_angle_gamma"]),
-        "volume": safeParse(cifAsJson["_cell_volume"]),
+        "cell_volume": safeParse(cifAsJson["_cell_volume"]),
         "symmetry_operators": final_symm
     }
 }
@@ -245,8 +245,6 @@ export const CreateAppMainCrystal = ({open}) => {
     let refreshToken = useSelector(getRefreshToken)
     let user = useSelector(getCurrentUser)
     let source = useSelector(getSource)
-
-
 
     const parseCIF = (fileContents) => {
         let result = cifParser(fileContents);

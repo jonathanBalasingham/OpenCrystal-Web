@@ -24,7 +24,9 @@ export const SearchResults = () => {
 
     if (results.loading)
         return (
-            <LoadingCustom width={"100%"} height={"100%"} innerHeight={"95%"} innerWidth={"100px"}/>
+            <div style={{"display": "grid"}}>
+                <LoadingCustom width={"100%"} height={"100%"} innerHeight={"95%"} innerWidth={"100px"}/>
+            </div>
         )
 
 
