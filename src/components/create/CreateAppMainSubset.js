@@ -1,16 +1,28 @@
 import cx from "classnames";
 import {InputItem} from "./CreateAppMainCrystal";
 import React, {useState} from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getAccessToken} from "../../features/auth/authSlice";
-import {getCurrentMessage} from "../../features/create/createSlice";
+import {
+    getCurrentMessage,
+    getStatus,
+    getSubsetMessage,
+    getSubsetStatus,
+    setSubsetMessage, setSubsetStatus
+} from "../../features/create/createSlice";
 import {LoadingCustom} from "../../Loading";
+import {BsCheckCircle, BsXCircle} from "react-icons/bs";
 
-const CreationProgress = ({message}) => {
+const CreationProgress = () => {
+    let message = useSelector(getSubsetMessage)
     console.log(message)
+    let status = useSelector(getSubsetStatus)
+    console.log(status)
     return (
         <div className={"creation-progress"}>
-            {message === "" || <LoadingCustom width={"100px"} height={"100px"} />}
+            {!(status === "complete") || <BsCheckCircle size={60}/>}
+            {!(status === "loading") || <LoadingCustom width={"100px"} height={"100px"} />}
+            {!(status === "failed") || <BsXCircle size={60}/>}
             <h4>{message}</h4>
         </div>
     )
@@ -22,13 +34,13 @@ export const CreateAppMainSubset = ({open}) => {
     const [refCodes, setRefCodes] = useState([])
     const [refCodeText, setRefCodeText] = useState("")
     const [disabled, setDisabled] = useState(true)
-    const [currentMessage, setCurrentMessage] = useState("")
-
+    const dispatch = useDispatch()
     let token = useSelector(getAccessToken)
 
     const createSubset = async() => {
         if (!disabled) {
-            setCurrentMessage("Creating Subset..")
+            dispatch(setSubsetMessage("Creating Subset.."))
+            dispatch(setSubsetStatus("loading"))
             fetch(`/api/subset/create`, {
                 method: "POST",
                 headers: {
@@ -43,12 +55,16 @@ export const CreateAppMainSubset = ({open}) => {
                 if (resp.status !== 200) {
                     resp.json()
                         .then((data) => {
-                            setCurrentMessage(`Creation Failed: ${data["message"] || ""}`)
+                            dispatch(setSubsetMessage(`Creation Failed: ${data["message"] || ""}`))
+                            dispatch(setSubsetStatus("failed"))
                         })
                 } else {
+                    console.log("made it here 1")
                     resp.json()
                         .then((data) => {
-                            setCurrentMessage("Creation Successful.")
+                            console.log("made it here 2")
+                            dispatch(setSubsetStatus("complete"))
+                            dispatch(setSubsetMessage("Creation Successful."))
                         })
                 }
             })
@@ -58,7 +74,7 @@ export const CreateAppMainSubset = ({open}) => {
     return (
         <div className={cx("create-tab-content", {"open": open})}>
             <div className={"create-subset-panel"}>
-                <InputItem label={"Source Name:"} value={name} onChange={(e) => {
+                <InputItem label={"Subset Name:"} value={name} onChange={(e) => {
                     setName(e.target.value)
                     setDisabled(e.target.value === "" || refCodes.length === 0)
                 }}/>
@@ -75,7 +91,7 @@ export const CreateAppMainSubset = ({open}) => {
                 }}/>
                 <button className={cx("create-crystal-options-button", {"disabled": disabled})}
                         onClick={createSubset}>Create</button>
-                <CreationProgress message={currentMessage}/>
+                <CreationProgress />
             </div>
         </div>
     )

@@ -6,7 +6,8 @@ import {
     setReadingFile,
     setCurrentMessage,
     getCurrentMessage,
-    getCoordinateSystem, getSource
+    getCoordinateSystem, getSource,
+    getStatus, setStatus
 } from "../../features/create/createSlice";
 import { cifParser } from 'cif-to-json';
 import {LoadingCustom} from "../../Loading";
@@ -20,6 +21,7 @@ import {
 import {refresh} from "../base/refresh";
 import {CreateAppSourceDropdown} from "./CreateAppSourceDropdown";
 import {CreateAppCoordinateSwitch} from "./CreateAppCoordinateSwitch";
+import {BsCheckCircle, BsXCircle} from 'react-icons/bs'
 
 
 export const InputItem = ({id, label, onChange, value}) => {
@@ -92,10 +94,13 @@ const SymmetryRow2 = ({data}) => {
 
 const CreationProgress = () => {
     let message = useSelector(getCurrentMessage)
+    let status = useSelector(getStatus)
     console.log(message)
     return (
         <div className={"creation-progress"}>
-            {message === "" || <LoadingCustom width={"100px"} height={"100px"} />}
+            {!(status === "complete") || <BsCheckCircle size={60}/>}
+            {!(status === "loading") || <LoadingCustom width={"100px"} height={"100px"} />}
+            {!(status === "failed") || <BsXCircle size={60}/>}
             <h4>{message}</h4>
         </div>
     )
@@ -268,6 +273,7 @@ export const CreateAppMainCrystal = ({open}) => {
         if (disabled)
             return
 
+        dispatch(setStatus("loading"))
         fetch("/api/token/refresh", {
             method: "POST",
             headers: {
@@ -299,11 +305,13 @@ export const CreateAppMainCrystal = ({open}) => {
 
         if (refCode === "") {
             dispatch(setCurrentMessage("Please enter a Reference Code"))
+            dispatch(setStatus("failed"))
             return
         }
 
         if (!isFilePicked) {
             dispatch(setCurrentMessage("Please Select a CIF file"))
+            dispatch(setStatus("failed"))
             return
         }
 
@@ -352,10 +360,11 @@ export const CreateAppMainCrystal = ({open}) => {
                     }).then((data) => {
                         if (data.status !== 200) {
                             dispatch(setCurrentMessage("Error occurred during crystal creation"))
+                            dispatch(setStatus("failed"))
                         } else {
+                            dispatch(setStatus("complete"))
                             dispatch(setCurrentMessage("Crystal Creation Successful"))
                         }
-                        dispatch(setCurrentMessage(""))
                     })
                 })
             }

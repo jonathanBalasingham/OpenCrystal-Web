@@ -24,7 +24,7 @@ export const SearchResults = () => {
 
     if (results.loading)
         return (
-            <div style={{"display": "grid"}}>
+            <div style={{"display": "grid", "justify-content": "center", "align-content": "center"}}>
                 <LoadingCustom width={"100%"} height={"100%"} innerHeight={"95%"} innerWidth={"100px"}/>
             </div>
         )

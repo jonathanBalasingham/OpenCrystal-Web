@@ -14,7 +14,12 @@ const initialState = {
     setIsDisordered: false,
     currentMessage: "",
     source: "",
-    coordinateSystem: "fract"
+    status: undefined,
+    coordinateSystem: "fract",
+    sourceStatus: undefined,
+    subsetStatus: undefined,
+    sourceMessage: "",
+    subsetMessage: "",
 };
 
 const createModalSlice = createSlice({
@@ -71,6 +76,26 @@ const createModalSlice = createSlice({
         setCoordinateSystem(state, action) {
             state["coordinateSystem"] = action.payload
             return state
+        },
+        setStatus(state, action) {
+            state["status"] = action.payload
+            return state
+        },
+        setSubsetStatus(state, action) {
+            state["subsetStatus"] = action.payload
+            return state
+        },
+        setSourceStatus(state, action) {
+            state["sourceStatus"] = action.payload
+            return state
+        },
+        setSourceMessage(state, action) {
+            state["sourceMessage"] = action.payload
+            return state
+        },
+        setSubsetMessage(state, action) {
+            state["subsetMessage"] = action.payload
+            return state
         }
     }
 })
@@ -78,7 +103,8 @@ const createModalSlice = createSlice({
 export const { openCreateModal, closeCreateModal, setTab,
                 setReadingFile, setCurrentMessage, setAtoms,
                 setBonds, setCrystal, setUnitCell, setSource,
-                setCoordinateSystem } = createModalSlice.actions
+                setCoordinateSystem, setStatus, setSourceStatus, setSubsetStatus,
+                setSourceMessage, setSubsetMessage} = createModalSlice.actions
 
 export default createModalSlice.reducer
 
@@ -121,4 +147,27 @@ export const getSource = createSelector((state) => state.createModalSlice, (p) =
 export const getCoordinateSystem = createSelector((state) => state.createModalSlice, (p) =>
     p["coordinateSystem"]
 )
+
+export const getStatus = createSelector((state) => state.createModalSlice, (p) =>
+    p["status"]
+)
+
+export const getSubsetStatus = createSelector((state) => state.createModalSlice, (p) =>
+    p["subsetStatus"]
+)
+
+export const getSourceStatus = createSelector((state) => state.createModalSlice, (p) =>
+    p["sourceStatus"]
+)
+
+export const getSourceMessage = createSelector((state) => state.createModalSlice, (p) =>
+    p["sourceMessage"]
+)
+
+
+export const getSubsetMessage = createSelector((state) => state.createModalSlice, (p) =>
+    p["subsetMessage"]
+)
+
+
 

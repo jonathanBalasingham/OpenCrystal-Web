@@ -6,9 +6,13 @@ import HelpIcon from '@mui/icons-material/Help';
 import AccountCircleIcon from "@mui/icons-material/AccountCircle"
 import {Canvas} from "@react-three/fiber";
 import Ball from "../Logo";
+import {useDispatch} from "react-redux";
+import {addAccessToken, addRefreshToken} from "../features/auth/authSlice";
 
 
 export const AppHeader = () => {
+    const dispatch = useDispatch()
+
     return (
         <div className={"app-header"}>
             <div className={"content-left"}>
@@ -31,7 +35,12 @@ export const AppHeader = () => {
                     <HelpIcon/>
                     <p>Help</p>
                 </button>
-                <button className={"header-button"} onClick={() => sessionStorage.clear() }>
+                <button className={"header-button"} onClick={() => {
+                    sessionStorage.clear()
+                    dispatch(addAccessToken(undefined))
+                    dispatch(addRefreshToken(undefined))
+                    window.location.reload()
+                } }>
                     <LogoutIcon/>
                 </button>
             </div>

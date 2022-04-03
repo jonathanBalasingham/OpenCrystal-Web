@@ -1,16 +1,23 @@
 import cx from "classnames";
 import {InputItem} from "./CreateAppMainCrystal";
 import React, {useState} from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getAccessToken} from "../../features/auth/authSlice";
-import {getCurrentMessage} from "../../features/create/createSlice";
+import {
+    getCurrentMessage,
+    getSourceMessage, getSourceStatus, setSourceMessage, setSourceStatus,
+} from "../../features/create/createSlice";
 import {LoadingCustom} from "../../Loading";
+import {BsCheckCircle, BsXCircle} from "react-icons/bs";
 
-const CreationProgress = ({message}) => {
-    console.log(message)
+const CreationProgress = () => {
+    let message = useSelector(getSourceMessage)
+    let status = useSelector(getSourceStatus)
     return (
         <div className={"creation-progress"}>
-            {message === "" || <LoadingCustom width={"100px"} height={"100px"} />}
+            {!(status === "complete") || <BsCheckCircle size={60}/>}
+            {!(status === "loading") || <LoadingCustom width={"100px"} height={"100px"} />}
+            {!(status === "failed") || <BsXCircle size={60}/>}
             <h4>{message}</h4>
         </div>
     )
@@ -21,13 +28,14 @@ export const CreateAppMainSource = ({open}) => {
     const [name, setName] = useState("")
     const [urlRef, setURLRef] = useState("")
     const [disabled, setDisabled] = useState(true)
-    const [currentMessage, setCurrentMessage] = useState("")
 
     let token = useSelector(getAccessToken)
+    const dispatch = useDispatch()
 
     const createSource = async() => {
         if (!disabled) {
-            setCurrentMessage("Creating Source..")
+            dispatch(setSourceMessage("Creating Source.."))
+            dispatch(setSourceStatus("loading"))
             fetch(`/api/source/`, {
                 method: "POST",
                 headers: {
@@ -42,12 +50,14 @@ export const CreateAppMainSource = ({open}) => {
                 if (resp.status !== 200) {
                     resp.json()
                         .then((data) => {
-                            setCurrentMessage(`Creation Failed: ${data["message"] || ""}`)
+                            dispatch(setSourceMessage(`Creation Failed: ${data["message"] || ""}`))
+                            dispatch(setSourceStatus("failed"))
                         })
                 } else {
                     resp.json()
                         .then((data) => {
-                            setCurrentMessage("Creation Successful.")
+                            dispatch(setSourceMessage("Creation Successful."))
+                            dispatch(setSourceStatus("complete"))
                         })
                 }
             })
@@ -64,7 +74,7 @@ export const CreateAppMainSource = ({open}) => {
                 <InputItem label={"URL Reference:"} value={urlRef} onChange={(e) => setURLRef(e.target.value)}/>
                 <button className={cx("create-crystal-options-button", {"disabled": disabled})}
                         onClick={createSource}>Create</button>
-                <CreationProgress message={currentMessage}/>
+                <CreationProgress />
             </div>
         </div>
     )
