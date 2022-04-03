@@ -15,9 +15,7 @@ import {BsCheckCircle, BsXCircle} from "react-icons/bs";
 
 const CreationProgress = () => {
     let message = useSelector(getSubsetMessage)
-    console.log(message)
     let status = useSelector(getSubsetStatus)
-    console.log(status)
     return (
         <div className={"creation-progress"}>
             {!(status === "complete") || <BsCheckCircle size={60}/>}
@@ -59,10 +57,8 @@ export const CreateAppMainSubset = ({open}) => {
                             dispatch(setSubsetStatus("failed"))
                         })
                 } else {
-                    console.log("made it here 1")
                     resp.json()
                         .then((data) => {
-                            console.log("made it here 2")
                             dispatch(setSubsetStatus("complete"))
                             dispatch(setSubsetMessage("Creation Successful."))
                         })
