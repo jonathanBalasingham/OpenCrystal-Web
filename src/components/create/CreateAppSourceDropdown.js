@@ -11,7 +11,6 @@ export const CreateAppSourceDropdown = () => {
     const [options, setOptions] = useState([])
 
     const getSources = (e) => {
-        console.log(e.target)
         dispatch(setSource(e.target.value))
         fetch(`/api/sources/${e.target.value}`, {
             headers: {
