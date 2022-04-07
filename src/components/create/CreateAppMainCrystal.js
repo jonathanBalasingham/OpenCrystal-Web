@@ -341,7 +341,8 @@ export const CreateAppMainCrystal = ({open}) => {
         }).then((resp) => {
             dispatch(setCurrentMessage("Adding Crystal Meta data.."))
             if (resp.status !== 200) {
-                dispatch(setCurrentMessage(resp.json()["message"]))
+                dispatch(setCurrentMessage("Crystal Creation Failed."))
+                dispatch(setStatus("failed"))
             } else {
                 resp.json().then((data) => {
                     console.log(data)

@@ -62,6 +62,11 @@ function XYAxis() {
         }
         dispatch(setCamera(box))
     });
+    let axisNeeded = gt === "amd" || gt === "mds"
+    if (!axisNeeded)
+        return (
+            <div></div>
+        )
 
     return (
         <div id="xy-axis-outer">
