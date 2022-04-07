@@ -29,7 +29,7 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({ 
     dataset.edges.forEach(([source, target, weight, show]) => {
       if (!graph.hasEdge(source, target)) {
           if (weight < threshold) {
-            graph.addEdge(source, target, {size: weight})
+            graph.addEdge(source, target, {size: weight, label: weight.toFixed(4)})
           }
       }
     });

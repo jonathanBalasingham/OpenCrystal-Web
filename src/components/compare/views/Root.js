@@ -112,6 +112,7 @@ const Root = () => {
         tags: {},
     });
     const [hoveredNode, setHoveredNode] = useState(null);
+    const [hoveredEdge, setHoveredEdge] = useState(null)
 
     // Load data on mount:
     useEffect(() => {
@@ -130,7 +131,7 @@ const Root = () => {
             .then((d) => {
                 let url = `/api/compare/${graphType}/${measure}/${k}?threshold=${5}&names=${d["callback"]}&breakout=${breakout}`
                 if (graphType === "amd"){
-                    url = `/api/compare/${graphType}/${k_x}/${k_y}?names=${d["callback"]}&breakout=${breakout}`
+                    url = `/api/compare/${graphType}/${k_x}/${k_y}?names=${d["callback"]}&breakout=${breakout}&edge_k=${k}`
                 }
                 return url
             })
@@ -186,11 +187,12 @@ const Root = () => {
                     zIndex: false,
                     minCameraRatio: 0.1,
                     maxCameraRatio: 1,
+                    renderEdgeLabels: true,
                 }}
                 className="react-sigma"
             >
-                <GraphSettingsController hoveredNode={hoveredNode} />
-                <GraphEventsController setHoveredNode={setHoveredNode} />
+                <GraphSettingsController hoveredNode={hoveredNode} hoveredEdge={hoveredEdge} />
+                <GraphEventsController setHoveredNode={setHoveredNode} setHoveredEdge={setHoveredEdge} />
                 <GraphDataController dataset={dataset} filters={filtersState} />
                 {dataReady && (
                     <>

@@ -9,7 +9,8 @@ import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
-
+import {ForceDirectedGraph} from "./ForceDirectedGraph";
+import { SizeMe } from 'react-sizeme'
 
 
 function CompareAppPlotPlaceHolder(props) {
@@ -60,6 +61,12 @@ export function CompareAppPlot({}) {
             graph = <>
                 <MyResponsiveSunburst/>
             </>
+        } else if (graphType === "force") {
+            graph = <SizeMe
+                monitorHeight
+                refreshRate={32}
+                render={({ size }) => <ForceDirectedGraph size={size}/>}
+            />
         } else {
             graph = <>
                 <Root/>

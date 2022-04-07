@@ -9,7 +9,8 @@ import {setCamera} from "../../../features/compare/compareSlice";
 const NODE_FADE_COLOR = "#bbb";
 const EDGE_FADE_COLOR = "#eee";
 
-const GraphSettingsController: FC<{ hoveredNode: string | null }> = ({ children, hoveredNode }) => {
+const GraphSettingsController: FC<{ hoveredNode: string | null, hoveredEdge: string | null }> =
+    ({ children, hoveredNode, hoveredEdge }) => {
   const sigma = useSigma();
   const graph = sigma.getGraph();
   let dispatch = useDispatch();
@@ -17,6 +18,7 @@ const GraphSettingsController: FC<{ hoveredNode: string | null }> = ({ children,
   // Here we debounce the value to avoid having too much highlights refresh when
   // moving the mouse over the graph:
   const debouncedHoveredNode = useDebounce(hoveredNode, 40);
+  const debouncedHoveredEdge = useDebounce(hoveredEdge, 40);
 
   /**
    * Initialize here settings that require to know the graph and/or the sigma
@@ -56,6 +58,7 @@ const GraphSettingsController: FC<{ hoveredNode: string | null }> = ({ children,
         : null,
     );
   }, [debouncedHoveredNode]);
+
 
   return <>{children}</>;
 };

@@ -9,7 +9,8 @@ function getMouseLayer() {
   return document.querySelector(".sigma-mouse");
 }
 
-const GraphEventsController: FC<{ setHoveredNode: (node: string | null) => void }> = ({ setHoveredNode, children }) => {
+const GraphEventsController: FC<{ setHoveredNode: (node: string | null) => void,
+                                  setHoveredEdge: (edge: string | null) => void}> = ({ setHoveredNode, children, setHoveredEdge }) => {
   const sigma = useSigma();
   const graph = sigma.getGraph();
   const registerEvents = useRegisterEvents();
@@ -56,7 +57,19 @@ const GraphEventsController: FC<{ setHoveredNode: (node: string | null) => void 
                    "x1": point11.x}
         dispatch(setBox(box))
         dispatch(setCamera(e))
-      }
+      },
+      enterEdge({edge}) {
+        setHoveredEdge(edge);
+        // TODO: Find a better way to get the DOM mouse layer:
+        const mouseLayer = getMouseLayer();
+        if (mouseLayer) mouseLayer.classList.add("mouse-pointer");
+      },
+      leaveEdge() {
+        setHoveredEdge(null);
+        // TODO: Find a better way to get the DOM mouse layer:
+        const mouseLayer = getMouseLayer();
+        if (mouseLayer) mouseLayer.classList.remove("mouse-pointer");
+      },
     });
   }, []);
 
