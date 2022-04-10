@@ -1,6 +1,13 @@
 import React, {useEffect, useState, useCallback} from "react";
 import ForceGraph2D from 'react-force-graph-2d';
-import {getBreakout, getComp, getK, getMeasure, setMaxThreshold} from "../../features/compare/compareSlice";
+import {
+    getBreakout,
+    getComp,
+    getK,
+    getMeasure,
+    getThreshold,
+    setMaxThreshold
+} from "../../features/compare/compareSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {getAccessToken} from "../../features/auth/authSlice";
 import {Loading} from "../../Loading";
@@ -20,6 +27,7 @@ export const ForceDirectedGraph = ({size}) => {
     let breakout = useSelector(getBreakout)
     let k = useSelector(getK)
     let dispatch = useDispatch()
+    let threshold = useSelector(getThreshold)
 
     const NODE_R = 0
 
@@ -37,7 +45,7 @@ export const ForceDirectedGraph = ({size}) => {
         })
             .then((data) => data.json())
             .then((d) => {
-                let url = `/api/compare/force/${measure}/${k}?threshold=${5}&names=${d["callback"]}&breakout=${breakout}`
+                let url = `/api/compare/force/${measure}/${k}?threshold=${threshold}&names=${d["callback"]}&breakout=${breakout}`
                 return url
             })
             .then(url => {
@@ -114,21 +122,25 @@ export const ForceDirectedGraph = ({size}) => {
 
 
     console.log(size)
+
+    let filteredLinks = data.links.filter((link) => {
+        return link.value < threshold
+    })
+
+    let filteredData = {
+        nodes: data.nodes,
+        links: filteredLinks
+    }
+
+    console.log(filteredData)
     return (
         <ForceGraph2D
+            id={"my-force-graph"}
             width={size.width}
             height={size.height}
-            graphData={data}
-            nodeRelSize={NODE_R}
-            autoPauseRedraw={false}
-            linkWidth={link => highlightLinks.has(link) ? 5 : 1}
-            linkDirectionalParticles={4}
-            linkDirectionalParticleWidth={link => highlightLinks.has(link) ? 4 : 0}
-            nodeCanvasObjectMode={node => highlightNodes.has(node) ? 'before' : undefined}
-            nodeCanvasObject={paintRing}
-            onNodeHover={handleNodeHover}
-            onLinkHover={handleLinkHover}
-
+            graphData={filteredData}
+            nodeAutoColorBy="group"
+            nodeLabel="id"
         />
     )
 }

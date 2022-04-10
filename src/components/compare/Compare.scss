@@ -492,6 +492,15 @@ div.react-sigma-v2 {
             flex-grow: 3;
             overflow: hidden;
 
+            > div {
+                height: 100%;
+                width: 100%;
+
+                > .force-graph-container {
+                    height: 100%;
+                }
+            }
+
 
             .preview-panel {
                 display: none; /* Hidden by default */

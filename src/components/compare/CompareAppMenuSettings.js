@@ -168,6 +168,18 @@ const CircleSettings = () => {
     )
 }
 
+const ForceSettings = () => {
+    return (
+        <GraphControls/>
+    )
+}
+
+const PMFGSettings = () => {
+    return (
+        <GraphControls/>
+    )
+}
+
 const settingsMap = {"mst": MSTSettings(),
                             "full": ThresholdSettings(),
                             "dendrogram": DendrogramSettings(),
@@ -175,6 +187,8 @@ const settingsMap = {"mst": MSTSettings(),
                             "amd": AMDSettings(),
                             "circle": CircleSettings(),
                             "sunburst": CircleSettings(),
+                            "force": ForceSettings(),
+                            "pmfg": PMFGSettings(),
 }
 
 export const CompareAppMenuSettings = () => {

@@ -62,7 +62,7 @@ export function CompareAppPlot({}) {
                 <MyResponsiveSunburst/>
             </>
         } else if (graphType === "force") {
-            graph = <SizeMe
+            graph = <SizeMe id={"size-me-force-graph"}
                 monitorHeight
                 refreshRate={32}
                 render={({ size }) => <ForceDirectedGraph size={size}/>}
