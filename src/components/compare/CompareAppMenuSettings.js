@@ -180,6 +180,12 @@ const PMFGSettings = () => {
     )
 }
 
+const KKGSettings = () => {
+    return (
+        <GraphControls/>
+    )
+}
+
 const settingsMap = {"mst": MSTSettings(),
                             "full": ThresholdSettings(),
                             "dendrogram": DendrogramSettings(),
@@ -189,6 +195,7 @@ const settingsMap = {"mst": MSTSettings(),
                             "sunburst": CircleSettings(),
                             "force": ForceSettings(),
                             "pmfg": PMFGSettings(),
+                            "kkg": KKGSettings(),
 }
 
 export const CompareAppMenuSettings = () => {
