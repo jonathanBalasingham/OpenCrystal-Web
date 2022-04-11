@@ -11,6 +11,26 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {getAccessToken} from "../../features/auth/authSlice";
 import {Loading} from "../../Loading";
+import {getHeight, getWidth, setSize} from "../../features/app/appSlice";
+
+
+const ForceWrapper = ({data}) => {
+    let width = useSelector(getWidth)
+    let height = useSelector(getHeight)
+
+    console.log(width, height)
+
+    return (
+        <ForceGraph2D
+            id={"my-force-graph"}
+            width={width}
+            height={height}
+            graphData={data}
+            nodeAutoColorBy="group"
+            nodeLabel="id"
+        />
+    )
+}
 
 
 export const ForceDirectedGraph = ({size}) => {
@@ -28,6 +48,8 @@ export const ForceDirectedGraph = ({size}) => {
     let k = useSelector(getK)
     let dispatch = useDispatch()
     let threshold = useSelector(getThreshold)
+    dispatch(setSize({"height": size.height, "width": size.width}))
+
 
     const NODE_R = 0
 
@@ -115,13 +137,11 @@ export const ForceDirectedGraph = ({size}) => {
                 "justify-content": "center",
                 "align-content": "center",
                 "height": "100vh",
-                "background": "var(--defaultprimary)"}}/>
+                "background": "transparent"}}/>
         )
     if (!dataReady)
         return null;
 
-
-    console.log(size)
 
     let filteredLinks = data.links.filter((link) => {
         return link.value < threshold
@@ -134,13 +154,8 @@ export const ForceDirectedGraph = ({size}) => {
 
     console.log(filteredData)
     return (
-        <ForceGraph2D
-            id={"my-force-graph"}
-            width={size.width}
-            height={size.height}
-            graphData={filteredData}
-            nodeAutoColorBy="group"
-            nodeLabel="id"
-        />
+        <div className={"force-graph-wrapper"}>
+            <ForceWrapper data={filteredData}/>
+        </div>
     )
 }

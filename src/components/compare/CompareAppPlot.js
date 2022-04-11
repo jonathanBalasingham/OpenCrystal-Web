@@ -1,4 +1,4 @@
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getComp, getGraphType} from "../../features/compare/compareSlice";
 import {OpenCompareMenu} from "./CompareAppMenu";
 import {MyResponsiveCirclePacking} from "./CirclePacking";
@@ -11,6 +11,7 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
 import {ForceDirectedGraph} from "./ForceDirectedGraph";
 import { SizeMe } from 'react-sizeme'
+import {setSize} from "../../features/app/appSlice";
 
 
 function CompareAppPlotPlaceHolder(props) {
@@ -45,10 +46,11 @@ function CompareAppPlotPlaceHolder(props) {
 }
 
 
-export function CompareAppPlot({}) {
+export function CompareAppPlot({size}) {
 
     const graphType = useSelector(getGraphType)
     const comp = useSelector(getComp)
+    let dispatch = useDispatch()
 
     let graph = <CompareAppPlotPlaceHolder/>;
 
@@ -62,11 +64,15 @@ export function CompareAppPlot({}) {
                 <MyResponsiveSunburst/>
             </>
         } else if (graphType === "force") {
-            graph = <SizeMe id={"size-me-force-graph"}
+            /*graph = <SizeMe
                 monitorHeight
                 refreshRate={32}
-                render={({ size }) => <ForceDirectedGraph size={size}/>}
-            />
+                render={({ size }) => {
+                    console.log(size)
+                    return <ForceDirectedGraph size={size}/>
+                }}
+            />*/
+            graph = <ForceDirectedGraph size={size}/>
         } else {
             graph = <>
                 <Root/>

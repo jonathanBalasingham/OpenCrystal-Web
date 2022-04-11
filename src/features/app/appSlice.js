@@ -1,7 +1,9 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit'
 
 const initialState = {
-    "openApp": "compare"
+    "openApp": "compare",
+    "width": 0,
+    "height": 0,
 }
 
 const appSlice = createSlice({
@@ -19,14 +21,27 @@ const appSlice = createSlice({
         openCreateApp(state, action) {
             state["openApp"] = "create"
             return state
+        },
+        setSize(state, action) {
+            state["width"] = action.payload.width
+            state["height"] = action.payload.height
+            return state
         }
     }
 })
 
-export const { openCompareApp, openViewApp, openCreateApp } = appSlice.actions
+export const { openCompareApp, openViewApp, openCreateApp, setSize } = appSlice.actions
 
 export default appSlice.reducer
 
 export const getOpenApp = createSelector((state) => state.appSlice, (p) =>
     p["openApp"]
+)
+
+export const getWidth = createSelector((state) => state.appSlice, (p) =>
+    p["width"]
+)
+
+export const getHeight = createSelector((state) => state.appSlice, (p) =>
+    p["height"]
 )

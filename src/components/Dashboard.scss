@@ -22,6 +22,7 @@
 
 #left-side-bar {
     width: 65px;
+    min-width: 65px;
     background: var(--defaultprimary);
     border-right: 1px solid var(--defaultborder);
     float: left;

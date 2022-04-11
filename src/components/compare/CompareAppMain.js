@@ -10,6 +10,7 @@ import {omit} from "lodash";
 import SearchField from "./views/SearchField";
 import {CompareAppMenu} from "./CompareAppMenu";
 import {CrystalList} from "../search/CrystalList";
+import { SizeMe } from 'react-sizeme'
 
 
 export function CompareAppMain({}) {
@@ -17,7 +18,13 @@ export function CompareAppMain({}) {
     return (
         <div className="compare-app-main">
             <SearchPanel/>
-            <CompareAppPlot/>
+            <SizeMe
+                monitorHeight
+                refreshRate={32}
+                render={({ size }) => {
+                    return <CompareAppPlot size={size}/>
+                }}
+            />
             <PreviewList/>
             <CrystalList/>
             <CompareAppMenu/>

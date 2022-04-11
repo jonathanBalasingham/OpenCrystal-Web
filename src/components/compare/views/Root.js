@@ -165,7 +165,7 @@ const Root = () => {
                              "justify-content": "center",
                              "align-content": "center",
                              "height": "100vh",
-                             "background": "var(--defaultprimary)"}}/>
+                             "background": "transparent"}}/>
         )
     if (!dataReady)
         return null;

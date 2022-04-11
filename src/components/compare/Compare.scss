@@ -29,8 +29,11 @@
 }
 
 canvas {
+    /*
     width: 100% !important;
     height: 100% !important;
+
+     */
 }
 
 #svg-container-graph-id, svg[name=svg-container-graph-id] {
@@ -300,6 +303,10 @@ div.react-sigma-v2 {
     width: 100%;
     padding: 15px;
 
+    input[type=range] {
+        width: 95%;
+    }
+
     &::-webkit-scrollbar {
         width: 2px;
         background: var(--defaultsecondary);
@@ -485,7 +492,7 @@ div.react-sigma-v2 {
         }
 
         .compare-app-plot {
-            background: var(--defaultprimary);
+            background: var(--defaulttertiary);
             order: 1;
             height: 100%;
             max-width: 100%;
