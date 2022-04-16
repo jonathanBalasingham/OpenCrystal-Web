@@ -33,6 +33,7 @@ export const SearchBar = () => {
     let refreshToken = useSelector(getRefreshToken)
     let user = useSelector(getCurrentUser)
     let matchType = useSelector(getMatch)
+    console.log(`Match is ${matchType}`)
 
     async function search() {
         console.log("doing something")
@@ -65,7 +66,7 @@ export const SearchBar = () => {
                 }
             })
 
-        return fetch(`/api/search/crystal/${facet}/${query}?match=${matchType}result_size=${resSize}&k=${k}&n=${n}&comp=${compType}`, {
+        return fetch(`/api/search/crystal/${facet}/${query}?match=${matchType}&result_size=${resSize}&k=${k}&n=${n}&comp=${compType}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
