@@ -38,7 +38,7 @@ function Index({}) {
         fetch("/api/token/refresh", {
             method: "POST",
             headers: {
-                "Authorization": `Bearer: ${token["access"]}`,
+                "Authorization": `Bearer:${token["access"]}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({"refresh": token["refresh"]})

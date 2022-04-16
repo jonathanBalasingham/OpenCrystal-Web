@@ -46,13 +46,13 @@ export function QueryResult({data}) {
         console.log("adding")
         console.log(currentApp)
         if (currentApp === "compare") {
-            if (data["has_3d_structure"] && !data["is_disordered"]) {
+            if (data["Has3dStructure"] && !data["IsDisordered"]) {
                 dispatch(addComp(name))
             }
         } else if (currentApp === "view") {
             console.log("in here")
-                console.log(data["has_3d_structure"])
-            if (data["has_3d_structure"]) {
+                console.log(data["Has3dStructure"])
+            if (data["Has3dStructure"]) {
                 dispatch(addView(name))
             }
         }
@@ -80,13 +80,13 @@ export function QueryResult({data}) {
     </button>
 
     if (currentApp === "compare") {
-        if (!data["has_3d_structure"] || data["is_disordered"]){
+        if (!data["Has3dStructure"] || data["IsDisordered"]){
             addButton  = <button className={"query-result-quick-add-button"}>
                 <BlockIcon/>
             </button>
         }
     } else if (currentApp === "view") {
-        if (!data["has_3d_structure"]){
+        if (!data["Has3dStructure"]){
             addButton  = <button className={"query-result-quick-add-button"}>
                 <BlockIcon/>
             </button>
@@ -95,15 +95,15 @@ export function QueryResult({data}) {
 
 
     let dropdown =  <div id={data["name"] + "-dropdown"} className={"query-result-dropdown"}  style={{'display': dis}}>
-        <QueryResultDropdownData label={"Composition:"} value={data["composition"]}/>
-        <QueryResultDropdownData label={"Prime Composition:"} value={data["coprime_composition"]}/>
-        <QueryResultDropdownData label={"Chemical Name:"} value={data["chemical_name"]}/>
-        <QueryResultDropdownData label={"Polymorph:"} value={data["polymorph"]}/>
-        <QueryResultDropdownData label={"Has 3D Structure:"} value={data["has_3d_structure"]}/>
-        <QueryResultDropdownData label={"Is Disordered:"} value={data["is_disordered"]}/>
+        <QueryResultDropdownData label={"Composition:"} value={data["Composition"]}/>
+        <QueryResultDropdownData label={"Prime Composition:"} value={data["PrimeComposition"]}/>
+        <QueryResultDropdownData label={"Chemical Name:"} value={data["ChemicalName"]}/>
+        <QueryResultDropdownData label={"Polymorph:"} value={data["Polymorph"]}/>
+        <QueryResultDropdownData label={"Has 3D Structure:"} value={data["Has3dStructure"]}/>
+        <QueryResultDropdownData label={"Is Disordered:"} value={data["IsDisordered"]}/>
         <div className={"query-result-dropdown-button-row"}>
             <button id={data["name"] + "-add-crystal-button"}
-                    className={cx("query-result-dropdown-button", {"disabled": !data["has_3d_structure"] || (data["is_disordered"] && currentApp === "compare")})}
+                    className={cx("query-result-dropdown-button", {"disabled": !data["Has3dStructure"] || (data["IsDisordered"] && currentApp === "compare")})}
                     onClick={() => addCrystal()}>
                 Add Crystal
             </button>
@@ -133,7 +133,7 @@ export function QueryResult({data}) {
                     </button>
                     <h4 className={"query-result-name"}>{data["name"]}</h4>
                     <h6 className={"query-result-id"}>{data["family"]}</h6>
-                    <p className={"query-result-source"}>{data["source"]["name"]}</p>
+                    <p className={"query-result-source"}>{data["Source"]["name"]}</p>
                     {addButton}
                 </div>
                 {dropdown}
@@ -158,9 +158,9 @@ export function QueryResult({data}) {
             </div>
         )
     } else if (type === "composition") {
-        let k = "composition"
+        let k = "Composition"
         if (compType === "coprime"){
-            k = "coprime_composition"
+            k = "PrimeComposition"
         }
         return (
             <div id={data["name"] + "-accordion"} className={"query-result-accordion"}>
@@ -173,7 +173,7 @@ export function QueryResult({data}) {
                         <p>{`${data[k]}`}</p>
                     </div>
                     <h6 className={"query-result-id"}>{data["family"]}</h6>
-                    <p className={"query-result-source"}>{data["source"]["name"]}</p>
+                    <p className={"query-result-source"}>{data["Source"]["name"]}</p>
                     {addButton}
                 </div>
                 {dropdown}

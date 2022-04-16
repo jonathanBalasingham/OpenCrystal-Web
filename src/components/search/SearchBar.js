@@ -38,7 +38,7 @@ export const SearchBar = () => {
         fetch("/api/token/refresh", {
             method: "POST",
             headers: {
-                "Authorization": `Bearer: ${token}`,
+                "Authorization": `Bearer:${token}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({"refresh": refreshToken})
@@ -64,11 +64,11 @@ export const SearchBar = () => {
                 }
             })
 
-        return fetch(`/api/search/${facet}/${query}?result_size=${resSize}&k=${k}&n=${n}&comp=${compType}`, {
+        return fetch(`/api/search/crystal/${facet}/${query}?match=${"partial&"}result_size=${resSize}&k=${k}&n=${n}&comp=${compType}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer: ${token}`,
+                'Authorization': `Bearer:${token}`,
             },
         })
             .then(data => data.json())
@@ -80,7 +80,7 @@ export const SearchBar = () => {
         dispatch(change({"results": {'data': [], 'loading': true}}))
         dispatch(changeContent("results"))
         const res = await search(query, facet, k, resSize, n, compType, token)
-        dispatch(change({"results": {'data': res, 'loading': false}}))
+        dispatch(change({"results": {'data': res.data, 'loading': false}}))
     }
 
     return (

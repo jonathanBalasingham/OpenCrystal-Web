@@ -9,7 +9,6 @@ import {LoadingCustom} from "../../Loading";
 export const SearchResults = () => {
     let results = useSelector(getResults)
 
-
     let htmlresults = <p style={{'text-align': 'center',
         'color': 'rgb(196,196,196)',
         'position': 'relative', 'top': '5%', 'text-style':'italic'}}>No Results to show..</p>
