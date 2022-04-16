@@ -156,12 +156,15 @@ const prime_comp = (composition) => {
 }
 
 const extractCrystalMetaData = (cifAsJson) => {
+    console.log("inside extract cmd")
+    console.log(cifAsJson)
     return {
-        "composition": cifAsJson["_chemical_formula_sum"] || "",
-        "coprime_composition": prime_comp(cifAsJson["_chemical_formula_sum"]) || "",
-        "chemical_name": cifAsJson["_chemical_name_common"] || "",
-        "has_3d_structure": cifAsJson["_atom_site"] === undefined || true,
-        "is_disordered": cifAsJson["_atom_site"]["_atom_site_disorder_group"] || false,
+        "MnemonicId": 0,
+        "Composition": cifAsJson["_chemical_formula_sum"] || "",
+        "PrimeComposition": prime_comp(cifAsJson["_chemical_formula_sum"]) || "",
+        "ChemicalName": cifAsJson["_chemical_name_common"] || "",
+        "Has3dStructure": cifAsJson["_atom_site"] === undefined || true,
+        "IsDisordered": cifAsJson["_atom_site"]["_atom_site_disorder_group"] || false,
     }
 }
 
@@ -172,18 +175,19 @@ const removeTrailing = (str) => {
         return undefined
 }
 
-const extractAtoms = (cifAsJson) => {
+const extractAtoms = (cifAsJson, id) => {
     if (cifAsJson["_atom_site"]) {
         return cifAsJson["_atom_site"].map((atom) => {
             return {
-                "x": removeTrailing(atom["_atom_site_fract_x"]),
-                "x_cart": removeTrailing(atom["_atom_site_cartn_x"]),
-                "y": removeTrailing(atom["_atom_site_fract_y"]),
-                "y_cart": removeTrailing(atom["_atom_site_cartn_y"]),
-                "z": removeTrailing(atom["_atom_site_fract_z"]),
-                "z_cart": removeTrailing(atom["_atom_site_cartn_z"]),
-                "label": atom["_atom_site_label"],
-                "symbol": atom["_atom_site_type_symbol"]
+                "CrystalID": id,
+                "X": removeTrailing(atom["_atom_site_fract_x"]),
+                "X_cart": removeTrailing(atom["_atom_site_cartn_x"]),
+                "Y": removeTrailing(atom["_atom_site_fract_y"]),
+                "Y_cart": removeTrailing(atom["_atom_site_cartn_y"]),
+                "Z": removeTrailing(atom["_atom_site_fract_z"]),
+                "Z_cart": removeTrailing(atom["_atom_site_cartn_z"]),
+                "Label": atom["_atom_site_label"],
+                "Symbol": atom["_atom_site_type_symbol"]
             }
         })
     } else {
@@ -191,13 +195,14 @@ const extractAtoms = (cifAsJson) => {
     }
 }
 
-const extractBonds = (cifAsJson) => {
+const extractBonds = (cifAsJson, id) => {
     if (cifAsJson["_geom_bond"]) {
         return cifAsJson["_geom_bond"].map((bond) => {
             return {
-                "label1": bond["_geom_bond_atom_site_label_1"],
-                "label2": bond["_geom_bond_atom_site_label_2"],
-                "distance": removeTrailing(bond["_geom_bond_distance"]),
+                "CrystalID": id,
+                "Label1": bond["_geom_bond_atom_site_label_1"],
+                "Label2": bond["_geom_bond_atom_site_label_2"],
+                "Distance": removeTrailing(bond["_geom_bond_distance"]),
             }
         })
     } else {
@@ -211,7 +216,7 @@ const safeParse = (val) => {
     else return undefined
 }
 
-const extractUnitCell = (cifAsJson) => {
+const extractUnitCell = (cifAsJson, id) => {
     let symm = "("
     if (cifAsJson._space_group_symop_operation_xyz) {
         symm += cifAsJson._space_group_symop_operation_xyz.reduce((total, n) => "'" + n._space_group_symop_operation_xyz + "'," + total, "")
@@ -222,14 +227,15 @@ const extractUnitCell = (cifAsJson) => {
     let final_symm = symm.slice(0, -1) + ")"
 
     return {
-        "a": safeParse(cifAsJson["_cell_length_a"]),
-        "b": safeParse(cifAsJson["_cell_length_b"]),
-        "c": safeParse(cifAsJson["_cell_length_c"]),
-        "alpha": safeParse(cifAsJson["_cell_angle_alpha"]),
-        "beta": safeParse(cifAsJson["_cell_angle_beta"]),
-        "gamma": safeParse(cifAsJson["_cell_angle_gamma"]),
-        "cell_volume": safeParse(cifAsJson["_cell_volume"]),
-        "symmetry_operators": final_symm
+        "CrystalID": id,
+        "A": safeParse(cifAsJson["_cell_length_a"]),
+        "B": safeParse(cifAsJson["_cell_length_b"]),
+        "C": safeParse(cifAsJson["_cell_length_c"]),
+        "Alpha": safeParse(cifAsJson["_cell_angle_alpha"]),
+        "Beta": safeParse(cifAsJson["_cell_angle_beta"]),
+        "Gamma": safeParse(cifAsJson["_cell_angle_gamma"]),
+        "CellVolume": safeParse(cifAsJson["_cell_volume"]),
+        "SymmetryOperators": final_symm
     }
 }
 
@@ -277,7 +283,7 @@ export const CreateAppMainCrystal = ({open}) => {
         fetch("/api/token/refresh", {
             method: "POST",
             headers: {
-                "Authorization": `Bearer: ${token}`,
+                "Authorization": `Bearer:${token}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({"refresh": refreshToken})
@@ -315,26 +321,19 @@ export const CreateAppMainCrystal = ({open}) => {
             return
         }
 
-        dispatch(setCurrentMessage("Extracting atoms.."))
+        dispatch(setCurrentMessage("Extracting meta data.."))
         let crystal = extractCrystalMetaData(cifAsJson)
-        dispatch(setCurrentMessage("Extracting atoms.."))
-        let atoms = extractAtoms(cifAsJson)
-        dispatch(setCurrentMessage("Extracting bonds.."))
-        let bonds = extractBonds(cifAsJson)
-        dispatch(setCurrentMessage("Extracting unit cell.."))
-        let unitCell = extractUnitCell(cifAsJson)
-        dispatch(setCurrentMessage("Checking Reference Code.."))
 
-        fetch(`/api/crystal/meta`, {
+        fetch(`/api/crystal/`, {
             method: "POST",
             headers: {
-                'Authorization': `Bearer: ${token}`,
+                'Authorization': `Bearer:${token}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 ...crystal,
-                "polymorph": polymorph,
-                "source": parseInt(source) || 0,
+                "Polymorph": polymorph,
+                "SourceID": parseInt(source) || 0,
                 "name": refCode,
                 "family": family,
             })
@@ -346,14 +345,21 @@ export const CreateAppMainCrystal = ({open}) => {
             } else {
                 resp.json().then((data) => {
                     console.log(data)
-                    fetch('/api/crystal/create', {
+                    let id = data["data"]["ID"]
+                    dispatch(setCurrentMessage("Extracting atoms.."))
+                    let atoms = extractAtoms(cifAsJson, id)
+                    dispatch(setCurrentMessage("Extracting bonds.."))
+                    let bonds = extractBonds(cifAsJson, id)
+                    dispatch(setCurrentMessage("Extracting unit cell.."))
+                    let unitCell = extractUnitCell(cifAsJson, id)
+                    dispatch(setCurrentMessage("Checking Reference Code.."))
+                    fetch(`/api/crystal/${id}`, {
                         method: 'POST',
                         headers: {
-                            'Authorization': `Bearer: ${token}`,
+                            'Authorization': `Bearer:${token}`,
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({
-                            "id": data["id"],
                             "atoms": atoms,
                             "bonds": bonds,
                             "unitCell": unitCell,

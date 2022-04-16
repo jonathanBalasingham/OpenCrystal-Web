@@ -10,17 +10,20 @@ import InfoIcon from '@mui/icons-material/Info';
 import PreviewIcon from '@mui/icons-material/Preview';
 import CompareIcon from '@mui/icons-material/Compare';
 import HomeIcon from '@mui/icons-material/Home'
+import {openCreateApp, openHomeApp, openCompareApp, openViewApp} from "../features/app/appSlice";
+import {useDispatch} from "react-redux";
 
 
 const LeftSideBar = () => {
+    const dispatch = useDispatch()
 
     return (
         <div  id="left-side-bar">
             <div className={"top-buttons"}>
-                <LeftSideBarButton id="Home-button" buttonIcon={<HomeIcon/>}/>
-                <LeftSideBarButton id="Create-button" buttonIcon={<AddIcon/>}/>
-                <LeftSideBarButton id="Compare-button" buttonIcon={<CompareIcon/>}/>
-                <LeftSideBarButton id="View-button" buttonIcon={<PreviewIcon/>}/>
+                <LeftSideBarButton id="Home-button" buttonIcon={<HomeIcon/>} onClick={() => dispatch(openHomeApp(""))}/>
+                <LeftSideBarButton id="Create-button" buttonIcon={<AddIcon/>} onClick={() => dispatch(openCreateApp(""))}/>
+                <LeftSideBarButton id="Compare-button" buttonIcon={<CompareIcon/>} onClick={() => dispatch(openCompareApp(""))}/>
+                <LeftSideBarButton id="View-button" buttonIcon={<PreviewIcon/>} onClick={() => dispatch(openViewApp(""))}/>
             </div>
             <div className={"bottom-buttons"}>
                 <LeftSideBarButton id="Info-button" buttonIcon={<InfoIcon/>}/>

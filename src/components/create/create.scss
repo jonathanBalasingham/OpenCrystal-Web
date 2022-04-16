@@ -96,6 +96,7 @@
   .create-app-main {
     grid-area: main;
     display: flex;
+    background: var(--defaulttertiary);
 
     .input-item {
       margin-bottom: 5px;
@@ -199,6 +200,7 @@
         box-shadow: 0 0 5px 2px var(--defaultshadow);
         padding: 20px;
         border: 1px solid var(--defaultborder);
+        background: var(--defaultprimary);
 
         input {
           width: 100%;
@@ -235,6 +237,7 @@
         overflow: auto;
         scrollbar-width: thin;
         border: 1px solid var(--defaultborder);
+        background: var(--defaultprimary);
 
         table,
         td {

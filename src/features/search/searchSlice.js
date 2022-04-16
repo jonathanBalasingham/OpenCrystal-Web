@@ -12,6 +12,8 @@ const initialState = {
         "loading": false,
     },
     "compType": "standard",
+    match: "partial",
+    searchFor: "crystal",
 };
 
 const searchPanelSlice = createSlice({
@@ -78,4 +80,12 @@ export const getNorm = createSelector((state) => state.searchPanelSlice, (p) =>
 
 export const getCompType = createSelector((state) => state.searchPanelSlice, (p) =>
     p["compType"]
+)
+
+export const getMatch = createSelector((state) => state.searchPanelSlice, (p) =>
+    p["match"]
+)
+
+export const getSearchFor = createSelector((state) => state.searchPanelSlice, (p) =>
+    p["searchFor"]
 )

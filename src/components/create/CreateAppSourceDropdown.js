@@ -12,20 +12,37 @@ export const CreateAppSourceDropdown = () => {
 
     const getSources = (e) => {
         dispatch(setSource(e.target.value))
-        fetch(`/api/sources/${e.target.value}`, {
-            headers: {
-                'Authorization': `Bearer: ${token}`,
-                'Content-Type': 'application/json',
-            }
-        })
-            .then((resp) => {
-                if (resp.status === 200) {
-                    resp.json()
-                        .then((data) => {
-                            setOptions(data)
-                        })
+        if (e.target.value === "") {
+            fetch(`/api/source/${e.target.value}`, {
+                headers: {
+                    'Authorization': `Bearer:${token}`,
+                    'Content-Type': 'application/json',
                 }
             })
+                .then((resp) => {
+                    if (resp.status === 200) {
+                        resp.json()
+                            .then((data) => {
+                                setOptions(data["data"])
+                            })
+                    }
+                })
+        } else {
+            fetch(`/api/search/source/${e.target.value}?match=partial`, {
+                headers: {
+                    'Authorization': `Bearer:${token}`,
+                    'Content-Type': 'application/json',
+                }
+            })
+                .then((resp) => {
+                    if (resp.status === 200) {
+                        resp.json()
+                            .then((data) => {
+                                setOptions(data["data"])
+                            })
+                    }
+                })
+        }
     }
 
     return (
@@ -38,7 +55,7 @@ export const CreateAppSourceDropdown = () => {
             <datalist id="sources-datalist" onChange={e => getSources(e)}>
                 <option value={0} label={"User"}>User</option>
                 { options.map((x) => {
-                    return <option value={x.id.value} label={x.name }>{x.name}</option>
+                    return <option value={x.ID} label={x.name }>{x.name}</option>
                 }) }
             </datalist>
         </div>

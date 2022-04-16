@@ -43,15 +43,11 @@ export function QueryResult({data}) {
 
 
     const addCrystal = (e) => {
-        console.log("adding")
-        console.log(currentApp)
         if (currentApp === "compare") {
             if (data["Has3dStructure"] && !data["IsDisordered"]) {
                 dispatch(addComp(name))
             }
         } else if (currentApp === "view") {
-            console.log("in here")
-                console.log(data["Has3dStructure"])
             if (data["Has3dStructure"]) {
                 dispatch(addView(name))
             }

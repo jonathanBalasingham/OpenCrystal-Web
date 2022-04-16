@@ -26,11 +26,15 @@ const appSlice = createSlice({
             state["width"] = action.payload.width
             state["height"] = action.payload.height
             return state
+        },
+        openHomeApp(state, actions) {
+            state["openApp"] = "home"
+            return state
         }
     }
 })
 
-export const { openCompareApp, openViewApp, openCreateApp, setSize } = appSlice.actions
+export const { openCompareApp, openViewApp, openCreateApp, setSize, openHomeApp } = appSlice.actions
 
 export default appSlice.reducer
 
