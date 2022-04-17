@@ -21,7 +21,7 @@ import { OrbitControls, TransformControls, ContactShadows, useGLTF, useCursor } 
 import { proxy, useSnapshot } from 'valtio'
 import * as THREE from "three";
 import {LoadingCustom} from "../Loading";
-import {cellParamsToMatrix, toCartesian} from "./base/geometry";
+import {addVecs, cellParamsToMatrix, toCartesian} from "./base/geometry";
 
 
 
@@ -217,7 +217,7 @@ function Atom(props) {
 }
 
 
-function Line({ start, end }) {
+function Line({ start, end, color }) {
     const ref = useRef()
     useLayoutEffect(() => {
         ref.current.geometry.setFromPoints([start, end].map((point) => new THREE.Vector3(...point)))
@@ -225,7 +225,7 @@ function Line({ start, end }) {
     return (
         <line ref={ref}>
             <bufferGeometry />
-            <lineBasicMaterial color="grey" />
+            <lineBasicMaterial color={color} />
         </line>
     )
 }
@@ -245,8 +245,36 @@ export function Controls() {
     )
 }
 
+export const UnitCell = ({dataset}) => {
+    let uc = cellParamsToMatrix(dataset.unitCell["A"], dataset.unitCell["B"], dataset.unitCell["C"],
+        dataset.unitCell["Alpha"], dataset.unitCell["Beta"], dataset.unitCell["Gamma"])
 
-export const Molecule = ({dataset, rotX, rotY}) => {
+    let s = [0,0,0]
+
+    return (
+        <group>
+            <Line start={s} end={uc[0]} color={"red"}/>
+            <Line start={s} end={uc[1]} color={"blue"}/>
+            <Line start={s} end={uc[2]} color={"green"}/>
+
+            <Line start={uc[1]} end={addVecs(uc[0], uc[1])} color={"grey"}/>
+            <Line start={uc[2]} end={addVecs(uc[2], uc[1])} color={"grey"}/>
+            <Line start={uc[2]} end={addVecs(uc[2], uc[1])} color={"grey"}/>
+            <Line start={uc[2]} end={addVecs(uc[2], uc[0])} color={"grey"}/>
+
+            <Line start={uc[0]} end={addVecs(uc[0], uc[1])} color={"grey"}/>
+            <Line start={uc[1]} end={addVecs(uc[1], uc[2])} color={"grey"}/>
+            <Line start={uc[0]} end={addVecs(uc[0], uc[2])} color={"grey"}/>
+            <Line start={addVecs(uc[0], uc[2])} end={addVecs(addVecs(uc[0], uc[2]), uc[1])} color={"grey"}/>
+            <Line start={addVecs(uc[1], uc[2])} end={addVecs(addVecs(uc[1], uc[2]), uc[0])} color={"grey"}/>
+            <Line start={addVecs(uc[0], uc[1])} end={addVecs(addVecs(uc[0], uc[2]), uc[1])} color={"grey"}/>
+
+        </group>
+    )
+}
+
+
+export const Molecule = ({dataset, rotX, rotY, center}) => {
     const ref = useRef()
     let bondLocations = {}
     let uc = null
@@ -254,6 +282,11 @@ export const Molecule = ({dataset, rotX, rotY}) => {
         uc = cellParamsToMatrix(dataset.unitCell["A"], dataset.unitCell["B"], dataset.unitCell["C"],
             dataset.unitCell["Alpha"], dataset.unitCell["Beta"], dataset.unitCell["Gamma"])
     }
+    let c = [0,0,0]
+    if (center) {
+        c = toCartesian(uc, dataset.center)
+    }
+
     useFrame((state, delta) => {
         ref.current.rotation.y += rotY;
         ref.current.rotation.x += rotX;
@@ -261,6 +294,9 @@ export const Molecule = ({dataset, rotX, rotY}) => {
 
     let atomSet = dataset["atoms"].map((i) => {
         let mp = toCartesian(uc, [i["X"], i["Y"], i["Z"]])
+        mp[0] -= c[0]
+        mp[1] -= c[1]
+        mp[2] -= c[2]
         bondLocations[i["Label"]] = mp
 
         return (

@@ -27,6 +27,10 @@ function multiplyMatrices(m1, m2) {
     return result;
 }
 
+export function addVecs(a,b){
+    return a.map((e,i) => e + b[i]);
+}
+
 export function cellParamsToMatrix(a,b,c,alpha,beta,gamma) {
     alpha = Math.PI * alpha / 180
     beta = Math.PI * beta / 180

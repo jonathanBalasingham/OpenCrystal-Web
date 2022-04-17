@@ -3,7 +3,7 @@ import {useSelector} from "react-redux";
 import {getObject} from "../../features/preview/previewSlice";
 import {useEffect, useState} from "react";
 import {Canvas} from "@react-three/fiber";
-import {Molecule, Controls} from "../PreviewPanel";
+import {Molecule, Controls, UnitCell} from "../PreviewPanel";
 import {getComp} from "../../features/compare/compareSlice";
 import {Plane, ViewAppPlaceHolder} from "./ViewAppPlaceholder";
 import {Loading} from "../../Loading";
@@ -71,7 +71,8 @@ export const ViewAppCanvas = () => {
                         camera={{ position: [10, 10, 10], fov: 62 }}>
                     <ambientLight />
                     <pointLight position={[1, 1, 1]} />
-                    <Molecule dataset={dataset} rotY={0.005} rotX={0.0}/>
+                    <Molecule dataset={dataset} rotY={0.00} rotX={0.0} center={false}/>
+                    <UnitCell dataset={dataset}/>
                     <Plane/>
                     <Controls/>
                 </Canvas>

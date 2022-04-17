@@ -121,12 +121,10 @@
 
       &.open {
         width: 20%;
-        padding: 5px;
       }
 
       .search-results-container {
         background: var(--defaultprimary);
-        padding: 20px;
         color: var(--defaulttext);
         scrollbar-width: thin;
         height: calc(100% - 10px);
