@@ -471,23 +471,22 @@ div.react-sigma-v2 {
             transition:width .2s linear;
             -webkit-transform:translateZ(0) scale(1,1);
             /*make it smooth*/
-            overflow: hidden;
+            overflow: auto;
             z-index: 2;
             border-right: 1px solid var(--defaultborder);
+            scrollbar-width: none;
 
             &.open {
                 width: 20%;
-                padding: 5px;
             }
 
             .search-results-container {
                 background: var(--defaultprimary);
-                padding: 20px;
                 color: var(--defaulttext);
                 scrollbar-width: thin;
-                height: calc(100% - 10px);
                 width: 100%;
                 overflow: auto;
+                border-bottom: 1px solid var(--defaultborder);
             }
         }
 

@@ -50,6 +50,7 @@ export const SearchBar = () => {
                     sessionStorage.clear()
                     dispatch(addAccessToken(undefined))
                     dispatch(addRefreshToken(undefined))
+                    window.location.reload()
                 } else {
                     resp.json()
                         .then((r) => {

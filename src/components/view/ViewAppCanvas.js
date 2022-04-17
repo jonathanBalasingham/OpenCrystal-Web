@@ -21,15 +21,24 @@ export const ViewAppCanvas = () => {
 
     useEffect(() => {
         setLoading(true)
-        fetch(`/api/molecule/full/${currentObject}`, {
+        fetch(`/api/crystal/id/${currentObject}`, {
             headers: {
-                'Authorization': `Bearer: ${token}`,
+                'Authorization': `Bearer:${token}`,
                 'Content-Type': 'application/json'
             }
         }).then(data => data.json())
             .then((d) => {
-                setDataset(d)
-                setLoading(false)
+                let id = d["id"]
+                fetch(`/api/crystal/molecule/${id}`, {
+                    headers: {
+                        'Authorization': `Bearer:${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                }).then(data => data.json())
+                    .then((d) => {
+                        setDataset(d)
+                        setLoading(false)
+                    })
             })
     }, [currentObject])
 
@@ -54,7 +63,7 @@ export const ViewAppCanvas = () => {
 
 
 
-    if (dataset != null && !loading && dataset.motif) {
+    if (dataset != null && !loading && dataset.atoms) {
 
         content =
             <>

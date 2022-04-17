@@ -1,31 +1,26 @@
 
 
 .query-result {
-  width: 98.5%;
+  width: 100%;
   display: grid;
   background: var(--defaultprimary);
   color: var(--defaulttext);
-  border: 1px solid var(--defaultborder);
+  border-top: 1px solid var(--defaultborder);
   grid-template-areas: 'chev name name add' 'chev id1 id2 add';
-  margin-top: 10px;
-  border-radius: 5px;
   align-content: center;
-  padding: 5px 15px;
+  padding: 8px 15px;
   justify-content: space-between;
 }
 
 .query-result-dropdown {
-  width: 98.5%;
+  width: 100%;
   display: grid;
-  background: var(--defaultprimary);
+  background: var(--defaulttertiary);
   transition: all 500ms ease;
-  border: 1px solid var(--defaultborder);
   grid-template-areas: 'field value' 'add add';
   grid-template-rows: 100px 50px;
   grid-template-columns: 50% 50%;
   padding: 10px 15px;
-  margin-top: 5px;
-  border-radius: 10px;
 
   .query-result-dropdown-button-row {
     display: flex;
@@ -56,6 +51,7 @@
 
     .query-result-dropdown-data-label {
       min-width: fit-content;
+      color: var(--secondarytext);
     }
 
     query-result-dropdown-data-value {
@@ -70,8 +66,6 @@
 }
 
 .query-result-accordion {
-  margin-bottom: 2px;
-  margin-left: 2px;
   transition: all 500ms ease;
 }
 

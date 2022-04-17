@@ -21,6 +21,7 @@ import { OrbitControls, TransformControls, ContactShadows, useGLTF, useCursor } 
 import { proxy, useSnapshot } from 'valtio'
 import * as THREE from "three";
 import {LoadingCustom} from "../Loading";
+import {cellParamsToMatrix, toCartesian} from "./base/geometry";
 
 
 
@@ -247,25 +248,36 @@ export function Controls() {
 
 export const Molecule = ({dataset, rotX, rotY}) => {
     const ref = useRef()
-
+    let bondLocations = {}
+    let uc = null
+    if (dataset.unitCell) {
+        uc = cellParamsToMatrix(dataset.unitCell["A"], dataset.unitCell["B"], dataset.unitCell["C"],
+            dataset.unitCell["Alpha"], dataset.unitCell["Beta"], dataset.unitCell["Gamma"])
+    }
     useFrame((state, delta) => {
         ref.current.rotation.y += rotY;
         ref.current.rotation.x += rotX;
     })
 
-    let atomSet = dataset["motif"].map((i) => {
+    let atomSet = dataset["atoms"].map((i) => {
+        let mp = toCartesian(uc, [i["X"], i["Y"], i["Z"]])
+        bondLocations[i["Label"]] = mp
+
         return (
-            <Atom position={[i["x"], i["y"], i["z"]]} symbol={i["symbol"]} />
+            <Atom position={mp} symbol={i["Symbol"]} />
         )
     })
 
     let bondSet = dataset["bonds"].map((i) => {
-        if (i.position1 === null || i.position2 === null) {
+        if (i.Label1 === null || i.Label2 === null) {
             return
         }
+        let s = bondLocations[i["Label1"]]
+        let e = bondLocations[i["Label2"]]
+
         return (
-            <Line start={[i["position1"][0], i["position1"][1], i["position1"][2]]}
-                  end={[i["position2"][0], i["position2"][1], i["position2"][2]]}/>
+            <Line start={s}
+                  end={e}/>
         )
     })
 
@@ -280,21 +292,30 @@ export const Molecule = ({dataset, rotX, rotY}) => {
 
 function MoleculeView({name}) {
     let token = useSelector(getAccessToken)
-
+    console.log("inside molecule view")
     const [dataset, setDataset] = useState(null);
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         setLoading(true)
-        fetch(`/api/molecule/full/${name}`, {
+        fetch(`/api/crystal/id/${name}`, {
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer: ${token}`,
+                'Authorization': `Bearer:${token}`,
+                'Content-Type': 'application/json'
             }
         }).then(data => data.json())
             .then((d) => {
-                setDataset(d)
-                setLoading(false)
+                let id = d["id"]
+                fetch(`/api/crystal/molecule/${id}`, {
+                    headers: {
+                        'Authorization': `Bearer:${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                }).then(data => data.json())
+                    .then((d) => {
+                        setDataset(d)
+                        setLoading(false)
+                    })
             })
     }, [name])
 
@@ -308,8 +329,9 @@ function MoleculeView({name}) {
             <p>No Geometry found.</p>
         </div>
     }
-
-    if (dataset != null && !loading && dataset.motif) {
+    console.log("Dataset: ")
+    console.log(dataset)
+    if (dataset != null && !loading && dataset.atoms) {
 
         atoms =
             <Canvas className="preview-panel-canvas"
