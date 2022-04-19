@@ -97,9 +97,32 @@
         }
       }
 
+      .unitcell-info {
+        width: 65%;
+        overflow: auto;
+        scrollbar-width: thin;
+
+        p {
+          margin-bottom: 5px;
+          font-size: 13px;
+        }
+      }
+
+      .symmetry-info {
+        width: 30%;
+        overflow: auto;
+        scrollbar-width: thin;
+
+        p {
+          margin-bottom: 5px;
+          font-size: 13px;
+        }
+      }
+
       .tables {
         display: flex;
         height: 85%;
+        justify-content: space-between;
 
         tbody > tr {
           &:hover {
@@ -115,8 +138,9 @@
           border-width: 1px;
         }
 
+
         .atom-info {
-          width: 45%;
+          width: 55%;
           overflow: auto;
           scrollbar-width: thin;
 
@@ -127,7 +151,7 @@
         }
 
         .bond-info {
-          width: 25%;
+          width: 35%;
           overflow: auto;
           scrollbar-width: thin;
 
@@ -137,6 +161,18 @@
           }
         }
 
+      }
+
+      .unitcell-table {
+        font-size: 12px;
+        border: 1px solid var(--defaultborder);
+        width: 100%;
+      }
+
+      .symmetry-table {
+        font-size: 12px;
+        border: 1px solid var(--defaultborder);
+        width: 50%;
       }
 
       .atom-table {

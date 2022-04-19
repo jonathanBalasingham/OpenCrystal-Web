@@ -5,6 +5,8 @@ import {Canvas} from "@react-three/fiber";
 import {AtomRow, DataItem} from "../create/CreateAppMainCrystal";
 import {AtomTable} from "./AtomTable";
 import {BondTable} from "./BondTable";
+import {UnitCellTable} from "./UnitCellTable";
+import {SymmetryTable} from "./SymmetryTable";
 
 
 export const CrystalAccordionBody = ({data}) => {
@@ -18,7 +20,8 @@ export const CrystalAccordionBody = ({data}) => {
                 <div className={"top-bar"}>
                     <button className={cx("", {"active": active === "Crystal"})} onClick={() => setActive("Crystal")}>About</button>
                     <button className={cx("", {"active": active === "Geometry"})} onClick={() => setActive("Geometry")}>Geometry</button>
-                    <button className={cx("", {"active": active === "UnitCell"})} onClick={() => setActive("UnitCell")}>UnitCell</button>
+                    <button className={cx("", {"active": active === "UnitCell"})} onClick={() => setActive("UnitCell")}>Unit Cell</button>
+                    <button className={cx("", {"active": active === "Invariant"})} onClick={() => setActive("Invariant")}>Invariant</button>
                 </div>
                 { active === "Crystal" &&
                     Object.keys(data.crystal).map(function(key, index) {
@@ -36,12 +39,11 @@ export const CrystalAccordionBody = ({data}) => {
                     </div>
                 }
                 {
-                    active === "Atoms" &&
-                    <AtomTable data={data.atoms}/>
-                }
-                {
-                    active === "Bonds" &&
-                    <BondTable data={data.bonds}/>
+                    active === "UnitCell" &&
+                    <div className={"tables"}>
+                        <UnitCellTable data={data.unitCell}/>
+                        <SymmetryTable data={data.unitCell.SymmetryOperators}/>
+                    </div>
                 }
             </div>
             <div className={"part-2"}>
