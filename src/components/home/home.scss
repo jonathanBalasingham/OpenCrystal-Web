@@ -4,6 +4,32 @@
   display: grid;
   background: var(--defaulttertiary);
 
+  .accordion {
+    background: var(--defaultprimary);
+  }
+
+  .molecule-card-row {
+    width: 100%;
+    min-height: 300px;
+    padding: 30px 50px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .molecule-card {
+    min-height: 100%;
+    border-radius: 10px;
+    background: var(--defaultprimary);
+    box-shadow: 0 0 3px 2px var(--defaultshadow);
+    min-width: 20%;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    &:hover {
+      box-shadow: 0 0 3px 3px var(--defaultshadow);
+    }
+  }
+
   .top-bar {
     width: 100%;
     height: 75px;

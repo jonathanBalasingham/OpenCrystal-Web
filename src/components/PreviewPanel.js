@@ -326,7 +326,7 @@ export const Molecule = ({dataset, rotX, rotY, center}) => {
 }
 
 
-function MoleculeView({name}) {
+export function MoleculeView({name}) {
     let token = useSelector(getAccessToken)
     console.log("inside molecule view")
     const [dataset, setDataset] = useState(null);
@@ -374,7 +374,7 @@ function MoleculeView({name}) {
                     camera={{ position: [7, 7, 7], fov: 62 }}>
                 <ambientLight />
                 <pointLight position={[1, 1, 1]} />
-                <Molecule dataset={dataset} rotX={0.001} rotY={0.005}/>
+                <Molecule dataset={dataset} rotX={0.001} rotY={0.005} center={true}/>
                 <Controls/>
             </Canvas>
 
