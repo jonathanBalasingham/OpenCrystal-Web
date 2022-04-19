@@ -85,6 +85,67 @@
           margin-bottom: 0;
         }
       }
+
+      .tables {
+        display: flex;
+        height: 85%;
+
+        tbody > tr {
+          &:hover {
+            color: var(--secondarytext);
+          }
+        }
+
+        >* {
+          margin-right: 20px;
+        }
+
+        tr {
+          border-width: 1px;
+        }
+
+        .atom-info {
+          width: 45%;
+          overflow: auto;
+          scrollbar-width: thin;
+
+          p {
+            margin-bottom: 5px;
+            font-size: 13px;
+          }
+        }
+
+        .bond-info {
+          width: 25%;
+          overflow: auto;
+          scrollbar-width: thin;
+
+          p {
+            margin-bottom: 5px;
+            font-size: 13px;
+          }
+        }
+
+      }
+
+      .atom-table {
+        width: 100%;
+        font-size: 12px;
+        border: 1px solid var(--defaultborder);
+        overflow: auto;
+        max-height: 70%;
+        scrollbar-width: thin;
+      }
+
+      .bond-table {
+        width: 100%;
+        font-size: 12px;
+        border: 1px solid var(--defaultborder);
+        overflow: auto;
+        max-height: 70%;
+        scrollbar-width: thin;
+
+      }
     }
 
     .part-2 {

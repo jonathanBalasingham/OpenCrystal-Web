@@ -44,13 +44,13 @@ export const DataItem = ({label, value}) => {
     )
 }
 
-const check = (item) => {
+export const check = (item) => {
     if (item === undefined)
         return ""
     else return item
 }
 
-const AtomRow = ({data}) => {
+export const AtomRow = ({data}) => {
     let coordinateSystem = useSelector(getCoordinateSystem)
 
     return (
