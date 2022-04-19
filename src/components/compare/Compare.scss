@@ -396,6 +396,8 @@ div.react-sigma-v2 {
         border-bottom: 1px solid var(--defaultborder);
         align-items: center;
         z-index: 1;
+        background: var(--defaultprimary);
+
         .search-bar {
             display: flex;
         }

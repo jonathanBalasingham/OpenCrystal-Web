@@ -111,13 +111,7 @@ div.ico > button > * {
 }
 
 button.btn {
-  background: var(--defaultprimary);
   color: var(--defaulttext);
-  border: 1px solid var(--defaultborder);
-  outline: none;
-  border-radius: var(--border-radius);
-  padding: 0.3em 0.5em;
-  font-size: 1em;
   font-family: Lato, sans-serif;
   cursor: pointer;
 }

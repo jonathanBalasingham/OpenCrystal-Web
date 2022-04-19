@@ -35,7 +35,7 @@ export const InputItem = ({id, label, onChange, value}) => {
 }
 
 
-const DataItem = ({label, value}) => {
+export const DataItem = ({label, value}) => {
     return (
         <div className={"data-item"}>
             <p>{label}</p>
