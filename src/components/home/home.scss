@@ -6,6 +6,17 @@
   overflow: auto;
   min-height: 100%;
 
+  .crystal-accordion-list {
+    height: 90vh;
+    overflow: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  .crystal-accordion-list::-webkit-scrollbar {
+    display: none;
+  }
+
 
   .crystal-accordion {
     background: var(--defaultprimary);
