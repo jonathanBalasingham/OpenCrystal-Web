@@ -16,6 +16,7 @@ import {CrystalAccordionList} from "./CrystalAccordionList";
 import {openSearchPanel} from "../../features/search/searchSlice";
 import {useDispatch} from "react-redux";
 import {setCreatePanel} from "../../features/home/homeSlice";
+import {SearchAccordion} from "./SearchAccordion";
 
 export const HomeAppTopBar = () => {
     const [active, setActive] = useState("recent")
@@ -30,10 +31,10 @@ export const HomeAppTopBar = () => {
 
     return (
         <>
-            <Breadcrumb>
+            <Breadcrumb style={{"fontSize": "12px", "padding": "20px 20px 0"}}>
                 <Breadcrumb.Item ><AiOutlineHome/></Breadcrumb.Item>
                 <Breadcrumb.Item>
-                    {active}
+                    {active.at(0).toUpperCase() + active.slice(1)}
                 </Breadcrumb.Item>
                 <Breadcrumb.Item active>Data</Breadcrumb.Item>
             </Breadcrumb>
@@ -48,17 +49,7 @@ export const HomeAppTopBar = () => {
                     <Button size="sm" onClick={() => dispatch(setCreatePanel(true))}>Create</Button>
                 </div>
             </div>
-            <div className={"search-bar"}>
-                <input className={"search-query"}  placeholder={"Search"}
-                       onChange={e => setQuery(e.target.value)}
-                        />
-                <select name="By:" className="search-facet" value={facet} onChange={ e => setFacet(e.target.value)}>
-                    <option value="name">Reference Code</option>
-                    <option value="similarity">Distance</option>
-                    <option value="subset">Subset</option>
-                    <option value="composition">Composition</option>
-                </select>
-            </div>
+            <SearchAccordion />
         </>
     )
 }

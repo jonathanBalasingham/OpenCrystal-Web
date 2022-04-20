@@ -39,7 +39,7 @@ export const CreateAppMainSource = ({open}) => {
             fetch(`/api/source/`, {
                 method: "POST",
                 headers: {
-                    'Authorization': `Bearer: ${token}`,
+                    'Authorization': `Bearer:${token}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({

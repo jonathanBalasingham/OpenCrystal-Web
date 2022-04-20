@@ -62,6 +62,77 @@
       display: none;
     }
 
+    .search-accordion {
+      background: var(--defaulttertiary);
+      margin: 5px;
+      transition: 0.4s;
+      padding: 10px;
+
+      p {
+        font-size: 12px;
+        color: var(--defaulttext);
+        margin-bottom: 5px;
+      }
+
+      #advanced-search-button {
+        background: transparent;
+        color: var(--defaulttext);
+        outline: none;
+        font-size: 13px;
+        border: none;
+
+        &:hover {
+          color: var(--bs-blue)
+        }
+
+        &:focus {
+          color: var(--bs-blue)
+        }
+      }
+
+      .search-accordion-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding-right: 30px;
+        font-size: 13px;
+
+        .search-accordion-button {
+          font-size: 13px;
+          background: var(--bs-blue);
+          color: var(--defaulttext);
+          outline: none;
+          border: none;
+          border-radius: 3px;
+          padding: 1px 10px;
+
+          &:hover {
+            color: var(--secondarytext);
+          }
+        }
+
+        .group {
+          display: flex;
+          align-items: first baseline;
+          >* {
+            margin-right: 10px;
+          }
+        }
+      }
+
+      .search-accordion-body {
+        height: 0;
+        overflow: hidden;
+        transition: height 0.2s ease-out;
+
+        &.open {
+          display: flex;
+          height: 65px;
+          padding: 5px 10px;
+        }
+      }
+    }
+
 
     .crystal-accordion {
       background: var(--defaultprimary);

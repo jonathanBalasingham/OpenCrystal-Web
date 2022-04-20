@@ -39,15 +39,15 @@ export const CreateAppMainSubset = ({open}) => {
         if (!disabled) {
             dispatch(setSubsetMessage("Creating Subset.."))
             dispatch(setSubsetStatus("loading"))
-            fetch(`/api/subset/create`, {
+            fetch(`/api/subset/`, {
                 method: "POST",
                 headers: {
-                    'Authorization': `Bearer: ${token}`,
+                    'Authorization': `Bearer:${token}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    "name": name,
-                    "refcodes": refCodes,
+                    "Name": name,
+                    "CrystalIds": refCodes,
                 })
             }).then((resp) => {
                 if (resp.status !== 200) {

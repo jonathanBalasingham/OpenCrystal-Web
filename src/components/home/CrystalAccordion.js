@@ -60,13 +60,13 @@ export const CrystalAccordion = ({dataset}) => {
                     <Button size="sm" onClick={() => {
                         dispatch(openCompareApp(""))
                         dispatch(addComp(dataset.name))
-                    }}>
+                    }} style={{"fontSize": "12px"}}>
                         Compare
                     </Button>
                     <Button size="sm" onClick={() => {
                         dispatch(openViewApp(""))
                         dispatch(addView(dataset.name))
-                    }}>
+                    }} style={{"fontSize": "12px"}}>
                         View
                     </Button>
                 </div>
