@@ -7,12 +7,50 @@ import {AtomTable} from "./AtomTable";
 import {BondTable} from "./BondTable";
 import {UnitCellTable} from "./UnitCellTable";
 import {SymmetryTable} from "./SymmetryTable";
+import {AMDTable} from "./AMDTable";
+import {getAccessToken} from "../../features/auth/authSlice";
+import {useSelector} from "react-redux";
+import {PDDTable} from "./PDDTable";
 
 
 export const CrystalAccordionBody = ({data}) => {
     const [active, setActive] = useState("Crystal")
+    const [metricsLoaded, setMetricsLoaded] = useState(false)
+    const [AMDs, setAMDs] = useState(null)
+    const [PDDs, setPDDs] = useState(null)
+    let token  = useSelector(getAccessToken)
     console.log(`Data is ${data}`)
     console.log(data)
+
+    const getMetrics = (e) => {
+        setActive(e)
+        if (!metricsLoaded) {
+            fetch(`/api/invariant/amd/${data.crystal.ID}/20`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer:${token}`,
+                },
+            })
+                .then(data => data.json())
+                .then((d) => {
+                    setAMDs(d.data)
+                    fetch(`/api/invariant/pdd/${data.crystal.ID}/20`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer:${token}`,
+                        },
+                    })
+                        .then(data => data.json())
+                        .then((d) => {
+                            setPDDs(d.data)
+                            setMetricsLoaded(true)
+                        })
+                })
+
+        }
+    }
 
     return (
         <>
@@ -21,7 +59,8 @@ export const CrystalAccordionBody = ({data}) => {
                     <button className={cx("", {"active": active === "Crystal"})} onClick={() => setActive("Crystal")}>About</button>
                     <button className={cx("", {"active": active === "Geometry"})} onClick={() => setActive("Geometry")}>Geometry</button>
                     <button className={cx("", {"active": active === "UnitCell"})} onClick={() => setActive("UnitCell")}>Unit Cell</button>
-                    <button className={cx("", {"active": active === "Invariant"})} onClick={() => setActive("Invariant")}>Invariant</button>
+                    <button className={cx("", {"active": active === "AMD"})} onClick={() => getMetrics("AMD")}>AMD</button>
+                    <button className={cx("", {"active": active === "PDD"})} onClick={() => getMetrics("PDD")}>PDD</button>
                 </div>
                 { active === "Crystal" &&
                     Object.keys(data.crystal).map(function(key, index) {
@@ -43,6 +82,18 @@ export const CrystalAccordionBody = ({data}) => {
                     <div className={"tables"}>
                         <UnitCellTable data={data.unitCell}/>
                         <SymmetryTable data={data.unitCell.SymmetryOperators}/>
+                    </div>
+                }
+                {
+                    active === "AMD" && metricsLoaded &&
+                    <div className={"tables"}>
+                        <AMDTable data={AMDs}/>
+                    </div>
+                }
+                {
+                    active === "PDD" && metricsLoaded &&
+                    <div className={"tables"}>
+                        <PDDTable data={PDDs}/>
                     </div>
                 }
             </div>

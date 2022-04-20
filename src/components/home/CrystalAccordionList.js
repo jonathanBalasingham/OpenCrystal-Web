@@ -3,7 +3,16 @@ import {LoadingCustom} from "../../Loading";
 import {CrystalAccordion} from "./CrystalAccordion";
 import {useSelector} from "react-redux";
 import {getAccessToken} from "../../features/auth/authSlice";
+import {getSelected} from "../../features/home/homeSlice";
 
+
+const SelectedCount = () => {
+    let selected = useSelector(getSelected)
+    return (
+        <h6 style={{"padding": "10px 20px", "font-size": "13px", "font-style": "italic"}}>
+            {`${selected.length} items selected`}</h6>
+    )
+}
 
 export const CrystalAccordionList = ({}) => {
     const [dataset, setDataset] = useState(null)
@@ -37,6 +46,7 @@ export const CrystalAccordionList = ({}) => {
 
     return (
         <div className={"crystal-accordion-list"}>
+            <SelectedCount/>
             {dataset.map((d) => {
                 return <CrystalAccordion dataset={d}/>
             })}

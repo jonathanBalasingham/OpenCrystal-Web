@@ -9,6 +9,7 @@ import searchReducer from './features/search/searchSlice'
 import previewReducer from './features/preview/previewSlice'
 import appReducer from './features/app/appSlice'
 import viewReducer from './features/view/viewSlice'
+import homeReducer from './features/home/homeSlice'
 
 const store = configureStore({
     reducer: {
@@ -22,6 +23,7 @@ const store = configureStore({
         previewSlice: previewReducer,
         appSlice: appReducer,
         viewSlice: viewReducer,
+        homeSlice: homeReducer,
     }
 })
 
