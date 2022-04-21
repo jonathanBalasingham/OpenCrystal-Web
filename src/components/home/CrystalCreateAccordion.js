@@ -4,7 +4,8 @@ import {useSelector, useDispatch} from "react-redux";
 import {getCreateCrystalOpen, closeCrystalCreate} from "../../features/home/homeSlice";
 import {Badge, Button, Form} from "react-bootstrap"
 import {cifParser} from "cif-to-json";
-import {setReadingFile} from "../../features/create/createSlice";
+import {setCurrentMessage, setReadingFile} from "../../features/create/createSlice";
+import {extractAtoms, extractBonds, extractCrystalMetaData, extractUnitCell} from "../create/CreateAppMainCrystal";
 
 export const CrystalCreateAccordion = () => {
     let open = useSelector(getCreateCrystalOpen)
@@ -16,9 +17,19 @@ export const CrystalCreateAccordion = () => {
     const [isParsed, setIsParsed] = useState(false)
     const [cifAsJson, setCifAsJson] = useState(null)
     const [disabled, setDisabled] = useState(true)
+    const [message, setMessage] = useState("")
 
     const createCrystal = () => {
-
+        setMessage("Creating Crystal..")
+        setMessage("Extracting meta data..")
+        let crystal = extractCrystalMetaData(cifAsJson)
+        setMessage("Extracting atoms..")
+        let atoms = extractAtoms(cifAsJson, id)
+        setMessage("Extracting bonds..")
+        let bonds = extractBonds(cifAsJson, id)
+        setMessage("Extracting unit cell..")
+        let unitCell = extractUnitCell(cifAsJson, id)
+        setMessage("Checking Reference Code..")
     }
 
     const checkReferenceCode = (refCode) => {
@@ -60,6 +71,7 @@ export const CrystalCreateAccordion = () => {
                     <Form.Label>Small file input example</Form.Label>
                     <Form.Control type="file" size="sm" onChange={changeHandler}/>
                 </Form.Group>
+                <p>{message}</p>
                 <div style={{"display": "flex"}}>
                     <Button size="sm" variant="danger" onClick={() => {
                         dispatch(closeCrystalCreate(""))

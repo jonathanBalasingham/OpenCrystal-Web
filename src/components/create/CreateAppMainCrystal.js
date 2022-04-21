@@ -155,7 +155,7 @@ const prime_comp = (composition) => {
     }
 }
 
-const extractCrystalMetaData = (cifAsJson) => {
+export const extractCrystalMetaData = (cifAsJson) => {
     console.log("inside extract cmd")
     console.log(cifAsJson)
     return {
@@ -175,7 +175,7 @@ const removeTrailing = (str) => {
         return undefined
 }
 
-const extractAtoms = (cifAsJson, id) => {
+export const extractAtoms = (cifAsJson, id) => {
     if (cifAsJson["_atom_site"]) {
         return cifAsJson["_atom_site"].map((atom) => {
             return {
@@ -195,7 +195,7 @@ const extractAtoms = (cifAsJson, id) => {
     }
 }
 
-const extractBonds = (cifAsJson, id) => {
+export const extractBonds = (cifAsJson, id) => {
     if (cifAsJson["_geom_bond"]) {
         return cifAsJson["_geom_bond"].map((bond) => {
             return {
@@ -216,7 +216,7 @@ const safeParse = (val) => {
     else return undefined
 }
 
-const extractUnitCell = (cifAsJson, id) => {
+export const extractUnitCell = (cifAsJson, id) => {
     let symm = "("
     if (cifAsJson._space_group_symop_operation_xyz) {
         symm += cifAsJson._space_group_symop_operation_xyz.reduce((total, n) => "'" + n._space_group_symop_operation_xyz + "'," + total, "")
