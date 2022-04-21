@@ -43,8 +43,6 @@ export const CrystalAccordion = ({dataset}) => {
         }
     }
 
-    console.log(`dataready is ${dataReady}`)
-
     return (
         <div className={"crystal-accordion"}>
             <div className={cx("crystal-accordion-header", {"open": open})}>

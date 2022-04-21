@@ -65,6 +65,10 @@ export const CrystalAccordionBody = ({data}) => {
                 { active === "Crystal" &&
                     Object.keys(data.crystal).map(function(key, index) {
                         let v = data.crystal[key]
+                        if (key === "Source") {
+                            return <DataItem label={key.charAt(0).toUpperCase() + key.slice(1) + " name:"} value={v.name}/>
+                        }
+
                         if (typeof v === "string" || v instanceof String){
                             return <DataItem label={key.charAt(0).toUpperCase() + key.slice(1) + ":"} value={v}/>
                         } else return undefined

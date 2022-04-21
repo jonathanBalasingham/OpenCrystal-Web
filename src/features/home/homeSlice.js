@@ -37,11 +37,11 @@ const homeSlice = createSlice({
             return state
         },
         openSubsetCreate(state, action) {
-            state["openSubsetCreate"] = true
+            state["createSubsetOpen"] = true
             return state
         },
         openSourceCreate(state, action) {
-            state["openSourceCreate"] = true
+            state["createSourceOpen"] = true
             return state
         },
         closeCrystalCreate(state, action) {
@@ -67,12 +67,23 @@ const homeSlice = createSlice({
         setSubsetSearchResults(state, action) {
             state["subsetSearchResults"] = action.payload
             return state
+        },
+        flushCreateCrystal(state, action) {
+            state["crystalSearchResults"] = action.payload.concat(state["crystalSearchResults"])
+        },
+        flushCreateSubset(state, action) {
+            state["subsetSearchResults"] = action.payload.concat(state["subsetSearchResults"])
+        },
+        flushCreateSource(state, action) {
+            state["sourceSearchResults"] = action.payload.concat(state["sourceSearchResults"])
         }
+
     }
 })
 
 export const { setCreatePanel, handleTickBox, setActiveAccordion, closeCrystalCreate, closeSourceCreate, closeSubsetCreate,
-               openSubsetCreate, openSourceCreate, openCrystalCreate, setCrystalSearchResults, setSourceSearchResults, setSubsetSearchResults } = homeSlice.actions
+               openSubsetCreate, openSourceCreate, openCrystalCreate, setCrystalSearchResults, setSourceSearchResults, setSubsetSearchResults,
+                flushCreateCrystal, flushCreateSource, flushCreateSubset    } = homeSlice.actions
 
 export default homeSlice.reducer
 

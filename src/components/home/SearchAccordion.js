@@ -28,8 +28,11 @@ export const SearchAccordion = ({}) => {
             aa = "crystals"
         }
 
+        let url = `/api/search/${aa.slice(0, -1)}/${facet}/${query}?match=${matchType}&order=${orderBy}`
+        if (aa !== "crystals")
+            url = `/api/search/${aa.slice(0, -1)}/${query}?match=${matchType}&order=${orderBy}`
 
-        fetch(`/api/search/${aa.slice(0, -1)}/${facet}/${query}?match=${matchType}&order=${orderBy}`, {
+        fetch(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -45,7 +48,10 @@ export const SearchAccordion = ({}) => {
                     data.json().then((d) => {
                         setLoading(false)
                         switch (activeAccordion) {
-                            case "crystals" || "recent":
+                            case "crystals":
+                                dispatch(setCrystalSearchResults(d.data))
+                                break
+                            case "recent":
                                 dispatch(setCrystalSearchResults(d.data))
                                 break
                             case "subsets":
@@ -108,13 +114,12 @@ export const SearchAccordion = ({}) => {
                     </div>
                 </div>
                 <div>
-                    <p>Order By:</p>
+                    <p>Order:</p>
                     <select name="By:" className="order-facet" value={orderBy} onChange={ e => setOrderBy(e.target.value)}>
                         <option value="none">None</option>
-                        <option value="name">Reference Code</option>
-                        <option value="similarity">Source</option>
-                        <option value="subset">Subset</option>
-                        <option value="composition">Composition</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="recent">Most Recent</option>
+                        <option value="alphabetically">Alpha</option>
                     </select>
                 </div>
             </div>

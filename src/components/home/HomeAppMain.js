@@ -4,6 +4,7 @@ import {RecentCrystalAccordionList} from "./RecentCrystalAccordionList";
 import {useSelector} from "react-redux";
 import {getActiveAccordion} from "../../features/home/homeSlice";
 import {CrystalAccordionList} from "./CrystalAccordionList";
+import {SourceAccordionList} from "./SourceAccordionList";
 
 
 export const HomeAppMain = ({}) => {
@@ -15,6 +16,7 @@ export const HomeAppMain = ({}) => {
             <HomeAppTopBar/>
             <RecentCrystalAccordionList/>
             <CrystalAccordionList/>
+            <SourceAccordionList/>
         </div>
     )
 }

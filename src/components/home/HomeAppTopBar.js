@@ -27,8 +27,6 @@ import {SearchAccordion} from "./SearchAccordion";
 export const HomeAppTopBar = () => {
     let active = useSelector(getActiveAccordion)
     const [index, setIndex] = useState(0);
-    const [query, setQuery] = useState("")
-    const [facet, setFacet] = useState("")
     let dispatch = useDispatch()
 
     const handleSelect = (selectedIndex, e) => {
@@ -38,13 +36,17 @@ export const HomeAppTopBar = () => {
     const openCreateAccordion = () => {
         console.log(`active is ${active}`)
         switch (active) {
-            case "recent" || "crystals":
+            case "recent":
+                dispatch(openCrystalCreate(true))
+                break
+            case "crystals":
                 dispatch(openCrystalCreate(true))
                 break
             case "subsets":
                 dispatch(openSubsetCreate(true))
                 break
             case "sources":
+                console.log("dispatching correctly")
                 dispatch(openSourceCreate(true))
                 break
         }
