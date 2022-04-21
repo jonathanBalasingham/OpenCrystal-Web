@@ -1,5 +1,5 @@
 import cx from "classnames"
-import {useState} from "react";
+import React, {useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {getCreateCrystalOpen, closeCrystalCreate} from "../../features/home/homeSlice";
 import {Badge, Button, Form} from "react-bootstrap"
@@ -15,6 +15,11 @@ export const CrystalCreateAccordion = () => {
     const [isFilePicked, setIsFilePicked] = useState(false);
     const [isParsed, setIsParsed] = useState(false)
     const [cifAsJson, setCifAsJson] = useState(null)
+    const [disabled, setDisabled] = useState(true)
+
+    const createCrystal = () => {
+
+    }
 
     const checkReferenceCode = (refCode) => {
         return false
@@ -55,14 +60,26 @@ export const CrystalCreateAccordion = () => {
                     <Form.Label>Small file input example</Form.Label>
                     <Form.Control type="file" size="sm" onChange={changeHandler}/>
                 </Form.Group>
-                <Button size="sm" variant="danger" onClick={() => {
-                    dispatch(closeCrystalCreate(""))
-                    setIsFilePicked(false)
-                    setIsParsed(false)
-                    setRefCode("")
-                }}>
-                    Discard
-                </Button>
+                <div style={{"display": "flex"}}>
+                    <Button size="sm" variant="danger" onClick={() => {
+                        dispatch(closeCrystalCreate(""))
+                        setIsFilePicked(false)
+                        setIsParsed(false)
+                        setRefCode("")
+                    }} style={{"margin": "0 10px"}}>
+                        Discard
+                    </Button>
+                    {
+                        disabled && <Button variant="success" size="sm" disabled>
+                            Create
+                        </Button>
+                    }
+                    {
+                        !disabled && <Button size="sm" variant="success" onClick={createCrystal}>
+                            Create
+                        </Button>
+                    }
+                </div>
             </div>
             <div className={cx("create-accordion-body", {"open": isFilePicked && isParsed})}>
 

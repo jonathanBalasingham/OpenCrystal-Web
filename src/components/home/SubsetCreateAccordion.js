@@ -56,6 +56,7 @@ export const SubsetCreateAccordion = () => {
                                 setRefCodes([])
                                 setName("")
                                 setMessage("")
+                                setDisabled(true)
                                 dispatch(closeSubsetCreate(false))
                             })
                     })
@@ -90,7 +91,7 @@ export const SubsetCreateAccordion = () => {
                             </Button>
                         }
                         {
-                            !disabled && <Button size="sm" variant="success" style={{"marginRight": "10px"}} onClick={createSubset}>
+                            !disabled && <Button size="sm" variant="success" onClick={createSubset}>
                                 Create
                             </Button>
                         }
