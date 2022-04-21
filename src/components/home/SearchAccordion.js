@@ -1,6 +1,14 @@
 import cx from "classnames"
 import React, {useState} from "react";
 import {Button, Form} from "react-bootstrap";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    getActiveAccordion,
+    setActiveAccordion,
+    setCrystalSearchResults, setSourceSearchResults,
+    setSubsetSearchResults
+} from "../../features/home/homeSlice";
+import {getAccessToken} from "../../features/auth/authSlice";
 
 export const SearchAccordion = ({}) => {
     const [open, setOpen] = useState(false)
@@ -8,9 +16,48 @@ export const SearchAccordion = ({}) => {
     const [query, setQuery] = useState("")
     const [matchType, setMatchType] = useState("exact")
     const [orderBy, setOrderBy] = useState("none")
+    const [loading, setLoading] = useState(false)
+    let activeAccordion = useSelector(getActiveAccordion)
+    let dispatch = useDispatch()
+    let token = useSelector(getAccessToken)
 
     const handleSearch = () => {
+        let aa = activeAccordion
+        if (activeAccordion === "recent") {
+            dispatch(setActiveAccordion("crystals"))
+            aa = "crystals"
+        }
 
+
+        fetch(`/api/search/${aa.slice(0, -1)}/${facet}/${query}?match=${matchType}&order=${orderBy}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer:${token}`,
+            },
+        })
+            .then(data => {
+                if (data.status !== 200) {
+                    if (data.status === 401) {
+                        window.location.reload()
+                    }
+                } else {
+                    data.json().then((d) => {
+                        setLoading(false)
+                        switch (activeAccordion) {
+                            case "crystals" || "recent":
+                                dispatch(setCrystalSearchResults(d.data))
+                                break
+                            case "subsets":
+                                dispatch(setSubsetSearchResults(d.data))
+                                break
+                            case "sources":
+                                dispatch(setSourceSearchResults(d.data))
+                                break
+                        }
+                    })
+                }
+            })
     }
 
     return (
@@ -23,12 +70,13 @@ export const SearchAccordion = ({}) => {
                     />
                     <select name="By:" className="search-facet" value={facet} onChange={ e => setFacet(e.target.value)}>
                         <option value="name">Reference Code</option>
-                        <option value="similarity">Source</option>
+                        <option value="source">Source</option>
                         <option value="subset">Subset</option>
                         <option value="composition">Composition</option>
+                        <option value="primeComposition">Prime Composition</option>
                     </select>
                     <button className="search-accordion-button" onClick={handleSearch}>
-                        Search
+                        {loading ? "Loading.." : "Search"}
                     </button>
                 </div>
                 <div className="group">

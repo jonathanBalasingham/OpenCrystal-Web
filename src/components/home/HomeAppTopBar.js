@@ -12,14 +12,20 @@ import {
 } from "react-bootstrap";
 import {MoleculeCardRow} from "./MoleculeCardRow";
 import {AiOutlineHome} from "react-icons/all";
-import {CrystalAccordionList} from "./CrystalAccordionList";
+import {RecentCrystalAccordionList} from "./RecentCrystalAccordionList";
 import {openSearchPanel} from "../../features/search/searchSlice";
-import {useDispatch} from "react-redux";
-import {setCreatePanel} from "../../features/home/homeSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    getActiveAccordion,
+    openCrystalCreate, openSourceCreate,
+    openSubsetCreate,
+    setActiveAccordion,
+    setCreatePanel
+} from "../../features/home/homeSlice";
 import {SearchAccordion} from "./SearchAccordion";
 
 export const HomeAppTopBar = () => {
-    const [active, setActive] = useState("recent")
+    let active = useSelector(getActiveAccordion)
     const [index, setIndex] = useState(0);
     const [query, setQuery] = useState("")
     const [facet, setFacet] = useState("")
@@ -28,6 +34,21 @@ export const HomeAppTopBar = () => {
     const handleSelect = (selectedIndex, e) => {
         setIndex(selectedIndex);
     };
+
+    const openCreateAccordion = () => {
+        console.log(`active is ${active}`)
+        switch (active) {
+            case "recent" || "crystals":
+                dispatch(openCrystalCreate(true))
+                break
+            case "subsets":
+                dispatch(openSubsetCreate(true))
+                break
+            case "sources":
+                dispatch(openSourceCreate(true))
+                break
+        }
+    }
 
     return (
         <>
@@ -40,13 +61,17 @@ export const HomeAppTopBar = () => {
             </Breadcrumb>
             <div className={"top-bar"}>
                 <div className={"left-group"}>
-                    <button className={cx("", {"active": active === "recent"})} onClick={() => setActive("recent")}>Recent</button>
-                    <button className={cx("", {"active": active === "crystals"})} onClick={() => setActive("crystals")}>Crystals</button>
-                    <button className={cx("", {"active": active === "subsets"})} onClick={() => setActive("subsets")}>Subsets</button>
-                    <button className={cx("", {"active": active === "sources"})} onClick={() => setActive("sources")}>Sources</button>
+                    <button className={cx("", {"active": active === "recent"})}
+                            onClick={() => dispatch(setActiveAccordion("recent"))}>Recent</button>
+                    <button className={cx("", {"active": active === "crystals"})}
+                            onClick={() => dispatch(setActiveAccordion("crystals"))}>Crystals</button>
+                    <button className={cx("", {"active": active === "subsets"})}
+                            onClick={() => dispatch(setActiveAccordion("subsets"))}>Subsets</button>
+                    <button className={cx("", {"active": active === "sources"})}
+                            onClick={() => dispatch(setActiveAccordion("sources"))}>Sources</button>
                 </div>
                 <div className={"right-group"}>
-                    <Button size="sm" onClick={() => dispatch(setCreatePanel(true))}>Create</Button>
+                    <Button size="sm" onClick={openCreateAccordion}>Create</Button>
                 </div>
             </div>
             <SearchAccordion />

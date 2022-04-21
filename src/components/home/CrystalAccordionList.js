@@ -1,52 +1,19 @@
-import {useEffect, useState} from "react";
-import {LoadingCustom} from "../../Loading";
+import cx from "classnames";
+import {CrystalCreateAccordion} from "./CrystalCreateAccordion";
 import {CrystalAccordion} from "./CrystalAccordion";
+import {getActiveAccordion, getCrystalSearchResults} from "../../features/home/homeSlice";
 import {useSelector} from "react-redux";
-import {getAccessToken} from "../../features/auth/authSlice";
-import {getSelected} from "../../features/home/homeSlice";
+import {SelectedCount} from "./RecentCrystalAccordionList";
 
 
-const SelectedCount = () => {
-    let selected = useSelector(getSelected)
-    return (
-        <h6 style={{"padding": "10px 20px", "font-size": "13px", "font-style": "italic"}}>
-            {`${selected.length} items selected`}</h6>
-    )
-}
-
-export const CrystalAccordionList = ({}) => {
-    const [dataset, setDataset] = useState(null)
-    const [loading, setLoading] = useState(false)
-    const [dataReady, setDataReady] = useState(false)
-    let token = useSelector(getAccessToken)
-
-    useEffect(() => {
-        setLoading(true)
-        fetch(`/api/search/recent`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer:${token}`,
-            },
-        })
-            .then(data => data.json())
-            .then((d) => {
-                setLoading(false)
-                setDataset(d.data)
-                setDataReady(true)
-            })
-    },[])
-
-    if (loading) {
-        return <LoadingCustom/>
-    }
-
-    if (!dataReady)
-        return <div></div>
+export const CrystalAccordionList = () => {
+    let activeAccordion = useSelector(getActiveAccordion)
+    let dataset = useSelector(getCrystalSearchResults)
 
     return (
-        <div className={"crystal-accordion-list"}>
+        <div className={cx("crystal-accordion-list", {"hidden": activeAccordion !== "crystals"})}>
             <SelectedCount/>
+            <CrystalCreateAccordion/>
             {dataset.map((d) => {
                 return <CrystalAccordion dataset={d}/>
             })}
