@@ -10,6 +10,35 @@ import {
 } from "../../features/home/homeSlice";
 import {getAccessToken} from "../../features/auth/authSlice";
 
+
+const CrystalFacetOptions = () => {
+    return (
+        <>
+            <option value="name">Reference Code</option>
+            <option value="source">Source</option>
+            <option value="subset">Subset</option>
+            <option value="composition">Composition</option>
+            <option value="primeComposition">Prime Composition</option>
+        </>
+    )
+}
+
+const SourceFacetOptions = () => {
+    return (
+        <>
+            <option value="name">Name</option>
+        </>
+    )
+}
+
+const SubsetFacetOptions = () => {
+    return (
+        <>
+            <option value="name">Name</option>
+        </>
+    )
+}
+
 export const SearchAccordion = ({}) => {
     const [open, setOpen] = useState(false)
     const [facet, setFacet] = useState("name")
@@ -22,6 +51,7 @@ export const SearchAccordion = ({}) => {
     let token = useSelector(getAccessToken)
 
     const handleSearch = () => {
+        setLoading(true)
         let aa = activeAccordion
         if (activeAccordion === "recent") {
             dispatch(setActiveAccordion("crystals"))
@@ -30,8 +60,7 @@ export const SearchAccordion = ({}) => {
 
         let url = `/api/search/${aa.slice(0, -1)}/${facet}/${query}?match=${matchType}&order=${orderBy}`
         if (aa !== "crystals")
-            url = `/api/search/${aa.slice(0, -1)}/${query}?match=${matchType}&order=${orderBy}`
-
+            url = `/api/search/${aa.slice(0, -1)}/${query}?match=${matchType}&order=${orderBy}&aggregate=true`
         fetch(url, {
             method: 'GET',
             headers: {
@@ -75,11 +104,16 @@ export const SearchAccordion = ({}) => {
                            value={query}
                     />
                     <select name="By:" className="search-facet" value={facet} onChange={ e => setFacet(e.target.value)}>
-                        <option value="name">Reference Code</option>
-                        <option value="source">Source</option>
-                        <option value="subset">Subset</option>
-                        <option value="composition">Composition</option>
-                        <option value="primeComposition">Prime Composition</option>
+                        {
+                            (activeAccordion === "crystals" || activeAccordion === "recent") &&
+                            <CrystalFacetOptions/>
+                        }
+                        {
+                            activeAccordion === "sources" && <SourceFacetOptions/>
+                        }
+                        {
+                            activeAccordion === "subsets" && <SubsetFacetOptions/>
+                        }
                     </select>
                     <button className="search-accordion-button" onClick={handleSearch}>
                         {loading ? "Loading.." : "Search"}
@@ -87,7 +121,7 @@ export const SearchAccordion = ({}) => {
                 </div>
                 <div className="group">
                     <button id="advanced-search-button" onClick={() => setOpen(!open)}>
-                        Advanced Search
+                        More Options
                     </button>
                 </div>
             </div>

@@ -56,6 +56,27 @@
     min-height: 100%;
     flex-grow: 1;
 
+    .subset-accordion-list {
+      overflow: auto;
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+      height: 75vh;
+
+      &.hidden {
+        display: none;
+      }
+    }
+
+    .crystal-table {
+      font-size: 13px;
+      border: 1px solid var(--defaultborder);
+      width: 100%;
+
+      th, td {
+        padding: 5px;
+      }
+    }
+
     .crystal-accordion-list {
       height: 80vh;
       overflow: auto;
@@ -150,11 +171,34 @@
       box-shadow: 0 0 3px 1px #1c1b26;
       padding: 10px;
 
+      .accordion-body {
+        height: 0;
+        overflow: hidden;
+        transition: height 0.1s ease-in-out;
+        padding: 0;
+
+        &.open {
+          height: 300px;
+          padding: 15px;
+        }
+      }
+
 
       .accordion-header {
         display: flex;
         align-items: center;
-        justify-content: space-evenly;
+        justify-content: space-between;
+        padding-left: 15px;
+        padding-right: 20px;
+
+        .group-1 {
+          display: flex;
+          align-items: first baseline;
+          min-width: 20%;
+          >* {
+            margin-right: 20px;
+          }
+        }
 
         p{
           margin-bottom: 3px;
