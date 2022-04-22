@@ -33,12 +33,17 @@ export const CrystalAccordion = ({dataset}) => {
                     'Authorization': `Bearer:${token}`,
                 },
             })
-                .then(data => data.json())
-                .then((d) => {
-                    setLoading(false)
-                    setData(d)
-                    setDataReady(true)
-                    setLoaded(true)
+                .then(resp => {
+                    if (resp.status === 401)
+                        window.location.reload()
+                    else if (resp.status === 200) {
+                        resp.json().then((d) => {
+                            setLoading(false)
+                            setData(d)
+                            setDataReady(true)
+                            setLoaded(true)
+                        })
+                    }
                 })
         }
     }

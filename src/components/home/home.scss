@@ -40,8 +40,31 @@
       overflow: hidden;
       transition: height 0.1s ease-in-out;
 
-      &.open {
+      .tables {
         display: flex;
+      }
+
+      table {
+        font-size: 12px;
+        margin: 5px 10px;
+        height: 300px;
+        display: block;
+        overflow: auto;
+        scrollbar-width: thin;
+        width: 100%;
+
+        th, td {
+          padding: 0 15px;
+        }
+      }
+
+      .data-item {
+        font-size: 12px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      &.open {
         justify-content: space-between;
         align-items: center;
         padding: 10px 30px;
@@ -49,6 +72,32 @@
         background: var(--defaultprimary);
         margin: 0 10px 0;
         border-bottom: 1px solid var(--defaultborder);
+      }
+
+      .top-bar {
+        font-size: 11px;
+        height: auto;
+        margin-bottom: 10px;
+        padding-left: 0;
+        justify-content: start;
+
+
+        button {
+          outline: none;
+          border: none;
+          color: var(--defaulttext);
+          border-bottom: 2px solid transparent;
+          background: transparent;
+          padding: 10px 30px 10px;
+
+          &:hover {
+            border-bottom: 2px solid var(--defaultborder);
+          }
+
+          &.active {
+            border-bottom: 2px solid var(--bs-blue);
+          }
+        }
       }
     }
   }

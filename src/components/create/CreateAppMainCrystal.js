@@ -22,6 +22,7 @@ import {refresh} from "../base/refresh";
 import {CreateAppSourceDropdown} from "./CreateAppSourceDropdown";
 import {CreateAppCoordinateSwitch} from "./CreateAppCoordinateSwitch";
 import {BsCheckCircle, BsXCircle} from 'react-icons/bs'
+import {findGCD, gcd} from "../home/CIFHelpers";
 
 
 export const InputItem = ({id, label, onChange, value}) => {
@@ -106,56 +107,8 @@ const CreationProgress = () => {
     )
 }
 
-function gcd(a, b) {
-    if (a === 0)
-        return b;
-    return gcd(b % a, a);
-}
 
-function findGCD(arr, n) {
-    let result = arr[0];
-    for (let i = 1; i < n; i++) {
-        result = gcd(arr[i], result);
-
-        if (result === 1) {
-            return 1;
-        }
-    }
-    return result;
-}
-
-const prime_comp = (composition) => {
-    if (composition) {
-        if (composition.includes("."))
-            return composition
-        else {
-            let re = /[a-zA-Z]+\d+[.]?/g
-            let matches = [...composition.matchAll(re)]
-            let counts = matches.map((x) => x[0])
-
-            let elems = counts.map((x) => {
-                const re = /[a-zA-Z]+/g
-                return [...x.matchAll(re)]
-            }).map((x) => x[0][0])
-
-            let elem_counts = counts.map((x) => {
-                const re = /[\d]+/g
-                return [...x.matchAll(re)]
-            }).map((x) => parseInt(x[0]))
-            const gcd_counts = findGCD(elem_counts, elem_counts.length)
-            const prime_counts = elem_counts.map((x) => x / gcd_counts)
-            let prime_comp = ""
-            for (let i = 0; i < elems.length; i++){
-                prime_comp += elems[i] + prime_counts[i] + " "
-            }
-            return prime_comp.slice(0, -1)
-        }
-    } else {
-        return ""
-    }
-}
-
-export const extractCrystalMetaData = (cifAsJson) => {
+const extractCrystalMetaData = (cifAsJson) => {
     console.log("inside extract cmd")
     console.log(cifAsJson)
     return {
@@ -175,7 +128,7 @@ const removeTrailing = (str) => {
         return undefined
 }
 
-export const extractAtoms = (cifAsJson, id) => {
+const extractAtoms = (cifAsJson, id) => {
     if (cifAsJson["_atom_site"]) {
         return cifAsJson["_atom_site"].map((atom) => {
             return {
@@ -195,7 +148,7 @@ export const extractAtoms = (cifAsJson, id) => {
     }
 }
 
-export const extractBonds = (cifAsJson, id) => {
+const extractBonds = (cifAsJson, id) => {
     if (cifAsJson["_geom_bond"]) {
         return cifAsJson["_geom_bond"].map((bond) => {
             return {
@@ -216,7 +169,7 @@ const safeParse = (val) => {
     else return undefined
 }
 
-export const extractUnitCell = (cifAsJson, id) => {
+const extractUnitCell = (cifAsJson, id) => {
     let symm = "("
     if (cifAsJson._space_group_symop_operation_xyz) {
         symm += cifAsJson._space_group_symop_operation_xyz.reduce((total, n) => "'" + n._space_group_symop_operation_xyz + "'," + total, "")
@@ -404,7 +357,6 @@ export const CreateAppMainCrystal = ({open}) => {
                                        setDisabled(refCode === "" || !isFilePicked || e.target.value === "")
                                    }}
                                     />
-                        <CreateAppSourceDropdown/>
                         <InputItem label={"Polymorph: (Defaults to None)"} id={"new-crystal-polymorph"}
                                    onChange={(e) => setPolymorph(e.target.value)} />
                     </div>

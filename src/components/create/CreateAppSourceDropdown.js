@@ -49,11 +49,10 @@ export const CreateAppSourceDropdown = () => {
         <div>
             <label htmlFor={"sources-dropdown"}>{"Source"}</label>
             <br/>
-            <input id="sources-dropdown" type="text" list="sources-datalist"
+            <input id="sources-dropdown1" type="text" list="sources-datalist"
                    onChange={(e) => getSources(e)}
                    value={source}/>
-            <datalist id="sources-datalist" onChange={e => getSources(e)}>
-                <option value={0} label={"User"}>User</option>
+            <datalist id="sources-datalist1" onChange={e => getSources(e)}>
                 { options.map((x) => {
                     return <option value={x.ID} label={x.name }>{x.name}</option>
                 }) }
