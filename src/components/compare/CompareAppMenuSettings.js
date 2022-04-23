@@ -15,6 +15,7 @@ import {
     setKx,
     setKy, setLinkage, getKs, setKs, getThresholds, setThresholds, getGraphType
 } from "../../features/compare/compareSlice";
+import {Button, ButtonGroup} from "react-bootstrap";
 
 
 
@@ -35,12 +36,12 @@ function GraphControls(){
                    onChange={e => dispatch(setThreshold(e.target.value))}
                    min="0" max={maxThresh} value={threshold} step={maxThresh / 100} className={"range-style"}  />
             <p>{`Measure: ${measure.toUpperCase()}`}</p>
-            <div style={{'display': 'inline-block'}}>
-                <button className="graph-control-button"
-                        onClick={() => dispatch(setMeasure("pdd"))}>PDD</button>
-                <button className="graph-control-button"
-                        onClick={() => dispatch(setMeasure("amd"))}>AMD</button>
-            </div>
+            <ButtonGroup aria-label="Basic example" style={{"width": "100%"}}>
+                <Button className="graph-control-button" style={{"fontSize": "13px"}}
+                        onClick={() => dispatch(setMeasure("pdd"))}>PDD</Button>
+                <Button className="graph-control-button" style={{"fontSize": "13px"}}
+                        onClick={() => dispatch(setMeasure("amd"))}>AMD</Button>
+            </ButtonGroup>
         </>
     )
 }

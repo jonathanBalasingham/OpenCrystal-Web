@@ -375,8 +375,6 @@ div.react-sigma-v2 {
 
     button {
         color: var(--defaulttext);
-        background: transparent;
-        border: none;
 
         &:hover {
           color: var(--defaulthover);
@@ -397,6 +395,16 @@ div.react-sigma-v2 {
         align-items: center;
         z-index: 1;
         background: var(--defaultprimary);
+
+        button {
+            background: transparent;
+            border: none;
+
+            &.active {
+                background: var(--defaulttertiary);
+                border-radius: 5px;
+            }
+        }
 
         .search-bar {
             display: flex;
