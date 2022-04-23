@@ -22,7 +22,7 @@ import {refresh} from "../base/refresh";
 import {CreateAppSourceDropdown} from "./CreateAppSourceDropdown";
 import {CreateAppCoordinateSwitch} from "./CreateAppCoordinateSwitch";
 import {BsCheckCircle, BsXCircle} from 'react-icons/bs'
-import {findGCD, gcd} from "../home/CIFHelpers";
+import {findGCD, gcd, prime_comp} from "../home/CIFHelpers";
 
 
 export const InputItem = ({id, label, onChange, value}) => {
