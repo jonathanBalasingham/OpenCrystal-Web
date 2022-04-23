@@ -15,10 +15,12 @@ const CrystalFacetOptions = () => {
     return (
         <>
             <option value="name">Reference Code</option>
+            <option value="family">Family</option>
             <option value="source">Source</option>
             <option value="subset">Subset</option>
             <option value="composition">Composition</option>
             <option value="primeComposition">Prime Composition</option>
+            <option value="similarity">Distance</option>
         </>
     )
 }

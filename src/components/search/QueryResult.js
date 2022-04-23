@@ -18,7 +18,7 @@ async function getFamily(e, token) {
     let name = e.target.id.replace("-add-family-button", "")
     return fetch(`/api/compare/family/${name}`, {
         headers: {
-            'Authorization': `Bearer: ${token}`,
+            'Authorization': `Bearer:${token}`,
             'Content-Type': 'application/json'
         },
     })
