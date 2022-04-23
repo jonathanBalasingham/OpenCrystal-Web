@@ -144,10 +144,10 @@ export function QueryResult({data}) {
                     </button>
                     <div className="query-result-name-with-sim">
                         <h4>{data["name"]}</h4>
-                        <p>{`Distance: ${data["distance"]}`}</p>
+                        <p>{`Distance: ${data["Distance"].toFixed(6)}`}</p>
                     </div>
                     <h6 className={"query-result-id"}>{data["family"]}</h6>
-                    <p className={"query-result-source"}>{data["source"]["name"]}</p>
+                    <p className={"query-result-source"}>{data["Source"]["name"]}</p>
                     {addButton}
                 </div>
                 {dropdown}
