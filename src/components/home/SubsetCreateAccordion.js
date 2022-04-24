@@ -7,6 +7,7 @@ import {
     closeSubsetCreate, flushCreateSubset,
     getCreateSubsetOpen
 } from "../../features/home/homeSlice";
+import {CrystalTable} from "./CrystalTable";
 
 export const SubsetCreateAccordion = () => {
     const dispatch = useDispatch()
@@ -16,9 +17,33 @@ export const SubsetCreateAccordion = () => {
     const [refCodes, setRefCodes] = useState([])
     const [refCodeText, setRefCodeText] = useState("")
     const [disabled, setDisabled] = useState(true)
+    const [previewData, setPreviewData] = useState([])
     let open = useSelector(getCreateSubsetOpen)
 
     let token = useSelector(getAccessToken)
+    
+    const getPreview = () => {
+        if (refCodes.length > 0) {
+            fetch(`/api/crystal/by/refcode`, {
+                method: "POST",
+                headers: {
+                    'Authorization': `Bearer:${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "RefCodes": refCodes,
+                })
+            }).then((data) => {
+                if (data.status === 401) {
+                    window.location.reload()
+                } else if (data.status === 200) {
+                    data.json().then((d) => {
+                        setPreviewData(d["data"])
+                    })
+                }
+            })
+        }
+    }
 
 
     const createSubset = () => {
@@ -81,6 +106,9 @@ export const SubsetCreateAccordion = () => {
                     <div style={{"display": "flex"}}>
                         <Button variant="danger" size="sm" style={{"marginRight": "10px"}} onClick={() => {
                             setName("")
+                            setBodyOpen(false)
+                            setRefCodeText("")
+                            setRefCodes([])
                             dispatch(closeSubsetCreate(false))
                         }}>
                             Discard
@@ -97,20 +125,26 @@ export const SubsetCreateAccordion = () => {
                         }
                     </div>
                 </div>
-                <div className={cx("create-accordion-body", {"open": bodyOpen})}>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                        <Form.Label>Example textarea</Form.Label>
-                        <Form.Control as="textarea" rows={3} value={refCodeText}
-                                      onChange={(e) => {
-                            setRefCodeText(e.target.value)
-                            let r  = e.target.value.split(",").map((x) => {
-                                return x.trim()
-                            })
-                            setRefCodes(r)
-                            setDisabled(e.target.value === "" || r.length === 0)
-                            console.log(refCodes)
-                        }}/>
-                    </Form.Group>
+                <div className={cx("create-accordion-body", {"open": bodyOpen})} style={{"display": "flex", "alignItems":"stretch"}}>
+                    <div style={{"width": "40%"}}>
+                        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1" style={{"height": "80%"}}>
+                            <Form.Label>Reference Codes (comma-seperated)</Form.Label>
+                            <Form.Control as="textarea" rows={3} value={refCodeText} style={{"height": "90%", "fontSize": "13px"}}
+                                          onChange={(e) => {
+                                              setRefCodeText(e.target.value)
+                                              let r  = e.target.value.split(",").map((x) => {
+                                                  return x.trim()
+                                              })
+                                              setRefCodes(r)
+                                              setDisabled(e.target.value === "" || r.length === 0)
+                                              console.log(refCodes)
+                                          }}/>
+                        </Form.Group>
+                        <Button style={{"width": "100%"}} onClick={getPreview}>Preview</Button>
+                    </div>
+                    <div style={{"flexGrow": 1, "padding": "10px 20px", "maxWidth": "60%"}}>
+                        <CrystalTable data={previewData}/>
+                    </div>
                 </div>
             </div>
         </>

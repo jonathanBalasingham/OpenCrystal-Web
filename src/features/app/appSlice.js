@@ -1,7 +1,7 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit'
 
 const initialState = {
-    "openApp": "compare",
+    "openApp": "home",
     "width": 0,
     "height": 0,
 }
