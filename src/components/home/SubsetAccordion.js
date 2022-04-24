@@ -6,6 +6,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {getAccessToken} from "../../features/auth/authSlice";
 import cx from "classnames"
 import {CrystalTable} from "./CrystalTable";
+import {addComps} from "../../features/compare/compareSlice";
+import {getSubset} from "../search/QueryResult";
+import {openCompareApp} from "../../features/app/appSlice";
 
 
 export const SubsetAccordion = ({dataset}) => {
@@ -16,8 +19,11 @@ export const SubsetAccordion = ({dataset}) => {
     const [loaded, setLoaded] = useState(false)
     let token = useSelector(getAccessToken)
 
-    const addSubset = () => {
-
+    const addSubset = async () => {
+        const res = await getSubset(dataset.Name, token)
+        let names = res["data"].map((x) => x.name)
+        dispatch(addComps(names))
+        dispatch(openCompareApp(""))
     }
 
     const handleClick = () => {
@@ -54,7 +60,7 @@ export const SubsetAccordion = ({dataset}) => {
                     <p>{dataset.Name}</p>
                 </div>
                 <p>{`Size: ${dataset.Crystals}`}</p>
-                <Button onClick={addSubset}>
+                <Button onClick={addSubset} style={{"fontSize": "13px"}}>
                     Compare
                 </Button>
             </div>

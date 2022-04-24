@@ -25,10 +25,10 @@ async function getFamily(e, token) {
         .then(data => data.json())
 }
 
-async function getSubset(name, token) {
-    return fetch(`/api/subset/${name}`, {
+export async function getSubset(name, token) {
+    return fetch(`/api/search/crystal/subset/${name}?match=exact`, {
         headers: {
-            'Authorization': `Bearer: ${token}`,
+            'Authorization': `Bearer:${token}`,
             'Content-Type': 'application/json'
         },
     })
@@ -56,7 +56,8 @@ export function QueryResult({data}) {
 
     const addSubset = async(name) => {
         const res = await getSubset(name, token)
-        dispatch(addComps(res["names"]))
+        let names = res["data"].map((x) => x.name)
+        dispatch(addComps(names))
     }
 
 
@@ -112,10 +113,10 @@ export function QueryResult({data}) {
 
     if (type === "subset") {
         return (
-            <div className="query-result" id={data["name"] + "-result"} >
-                <h5 className={"query-result-name"} style={{"font-size":"15px"}}>{`${data["name"]}`}</h5>
-                <h6 className={"query-result-id"}>{`Entries: ${data["entries"]}`}</h6>
-                <button id={data["name"] + "-add-button"} className={"query-result-quick-add-button"} onClick={() => addSubset(data["name"])}>
+            <div className="query-result" id={data["Name"] + "-result"} >
+                <h5 className={"query-result-name"} style={{"font-size":"15px"}}>{`${data["Name"]}`}</h5>
+                <h6 className={"query-result-id"}>{`Entries: ${data["Crystals"]}`}</h6>
+                <button id={data["Name"] + "-add-button"} className={"query-result-quick-add-button"} onClick={() => addSubset(data["Name"])}>
                     <AddIcon/>
                 </button>
             </div>

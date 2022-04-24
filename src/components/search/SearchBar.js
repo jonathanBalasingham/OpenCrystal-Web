@@ -67,7 +67,12 @@ export const SearchBar = () => {
                 }
             })
 
-        return fetch(`/api/search/crystal/${facet}/${query}?match=${matchType}&result_size=${resSize}&k=${k}&n=${n}&comp=${compType}`, {
+        let url = `/api/search/crystal/${facet}/${query}?match=${matchType}&result_size=${resSize}&k=${k}&n=${n}&comp=${compType}`
+        if (facet === "subset") {
+            url = `/api/search/${facet}/${query}?match=${matchType}&result_size=${resSize}&aggregate=true`
+        }
+
+        return fetch(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

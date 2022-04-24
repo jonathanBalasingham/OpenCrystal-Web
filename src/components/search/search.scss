@@ -146,8 +146,9 @@
   height: 25px;
   width: 30px;
   border-radius: 4px;
-  color: var(--defaulttext);
-  border: none;
+  background: transparent;
+  border: 1px solid var(--defaultborder);
+  color: var(--bs-blue);
 
   &:hover {
     background: var(--defaultborder);
