@@ -16,6 +16,7 @@ import {BondTable} from "./BondTable";
 import {UnitCellTable} from "./UnitCellTable";
 import {SymmetryTable} from "./SymmetryTable";
 import {getAccessToken} from "../../features/auth/authSlice";
+import {SimilarCrystalsTable} from "./SimilarCrystalsTable";
 
 
 export const CrystalCreateAccordion = () => {
@@ -23,6 +24,7 @@ export const CrystalCreateAccordion = () => {
     let dispatch = useDispatch()
     let token = useSelector(getAccessToken)
     const [bodyOpen, setBodyOpen] = useState(false)
+    const [pickedFile, setPickedFile] = useState("")
     const [refCode, setRefCode] = useState("")
     const [validRefCode, setValidRefCode] = useState(false)
     const [isFilePicked, setIsFilePicked] = useState(false);
@@ -39,6 +41,7 @@ export const CrystalCreateAccordion = () => {
     const [active, setActive] = useState("Crystal")
     const [sourceOptions, setSourceOptions] = useState([])
     const [source, setSource] = useState("")
+    const [similarCrystals, setSimilarCrystals] = useState([])
 
     const createCrystal = () => {
         setMessage("Creating Crystal..")
@@ -93,6 +96,7 @@ export const CrystalCreateAccordion = () => {
                                 setBonds([])
                                 setCrystal({})
                                 setUnitCell({})
+                                setSimilarCrystals([])
                                 dispatch(closeCrystalCreate(false))
                             })
                     })
@@ -100,6 +104,41 @@ export const CrystalCreateAccordion = () => {
         })
 
     }
+
+    // I need a way to check if the cif was parsed correctly
+    useEffect(() => {
+        if (!isParsed)
+            return
+
+        console.log("retrieving ")
+        fetch(`/api/search/preview/`, {
+            method: "POST",
+            headers: {
+                'Authorization': `Bearer:${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "Crystal": {
+                    ...crystal,
+                    "Polymorph": polymorph,
+                    "SourceID": parseInt(source) || 0,
+                    "name": refCode,
+                    "family": family,
+                },
+                "Atoms": atoms,
+                "Bonds": bonds,
+                "UnitCell": unitCell,
+            })
+        }).then((data) => {
+            if (data.status === 401) {
+                window.location.reload()
+            } else if (data.status === 200) {
+                data.json().then((d) => {
+                    setSimilarCrystals(d.data)
+                })
+            }
+        })
+    }, [isParsed, pickedFile])
 
     useEffect(() => {
         let d = refCode.trim() !== "" && family.trim() !== "" && source !== "" && isParsed
@@ -117,6 +156,7 @@ export const CrystalCreateAccordion = () => {
 
     const changeHandler = async(event) => {
         const file = event.target.files.item(0)
+        setPickedFile(file)
         dispatch(setReadingFile(true))
         const text = await file.text();
         let parsed = parseCIF(text)
@@ -186,6 +226,7 @@ export const CrystalCreateAccordion = () => {
                         setIsFilePicked(false)
                         setIsParsed(false)
                         setRefCode("")
+                        setSimilarCrystals([])
                     }} style={{"margin": "0 10px"}}>
                         Discard
                     </Button>
@@ -245,7 +286,7 @@ export const CrystalCreateAccordion = () => {
                             </div>
                         </div>
                         <div style={{"width": "50%"}}>
-
+                            <SimilarCrystalsTable data={similarCrystals}/>
                         </div>
                     </div>
                 }
