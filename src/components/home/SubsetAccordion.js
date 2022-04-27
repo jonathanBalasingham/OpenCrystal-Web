@@ -10,7 +10,7 @@ import {addComps} from "../../features/compare/compareSlice";
 import {getSubset} from "../search/QueryResult";
 import {openCompareApp} from "../../features/app/appSlice";
 
-
+// TODO: Change sliders to numerical input
 export const SubsetAccordion = ({dataset}) => {
     let dispatch = useDispatch()
     const [open, setOpen] = useState(false)
