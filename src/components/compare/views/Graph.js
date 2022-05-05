@@ -93,7 +93,7 @@ function XYAxis() {
     )
 }
 
-const Root = () => {
+const GraphComponents = () => {
     const dispatch = useDispatch()
     let token = useSelector(getAccessToken)
     let names = useSelector(getComp)
@@ -109,7 +109,7 @@ const Root = () => {
     let added = useSelector(getAdded)
     let removed = useSelector(getRemoved)
 
-    const [showContents, setShowContents] = useState(false);
+
     const [dataReady, setDataReady] = useState(false);
     const [loading, setLoading] = useState(false)
     const [dataset, setDataset] = useState({});
@@ -120,11 +120,10 @@ const Root = () => {
     const [hoveredNode, setHoveredNode] = useState(null);
     const [hoveredEdge, setHoveredEdge] = useState(null)
 
-    // Load data on mount:
+
     useEffect(() => {
         console.log("Hitting Python API")
         setLoading(true)
-
         fetch('/api/compare/submit', {
             method: 'POST',
             headers: {
@@ -146,74 +145,89 @@ const Root = () => {
                 "added": added,
                 "removed": removed,
             })
-        }).then((res) => res.json())
-            .then((dataset) => {
-                setDataset(dataset);
-                dispatch(setMaxThreshold(dataset.max * 1.05))
-                setFiltersState({
-                    clusters: mapValues(keyBy(dataset.clusters, "key"), constant(true)),
-                    tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
-                });
-                dispatch(setResolved(true))
-                requestAnimationFrame(() => {
-                    setDataReady(true)
-                    setLoading(false)
-                });
-            });
-
-        /*
-        fetch('/api/compare/job', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer: ${token}`,
-                'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
-                'Content-Length': '<calculated when request is sent>'
-            },
-            body: JSON.stringify({"names": names})
-        })
-            .then((data) => data.json())
-            .then((d) => {
-                let url = `/api/compare/${graphType}/${measure}/${k}?threshold=${5}&names=${d["callback"]}&breakout=${breakout}`
-                if (graphType === "amd"){
-                    url = `/api/compare/${graphType}/${k_x}/${k_y}?names=${d["callback"]}&breakout=${breakout}&edge_k=${k}`
-                }
-                return url
-            })
-            .then(url => {
-                fetch(url, {
-                    headers: {
-                        'Authorization': `Bearer: ${token}`,
-                    }
-                })
-                    .then((res) => res.json())
-                    .then((dataset) => {
-                        setDataset(dataset);
-                        dispatch(setMaxThreshold(dataset.max))
-                        setFiltersState({
-                            clusters: mapValues(keyBy(dataset.clusters, "key"), constant(true)),
-                            tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
-                        });
-                        requestAnimationFrame(() => {
-                            setDataReady(true)
-                            setLoading(false)
-                        });
+        }).then((res) => {
+            if (res.status === 200) {
+                res.json().then((dataset) => {
+                    setDataset(dataset);
+                    console.log("dists is")
+                    console.log(dataset["dists"])
+                    dispatch(setMaxThreshold(dataset.max * 1.05))
+                    setFiltersState({
+                        clusters: mapValues(keyBy(dataset.clusters, "key"), constant(true)),
+                        tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
                     });
-            })
-            */
-    }, [breakout, dispatch, graphType, k, k_x, k_y, measure, names]);
+                    dispatch(setResolved(true))
+                    requestAnimationFrame(() => {
+                        setDataReady(true)
+                        setLoading(false)
+                    });
+                });
+            } else {
+                if (res.status === 401) {
+                    window.location.reload()
+                } else {
+                    dispatch(setResolved(true))
+                    // TODO: Need to throw an error up
+                }
+            }
+        })
 
+    }, [breakout, dispatch, graphType, k, k_x, k_y, measure, added, removed]);
 
+    // Load data on mount:
     if (loading)
         return (
             <Loading style={{"display": "grid",
-                             "justify-content": "center",
-                             "align-content": "center",
-                             "height": "100vh",
-                             "background": "transparent"}}/>
+                "justify-content": "center",
+                "align-content": "center",
+                "height": "100vh",
+                "background": "transparent"}}/>
         )
     if (!dataReady)
         return null;
 
+    return (
+        <>
+            <GraphSettingsController hoveredNode={hoveredNode} hoveredEdge={hoveredEdge} />
+            <GraphEventsController setHoveredNode={setHoveredNode} setHoveredEdge={setHoveredEdge} />
+            <GraphDataController dataset={dataset} filters={filtersState} />
+            {dataReady && (
+                <>
+                    <XYAxis/>
+                    <PreviewPanel/>
+                    <div className="contents">
+                        <div className={"panels"}>
+                            <SearchField filters={filtersState} />
+                            <ClustersPanel
+                                clusters={dataset.clusters}
+                                filters={filtersState}
+                                setClusters={(clusters) =>
+                                    setFiltersState((filters) => ({
+                                        ...filters,
+                                        clusters,
+                                    }))
+                                }
+                                toggleCluster={(cluster) => {
+                                    setFiltersState((filters) => ({
+                                        ...filters,
+                                        clusters: filters.clusters[cluster]
+                                            ? omit(filters.clusters, cluster)
+                                            : { ...filters.clusters, [cluster]: true },
+                                    }));
+                                }}
+                            />
+                        </div>
+                    </div>
+                </>
+            )}
+        </>
+    )
+}
+
+
+const Graph = () => {
+
+    const [showContents, setShowContents] = useState(false);
 
     return (
         <div id="app-root" className={showContents ? "show-contents" : ""}>
@@ -236,52 +250,11 @@ const Root = () => {
                 }}
                 className="react-sigma"
             >
-                <GraphSettingsController hoveredNode={hoveredNode} hoveredEdge={hoveredEdge} />
-                <GraphEventsController setHoveredNode={setHoveredNode} setHoveredEdge={setHoveredEdge} />
-                <GraphDataController dataset={dataset} filters={filtersState} />
-                {dataReady && (
-                    <>
-                        <XYAxis/>
-                        <PreviewPanel/>
-                        <div className="contents">
-                            <div className="ico">
-                                <button
-                                    type="button"
-                                    className="ico hide-contents"
-                                    onClick={() => setShowContents(false)}
-                                    title="Show caption and description"
-                                >
-                                    <GrClose />
-                                </button>
-                            </div>
-                            <div className={"panels"}>
-                                <SearchField filters={filtersState} />
-                                <ClustersPanel
-                                    clusters={dataset.clusters}
-                                    filters={filtersState}
-                                    setClusters={(clusters) =>
-                                        setFiltersState((filters) => ({
-                                            ...filters,
-                                            clusters,
-                                        }))
-                                    }
-                                    toggleCluster={(cluster) => {
-                                        setFiltersState((filters) => ({
-                                            ...filters,
-                                            clusters: filters.clusters[cluster]
-                                                ? omit(filters.clusters, cluster)
-                                                : { ...filters.clusters, [cluster]: true },
-                                        }));
-                                    }}
-                                />
-                            </div>
-                        </div>
-                    </>
-                )}
+                <GraphComponents/>
             </SigmaContainer>
         </div>
     );
 
 };
 
-export default Root;
+export default Graph;

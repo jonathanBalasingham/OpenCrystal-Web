@@ -1,9 +1,10 @@
 import {useDispatch, useSelector} from "react-redux";
-import {getComp, getGraphType} from "../../features/compare/compareSlice";
+import {getAdded, getComp, getGraphType} from "../../features/compare/compareSlice";
 import {OpenCompareMenu} from "./CompareAppMenu";
 import {MyResponsiveCirclePacking} from "./CirclePacking";
 import {MyResponsiveSunburst} from "./Sunburst";
 import Root from "./views/Root";
+import Graph from "./views/Graph";
 import * as React from "react";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
@@ -50,11 +51,15 @@ export function CompareAppPlot({size}) {
 
     const graphType = useSelector(getGraphType)
     const comp = useSelector(getComp)
+    const added = useSelector(getAdded)
+
     let dispatch = useDispatch()
 
     let graph = <CompareAppPlotPlaceHolder/>;
 
-    if (comp.length !== 0) {
+    console.log("added in CompareAppPlot is")
+    console.log(added)
+    if (comp.length !== 0 || added.length !== 0) {
         if (graphType === "circle"){
             graph = <>
                 <MyResponsiveCirclePacking/>
@@ -75,7 +80,7 @@ export function CompareAppPlot({size}) {
             graph = <ForceDirectedGraph size={size}/>
         } else {
             graph = <>
-                <Root/>
+                <Graph/>
             </>
         }
     }

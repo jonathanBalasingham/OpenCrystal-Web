@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {FaPlus} from "react-icons/fa";
 import {useDispatch, useSelector} from "react-redux";
-import {addComp, addComps} from "../../features/compare/compareSlice";
+import {addComp, addComps, setAdded} from "../../features/compare/compareSlice";
 import {BsChevronRight, BsChevronDown} from "react-icons/all";
 import {getCompType, getFacet} from "../../features/search/searchSlice";
 import {getOpenApp} from "../../features/app/appSlice";

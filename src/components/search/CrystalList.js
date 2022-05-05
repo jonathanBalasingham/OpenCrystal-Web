@@ -1,7 +1,7 @@
 import * as React from "react";
 import {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getComp, removeComp, getCrystalListOpen} from "../../features/compare/compareSlice";
+import {getComp, removeComp, getCrystalListOpen, setRemoved} from "../../features/compare/compareSlice";
 import {FaMinus} from "react-icons/fa";
 import {QueryResult} from "./QueryResult";
 import cx from "classnames"
@@ -13,7 +13,7 @@ export function AddedQueryResult(cname) {
     const addToComparison = (e) => {
         console.log(e.target.id);
         let name = e.target.id.replace("-remove-button", "")
-        dispatch(removeComp(name))
+        dispatch(setRemoved(name))
     }
 
     return (

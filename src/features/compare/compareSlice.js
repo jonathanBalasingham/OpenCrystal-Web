@@ -22,6 +22,11 @@ const initialState = {
     "crystalListOpen": false,
     "clusterPanelOpen": true,
     "searchFieldOpen": true,
+    "dists": [],
+    "edge_dists": [],
+    "added": [],
+    "removed": [],
+    "modification": {field: null}
 }
 
 const compareSlice = createSlice({
@@ -29,68 +34,95 @@ const compareSlice = createSlice({
     initialState,
     reducers: {
         addComp(state, action) {
-            let newState = state["data"]
-            if (!state["data"].includes(action.payload))
-                newState = state["data"].concat([action.payload])
+            let added = []
+            if (!state["data"].includes(action.payload)) {
+                added = [action.payload]
+            }
+            console.log("added is")
+            console.log(added)
 
             return {
                 ...state,
-                "data": newState
+                "added": added,
+                "removed": [],
+                "modification": {field: null}
             };
         },
         addComps(state, action) {
-            let newState = state["data"]
+            let added = []
             for (let i = 0; i < action.payload.length; i++) {
-                if (!state["data"].includes(action.payload[i]))
-                    newState = newState.concat([action.payload[i]])
+                if (!state["data"].includes(action.payload[i])) {
+                    added = added.concat(action.payload)
+                }
             }
             return {
                 ...state,
-                "data": newState
+                "added": added,
+                "removed": [],
+                "modification": {field: null}
             };
         },
         removeComp(state, action) {
             return {
                 ...state,
-                "data": state["data"].filter(x => x !== action.payload)
-
+                "removed": state["removed"].concat([action.payload]),
+                "added": [],
+                "modification": {field: null}
             };
         },
         clearComp(state, action){
             return {
                 ...state,
-                "data": []
+                "data": [],
+                "added": [],
+                "removed": [],
+                "modification": {field: null}
             };
         },
         setGraphType(state, action) {
             const gt  = action.payload
             return {
               ...state,
-              "graphtype": gt
+              "graphtype": gt,
+                "modification": {"field": "graph_type"},
+                "added": [],
+                "removed": []
             };
         },
         setMeasure(state, action) {
             return {
                 ...state,
-                "measure": action.payload
+                "measure": action.payload,
+                "modification": {"field": "measure"},
+                "added": [],
+                "removed": []
             }
         },
         setK(state, action) {
             return {
                 ...state,
-                "k": Number(action.payload)
+                "k": Number(action.payload),
+                "modification": {"field": "k"},
+                "added": [],
+                "removed": []
             }
         },
         setKx(state, action) {
             return {
                 ...state,
-                "k_x": Number(action.payload)
+                "k_x": Number(action.payload),
+                "modification": {"field": "k_x"},
+                "added": [],
+                "removed": []
             }
         },
         setKy(state, action) {
             return {
                 ...state,
-                "k_y": Number(action.payload)
+                "k_y": Number(action.payload),
+                "modification": {"field": "k_y"},
+                "added": [],
+                "removed": []
             }
         },
         setThreshold(state, action) {
@@ -127,7 +159,10 @@ const compareSlice = createSlice({
         setLinkage(state, action) {
             return {
                 ...state,
-                "linkage": action.payload
+                "linkage": action.payload,
+                "modification": {"field": "linkage"},
+                "added": [],
+                "removed": []
             }
         },
         setRendering(state, action) {
@@ -195,8 +230,38 @@ const compareSlice = createSlice({
             return state
         },
         setBreakout(state, action) {
-            state["breakout"] = action.payload
+            return {
+                ...state,
+                "added": [],
+                "removed": [],
+                "field": "breakout",
+                "breakout": action.payload
+            }
+        },
+        setDists(state, action) {
+            state["dists"] = action.payload
             return state
+        },
+        setEdgeDists(state, action) {
+            state["edge_dists"] = action.payload
+            return state
+        },
+        setAdded(state, action) {
+            state["added"] = [action.payload]
+            return state
+        },
+        setRemoved(state, action) {
+            state["removed"] = [action.payload]
+            state["added"] = []
+            return state
+        },
+        setModification(state, action) {
+            state["modification"] = action.payload
+            return state
+        },
+        setResolved(state, action) {
+            state["data"] = state["data"].filter(x => !state["removed"].includes(x))
+            state["data"] = state["data"].concat(state["added"])
         }
     }
 })
@@ -205,7 +270,8 @@ export const { addComp, addComps, removeComp, setGraphType, clearComp, setK, set
             setMeasure, setThreshold, setMaxThreshold, setThresholds, setKs, setLinkage,
             setRendering, setCamera, setBox, setMenuOpen, toggleMenu, togglePreviewList,
             toggleCrystalList, removeFromPreviewList, addToPreviewList, openPreviewList,
-            toggleClusterPanel, toggleSearchField, setBreakout} = compareSlice.actions
+            toggleClusterPanel, toggleSearchField, setBreakout, setDists, setEdgeDists,
+            setModification, setRemoved, setAdded, setResolved} = compareSlice.actions
 
 export default compareSlice.reducer
 
@@ -235,3 +301,11 @@ export const getSearchFieldOpen = createSelector((state) => state.compareSlice, 
 export const getClusterPanelOpen = createSelector((state) => state.compareSlice, (p) => p["clusterPanelOpen"])
 export const getCrystalListOpen = createSelector((state) => state.compareSlice, (p) => p["crystalListOpen"])
 export const getBreakout = createSelector((state) => state.compareSlice, (p) => p["breakout"])
+export const getDists = createSelector((state) => state.compareSlice, (p) => p["dists"])
+export const getEdgeDists = createSelector((state) => state.compareSlice, (p) => p["edge_dists"])
+export const getModification = createSelector((state) => state.compareSlice, (p) => p["modification"])
+export const getAdded = createSelector((state) => state.compareSlice, (p) => p["added"])
+export const getRemoved = createSelector((state) => state.compareSlice, (p) => p["removed"])
+
+
+
