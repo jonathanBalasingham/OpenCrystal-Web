@@ -16,6 +16,7 @@ import {
     setKy, setLinkage, getKs, setKs, getThresholds, setThresholds, getGraphType
 } from "../../features/compare/compareSlice";
 import {Button, ButtonGroup} from "react-bootstrap";
+import {useState} from "react";
 
 
 
@@ -25,12 +26,17 @@ function GraphControls(){
     let k = useSelector(getK)
     let measure = useSelector(getMeasure)
     let maxThresh = useSelector(getMaxThreshold)
+    const [localk, setLocalK] = useState(k.toString())
 
     return (
         <>
             <p>{`Nearest Neighbors: ${k}`}</p>
-            <input type="range" id="k" name="k" onChange={e => dispatch(setK(e.target.value))}
-                   min="1" max="200" value={k} step="1" className={"range-style"} />
+            <input type="text" id="k" name="k" value={localk} onChange={e => {
+                setLocalK(e.target.value.replace(/\D/g,''))
+                if (!isNaN(parseInt(e.target.value.replace(/\D/g,''))))
+                    dispatch(setK(Math.max(Math.min(parseInt(e.target.value.replace(/\D/g,'')), 200), 1)))
+            }}
+                   value={k} className={"range-style"} />
             <p>{`Edge Threshold: ${threshold.toFixed(6)}`}</p>
             <input type="range" id="threshold" name="threshold"
                    onChange={e => dispatch(setThreshold(e.target.value))}
@@ -142,18 +148,36 @@ function AMDControls() {
     let maxThresh = useSelector(getMaxThreshold)
     let threshold = useSelector(getThreshold)
     let k = useSelector(getK)
+    const [localk, setLocalK] = useState(k.toString())
+    const [localkx, setLocalKx] = useState(k_x.toString())
+    const [localky, setLocalKy] = useState(k_y.toString())
 
     return  (
         <>
-            <p>{`X-Axis: AMD ${k_x}`}</p>
-            <input type="range" id="k_x" name="k_x" onChange={e => dispatch(setKx(e.target.value))}
-                   min="1" max="200" value={k_x} step="1" className={"range-style"} />
-            <p>{`Y-Axis: AMD ${k_y}`}</p>
-            <input type="range" id="k_y" name="k_y" onChange={e => dispatch(setKy(e.target.value))}
-                   min="1" max="200" value={k_y} step="1" className={"range-style"} />
+            <div style={{"display": "flex", "marginBottom": "10px"}}>
+                <div style={{"width": "50%"}}>
+                    <p style={{"fontSize": "12px", "marginBottom": "1px"}}>{`X-Axis: AMD ${k_x}`}</p>
+                    <input type={"text"} id="k_x" name="k_x" value={localkx} onChange={e => {
+                        setLocalKx(e.target.value.replace(/\D/g,''))
+                        if (!isNaN(parseInt(e.target.value.replace(/\D/g,''))))
+                            dispatch(setKx(Math.max(Math.min(parseInt(e.target.value.replace(/\D/g,'')), 200), 1)))
+                    }} style={{"width": "90%"}}/>
+                </div>
+                <div style={{"width": "50%"}}>
+                    <p style={{"fontSize": "12px", "marginBottom": "1px"}}>{`Y-Axis: AMD ${k_y}`}</p>
+                    <input type={"text"} id="k_y" name="k_y" value={localky} onChange={e => {
+                        setLocalKy(e.target.value.replace(/\D/g,''))
+                        if (!isNaN(parseInt(e.target.value.replace(/\D/g,''))))
+                            dispatch(setKy(Math.max(Math.min(parseInt(e.target.value.replace(/\D/g,'')), 200), 1)))
+                    }} style={{"width": "90%"}}/>
+                </div>
+            </div>
             <p>{`Edge Nearest Neighbors: ${k}`}</p>
-            <input type="range" id="k" name="k" onChange={e => dispatch(setK(e.target.value))}
-                   min="1" max="200" value={k} step="1" className={"range-style"} />
+            <input type="text" id="k" name="k" value={localk} onChange={e => {
+                setLocalK(e.target.value.replace(/\D/g,''))
+                if (!isNaN(parseInt(e.target.value.replace(/\D/g,''))))
+                    dispatch(setK(Math.max(Math.min(parseInt(e.target.value.replace(/\D/g,'')), 200), 1)))
+            }} value={k} className={"range-style"} />
             <p>{`Edge Threshold: ${threshold.toFixed(6)}`}</p>
             <input type="range" id="threshold" name="threshold"
                    onChange={e => dispatch(setThreshold(e.target.value))}

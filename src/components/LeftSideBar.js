@@ -21,7 +21,6 @@ const LeftSideBar = () => {
         <div  id="left-side-bar">
             <div className={"top-buttons"}>
                 <LeftSideBarButton id="Home-button" buttonIcon={<HomeIcon/>} onClick={() => dispatch(openHomeApp(""))}/>
-                <LeftSideBarButton id="Create-button" buttonIcon={<AddIcon/>} onClick={() => dispatch(openCreateApp(""))}/>
                 <LeftSideBarButton id="Compare-button" buttonIcon={<CompareIcon/>} onClick={() => dispatch(openCompareApp(""))}/>
                 <LeftSideBarButton id="View-button" buttonIcon={<PreviewIcon/>} onClick={() => dispatch(openViewApp(""))}/>
             </div>

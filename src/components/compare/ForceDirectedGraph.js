@@ -79,7 +79,7 @@ export const ForceDirectedGraph = ({size}) => {
                     .then((res) => res.json())
                     .then((dataset) => {
                         setData(dataset);
-                        dispatch(setMaxThreshold(dataset.max))
+                        dispatch(setMaxThreshold(dataset.max * 1.05))
                         requestAnimationFrame(() => {
                             setDataReady(true)
                             setLoading(false)
