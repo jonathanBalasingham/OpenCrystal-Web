@@ -222,6 +222,8 @@ function Line({ start, end, color }) {
     useLayoutEffect(() => {
         ref.current.geometry.setFromPoints([start, end].map((point) => new THREE.Vector3(...point)))
     }, [start, end])
+
+
     return (
         <line ref={ref}>
             <bufferGeometry />
@@ -310,6 +312,9 @@ export const Molecule = ({dataset, rotX, rotY, center}) => {
         }
         let s = bondLocations[i["Label1"]]
         let e = bondLocations[i["Label2"]]
+
+        if (s === undefined || e === undefined)
+            return
 
         return (
             <Line start={s}
