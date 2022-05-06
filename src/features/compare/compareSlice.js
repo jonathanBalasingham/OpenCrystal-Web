@@ -52,7 +52,7 @@ const compareSlice = createSlice({
             let added = []
             for (let i = 0; i < action.payload.length; i++) {
                 if (!state["data"].includes(action.payload[i])) {
-                    added = added.concat(action.payload)
+                    added = added.concat(action.payload[i])
                 }
             }
             return {
