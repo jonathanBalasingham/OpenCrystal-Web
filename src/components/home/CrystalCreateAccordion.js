@@ -217,7 +217,7 @@ export const CrystalCreateAccordion = () => {
                     }}/>
                 </Form.Group>
                 <Form.Group controlId="formFileSm" className="mb-3">
-                    <Form.Label>Small file input example</Form.Label>
+                    <Form.Label>CIF File</Form.Label>
                     <Form.Control type="file" size="sm" onChange={changeHandler}/>
                 </Form.Group>
                 <div style={{"display": "flex"}}>
