@@ -15,6 +15,7 @@ export const CompareAppMenuGraphSelection = () =>{
             <CompareAppMenuGraphSelectionButton label={"force"} text={"FDL"} />
             <CompareAppMenuGraphSelectionButton label={"pmfg"} text={"PMFG"} />
             <CompareAppMenuGraphSelectionButton label={"kkg"} text={"Kamada-Kawai"} />
+            <CompareAppMenuGraphSelectionButton label={"pca"} text={"PCA"} />
         </div>
     )
 }

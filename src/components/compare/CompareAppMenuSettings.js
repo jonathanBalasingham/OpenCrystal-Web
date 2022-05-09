@@ -35,8 +35,7 @@ function GraphControls(){
                 setLocalK(e.target.value.replace(/\D/g,''))
                 if (!isNaN(parseInt(e.target.value.replace(/\D/g,''))))
                     dispatch(setK(Math.max(Math.min(parseInt(e.target.value.replace(/\D/g,'')), 200), 1)))
-            }}
-                   value={k} className={"range-style"} />
+            }} className={"range-style"} />
             <p>{`Edge Threshold: ${threshold.toFixed(6)}`}</p>
             <input type="range" id="threshold" name="threshold"
                    onChange={e => dispatch(setThreshold(e.target.value))}
@@ -211,6 +210,36 @@ const KKGSettings = () => {
     )
 }
 
+const PCAControls = () => {
+    const dispatch = useDispatch()
+    let threshold = useSelector(getThreshold)
+    let k = useSelector(getK)
+    let maxThresh = useSelector(getMaxThreshold)
+    const [localk, setLocalK] = useState(k.toString())
+
+    return (
+        <>
+            <p>{`Nearest Neighbors: ${k}`}</p>
+            <input type="text" id="k" name="k" value={localk} onChange={e => {
+                setLocalK(e.target.value.replace(/\D/g,''))
+                if (!isNaN(parseInt(e.target.value.replace(/\D/g,''))))
+                    dispatch(setK(Math.max(Math.min(parseInt(e.target.value.replace(/\D/g,'')), 200), 1)))
+            }} className={"range-style"} />
+            <p>{`Edge Threshold: ${threshold.toFixed(6)}`}</p>
+            <input type="range" id="threshold" name="threshold"
+                   onChange={e => dispatch(setThreshold(e.target.value))}
+                   min="0" max={maxThresh} value={threshold} step={maxThresh / 100} className={"range-style"}  />
+        </>
+    )
+
+}
+
+const PCASettings = () => {
+    return (
+        <PCAControls/>
+    )
+}
+
 const settingsMap = {"mst": MSTSettings(),
                             "full": ThresholdSettings(),
                             "dendrogram": DendrogramSettings(),
@@ -221,6 +250,7 @@ const settingsMap = {"mst": MSTSettings(),
                             "force": ForceSettings(),
                             "pmfg": PMFGSettings(),
                             "kkg": KKGSettings(),
+                            "pca": PCASettings(),
 }
 
 export const CompareAppMenuSettings = () => {
