@@ -10,6 +10,7 @@ import {addComp} from "../../features/compare/compareSlice";
 import {addView} from "../../features/view/viewSlice";
 import {openCompareApp, openViewApp} from "../../features/app/appSlice";
 import {handleTickBox} from "../../features/home/homeSlice";
+import {Spinner} from "react-bootstrap";
 
 
 export const CrystalAccordion = ({dataset}) => {
@@ -75,7 +76,14 @@ export const CrystalAccordion = ({dataset}) => {
                 </div>
             </div>
             <div className={cx("crystal-accordion-body", {"open": open})}>
-                { loading && <LoadingCustom/> }
+                {
+                    loading &&
+                        <div style={{"display": "grid", "width": "100%",
+                                     "height": "100%", "justify-content":"center",
+                                     "alignContent": "center"}}>
+                            <Spinner animation="border" variant="primary" />
+                        </div>
+                }
                 { dataReady && <CrystalAccordionBody data={data}/>}
             </div>
         </div>

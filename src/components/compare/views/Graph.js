@@ -176,13 +176,8 @@ const GraphComponents = () => {
 
     // Load data on mount:
     if (loading)
-        return (
-            <Loading style={{"display": "grid",
-                "justify-content": "center",
-                "align-content": "center",
-                "height": "100vh",
-                "background": "transparent"}}/>
-        )
+        console.log("loading")
+
     if (!dataReady)
         return null;
 
@@ -191,6 +186,13 @@ const GraphComponents = () => {
             <GraphSettingsController hoveredNode={hoveredNode} hoveredEdge={hoveredEdge} />
             <GraphEventsController setHoveredNode={setHoveredNode} setHoveredEdge={setHoveredEdge} />
             <GraphDataController dataset={dataset} filters={filtersState} />
+            {loading &&
+                <Loading style={{"display": "grid",
+                    "justify-content": "center",
+                    "align-content": "center",
+                    "height": "100vh",
+                    "background": "transparent", "zIndex": "100"}}/>
+            }
             {dataReady && (
                 <>
                     <XYAxis/>

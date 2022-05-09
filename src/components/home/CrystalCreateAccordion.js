@@ -6,7 +6,7 @@ import {
     flushCreateCrystal,
     getCreateCrystalOpen
 } from "../../features/home/homeSlice";
-import {Badge, Button, Form} from "react-bootstrap"
+import {Badge, Button, Form, Spinner} from "react-bootstrap"
 import {cifParser} from "cif-to-json";
 import {setReadingFile} from "../../features/create/createSlice";
 import {extractAtoms, extractBonds, extractCrystalMetaData, extractUnitCell} from "./CIFHelpers";
@@ -42,6 +42,7 @@ export const CrystalCreateAccordion = () => {
     const [sourceOptions, setSourceOptions] = useState([])
     const [source, setSource] = useState("")
     const [similarCrystals, setSimilarCrystals] = useState([])
+    const [loading, setLoading] = useState(false)
 
     const createCrystal = () => {
         setMessage("Creating Crystal..")
@@ -111,6 +112,7 @@ export const CrystalCreateAccordion = () => {
             return
 
         console.log("retrieving ")
+        setLoading(true)
         fetch(`/api/search/preview/`, {
             method: "POST",
             headers: {
@@ -138,6 +140,7 @@ export const CrystalCreateAccordion = () => {
                 })
             }
         })
+        setLoading(false)
     }, [isParsed, pickedFile])
 
     useEffect(() => {
@@ -156,6 +159,7 @@ export const CrystalCreateAccordion = () => {
 
     const changeHandler = async(event) => {
         const file = event.target.files.item(0)
+        setIsParsed(false)
         setPickedFile(file)
         dispatch(setReadingFile(true))
         const text = await file.text();
@@ -286,7 +290,18 @@ export const CrystalCreateAccordion = () => {
                             </div>
                         </div>
                         <div style={{"width": "50%"}}>
-                            <SimilarCrystalsTable data={similarCrystals}/>
+                            {
+                                loading &&
+                                <div style={{"display": "grid", "width": "100%",
+                                    "height": "100%", "justify-content":"center",
+                                    "alignContent": "center"}}>
+                                    <Spinner animation="border" variant="primary" />
+                                </div>
+                            }
+                            {
+                                !loading &&
+                                <SimilarCrystalsTable data={similarCrystals}/>
+                            }
                         </div>
                     </div>
                 }

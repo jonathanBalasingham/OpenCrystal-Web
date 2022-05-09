@@ -53,6 +53,8 @@ export const SearchAccordion = ({}) => {
     let token = useSelector(getAccessToken)
 
     const handleSearch = () => {
+        if (query === "")
+            return
         setLoading(true)
         let aa = activeAccordion
         if (activeAccordion === "recent") {
