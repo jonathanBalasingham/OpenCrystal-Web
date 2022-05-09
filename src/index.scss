@@ -71,22 +71,15 @@ body > #root > div {
 
 #submit-login-button, #submit-create-button {
   width: 300px;
-  background: var(--defaultprimary);
-  border: 2px solid var(--defaultborder);
   color: var(--defaulttext);
   margin-top: 10px;
-  border-radius: 4px;
+  padding: 5px 0;
 }
 
 #login-tabs > nav {
   margin-top: 10px;
 }
 
-#submit-login-button:hover, #submit-create-button:hover {
-  border: 2px solid var(--defaultborder);
-  color: var(--defaulttext);
-  background: var(--defaulthover);
-}
 
 #login-tabs {
   nav button {

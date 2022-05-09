@@ -9,6 +9,7 @@ import {addAccessToken, addRefreshToken, addToken, refreshToken, setLoggedIn} fr
 import {useDispatch} from "react-redux";
 import { Canvas, useFrame } from '@react-three/fiber'
 import Ball from "./Logo";
+import {Button} from "react-bootstrap";
 
 
 async function loginUser(credentials) {
@@ -116,7 +117,7 @@ export function LoginPage({setToken}) {
                                 <input type="password" placeholder="Password" id="password-input"
                                        onChange={e => setPassword(e.target.value)}/>
                             </fieldset>
-                            <button type="submit" id="submit-login-button">Submit</button>
+                            <Button type="submit" id="submit-login-button">Submit</Button>
                         </form>
                     </TabPanel>
                     <TabPanel hidden={selectedTab !== 'New Account'}>
@@ -135,7 +136,7 @@ export function LoginPage({setToken}) {
                                 <input type="password" placeholder="Password" id="repeat-password-input"
                                        onChange={e => setNewPassword(e.target.value)}/>
                             </fieldset>
-                            <button type="submit" id="submit-create-button">Create</button>
+                            <Button type="submit" id="submit-create-button">Create</Button>
                         </form>
                     </TabPanel>
                 </div>
