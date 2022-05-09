@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {LoadingCustom} from "../../Loading";
 import {CrystalAccordion} from "./CrystalAccordion";
 import {useSelector} from "react-redux";
@@ -6,6 +6,7 @@ import {getAccessToken} from "../../features/auth/authSlice";
 import {getActiveAccordion, getSelected} from "../../features/home/homeSlice";
 import cx from "classnames"
 import {CrystalCreateAccordion} from "./CrystalCreateAccordion";
+import {Spinner} from "react-bootstrap";
 
 export const SelectedCount = () => {
     let selected = useSelector(getSelected)
@@ -39,18 +40,21 @@ export const RecentCrystalAccordionList = () => {
             })
     },[])
 
-    if (loading) {
-        return <LoadingCustom width={"200px"} height={"300px"}/>
-    }
-
-    if (!dataReady)
-        return <div></div>
 
     return (
         <div className={cx("crystal-accordion-list", {"hidden": activeAccordion !== "recent"})}>
             <SelectedCount/>
             <CrystalCreateAccordion/>
-            {dataset.map((d) => {
+            {
+                loading &&
+                <div style={{"display": "grid", "width": "100%",
+                    "height": "100%", "placeItems": "center"}}>
+                    <Spinner animation="border" variant="primary" />
+                </div>
+            }
+            {
+                dataReady &&
+                dataset.map((d) => {
                 return <CrystalAccordion dataset={d}/>
             })}
         </div>
