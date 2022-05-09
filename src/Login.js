@@ -43,7 +43,7 @@ export function LoginPage({setToken}) {
         'New Account',
     ]);
 
-    const [submitting, setSubmitting] = useState(false);
+    const [isLoading, setLoading] = useState(false);
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
     const [newusername, setNewUserName] = useState();
@@ -52,6 +52,7 @@ export function LoginPage({setToken}) {
     let dispatch = useDispatch()
 
     const handleSubmit = async e => {
+        setLoading(true)
         e.preventDefault();
         const token = await loginUser({
             username,
@@ -66,6 +67,7 @@ export function LoginPage({setToken}) {
             dispatch(addAccessToken(token["access"]))
             dispatch(addRefreshToken(token["refresh"]))
         }
+        setLoading(false)
     }
 
     const handleCreation = async e => {
@@ -117,7 +119,8 @@ export function LoginPage({setToken}) {
                                 <input type="password" placeholder="Password" id="password-input"
                                        onChange={e => setPassword(e.target.value)}/>
                             </fieldset>
-                            <Button type="submit" id="submit-login-button">Submit</Button>
+                            <Button type="submit" id="submit-login-button"
+                                disabled={isLoading}>{isLoading ? "Logging in.." : "Submit"}</Button>
                         </form>
                     </TabPanel>
                     <TabPanel hidden={selectedTab !== 'New Account'}>
@@ -136,7 +139,8 @@ export function LoginPage({setToken}) {
                                 <input type="password" placeholder="Password" id="repeat-password-input"
                                        onChange={e => setNewPassword(e.target.value)}/>
                             </fieldset>
-                            <Button type="submit" id="submit-create-button">Create</Button>
+                            <Button type="submit" id="submit-create-button"
+                                    disabled={isLoading}>{isLoading ? "Creating.." : "Create"}</Button>
                         </form>
                     </TabPanel>
                 </div>
