@@ -36,6 +36,8 @@ export const SearchBar = () => {
     console.log(`Match is ${matchType}`)
 
     async function search() {
+        dispatch(change({"results": {'data': [], 'loading': true}}))
+
         console.log("doing something")
         fetch("/api/token/refresh", {
             method: "POST",
@@ -85,7 +87,6 @@ export const SearchBar = () => {
 
     const fetchResults = async(e) => {
         e.preventDefault();
-        dispatch(change({"results": {'data': [], 'loading': true}}))
         dispatch(changeContent("results"))
         const res = await search(query, facet, k, resSize, n, compType, token)
         dispatch(change({"results": {'data': res.data, 'loading': false}}))
