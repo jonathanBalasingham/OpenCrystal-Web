@@ -1,6 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
+import {ButtonGroup, Button, Spinner} from "react-bootstrap";
 
 const SimilarCrystalRow = ({datum}) => {
+    let d = datum.Distance
+    if (datum.Distance === undefined)
+        d = "N/A"
+    else
+        d = d.toFixed(6)
+
 
     return (
         <tr>
@@ -8,15 +15,36 @@ const SimilarCrystalRow = ({datum}) => {
             <td>{datum.family}</td>
             <td>{datum.Polymorph}</td>
             <td>{datum.Source.name}</td>
-            <td>{datum.Distance.toFixed(6)}</td>
+            <td>{d}</td>
         </tr>
     )
 }
 
-export const SimilarCrystalsTable = ({data}) => {
+export const SimilarCrystalsTable = ({data, pddData, loading}) => {
+    const [rankBy, setRankBy] = useState("amd")
+    console.log(data)
+    let c = {}
+    for (var row in data) {
+        console.log(row)
+        c[data[row].name] = data[row]
+    }
+    console.log(c)
+    let sortable = [];
+    for (var i in pddData) {
+        sortable.push([i, pddData[i]]);
+    }
+    sortable.sort(function(a, b) {
+        return a[1] - b[1];
+    });
+
+    console.log(pddData)
     return (
         <div>
             <p style={{"margin": "5px 25px"}}>Similar Crystals</p>
+            <ButtonGroup aria-label="Basic example" style={{"margin-left": "25px"}}>
+                <Button variant="primary" onClick={() => setRankBy("amd")} size={"sm"}>AMD</Button>
+                <Button variant="primary" disabled={pddData === undefined || pddData === {}} onClick={() => setRankBy("pdd")} size={"sm"}>PDD</Button>
+            </ButtonGroup>
             <table className={"amd-table"}>
                 <thead>
                 <tr>
@@ -28,9 +56,26 @@ export const SimilarCrystalsTable = ({data}) => {
                 </tr>
                 </thead>
                 <tbody>
-                {data.map(function (i) {
+                {
+                    loading &&
+                    <div style={{"display": "grid", "width": "100%",
+                        "height": "100%", "placeItems": "center"}}>
+                        <Spinner animation="border" variant="primary" />
+                    </div>
+                }
+                { !loading && rankBy === "amd" && data.map(function (i) {
                     return <SimilarCrystalRow datum={i}/>
                 })}
+                { !loading && rankBy === "pdd" && sortable && sortable.map(function (i) {
+                    // i is the key
+                    console.log(i[0])
+                    console.log(c)
+                    console.log(i[1])
+                    if (!c[i[0]])
+                        return undefined
+                    return <SimilarCrystalRow datum={{...c[i[0]], "Distance": i[1]}}/>
+                })}
+
                 </tbody>
             </table>
         </div>

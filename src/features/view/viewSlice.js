@@ -3,6 +3,7 @@ import { createSlice, createSelector } from '@reduxjs/toolkit'
 const initialState = {
     currentObject: undefined,
     menuOpen: false,
+    symmetries: []
 };
 
 const viewSlice = createSlice({
@@ -28,6 +29,10 @@ const viewSlice = createSlice({
         toggleMenu(state, action) {
             state["menuOpen"] = !state["menuOpen"]
             return state;
+        },
+        setSymmetries(state, action) {
+            state["symmetries"] = action.payload
+            return state
         }
     }
 })
@@ -41,6 +46,7 @@ export const getViewObject = createSelector((state) => state.viewSlice, (p) =>
 )
 
 export const getMenuOpen = createSelector((state) => state.viewSlice, (p) => p["menuOpen"])
+export const getSymmetries = createSelector((state) => state.viewSlice, (p) => p["symmetries"])
 
 
 

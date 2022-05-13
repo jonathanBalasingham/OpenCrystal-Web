@@ -55,6 +55,20 @@ export const SearchAccordion = ({}) => {
     const handleSearch = () => {
         if (query === "")
             return
+        switch (activeAccordion) {
+            case "crystals":
+                dispatch(setCrystalSearchResults([]))
+                break
+            case "recent":
+                dispatch(setCrystalSearchResults([]))
+                break
+            case "subsets":
+                dispatch(setSubsetSearchResults([]))
+                break
+            case "sources":
+                dispatch(setSourceSearchResults([]))
+                break
+        }
         setLoading(true)
         let aa = activeAccordion
         if (activeAccordion === "recent") {

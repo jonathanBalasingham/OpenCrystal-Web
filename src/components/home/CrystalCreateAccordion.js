@@ -43,6 +43,7 @@ export const CrystalCreateAccordion = () => {
     const [source, setSource] = useState("")
     const [similarCrystals, setSimilarCrystals] = useState([])
     const [loading, setLoading] = useState(false)
+    const [pddRankings, setPDDRankings] = useState({})
 
     const createCrystal = () => {
         setMessage("Creating Crystal..")
@@ -137,6 +138,24 @@ export const CrystalCreateAccordion = () => {
             } else if (data.status === 200) {
                 data.json().then((d) => {
                     setSimilarCrystals(d.data)
+                    let names = d.data.map(x => x.name)
+                    fetch(`/api/compare/job`, {
+                        method: "POST",
+                        headers: {
+                            'Authorization': `Bearer:${token}`,
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            "names": names,
+                            "pdd": d.pdd
+                        })
+                    }).then((x) => {
+                        if (x.status === 200){
+                            x.json().then((data) => {
+                                setPDDRankings(data)
+                            })
+                        }
+                    })
                 })
             }
         })
@@ -290,18 +309,7 @@ export const CrystalCreateAccordion = () => {
                             </div>
                         </div>
                         <div style={{"width": "50%"}}>
-                            {
-                                loading &&
-                                <div style={{"display": "grid", "width": "100%",
-                                    "height": "100%", "justify-content":"center",
-                                    "alignContent": "center"}}>
-                                    <Spinner animation="border" variant="primary" />
-                                </div>
-                            }
-                            {
-                                !loading &&
-                                <SimilarCrystalsTable data={similarCrystals}/>
-                            }
+                            <SimilarCrystalsTable data={similarCrystals} pddData={pddRankings} loading={loading}/>
                         </div>
                     </div>
                 }
