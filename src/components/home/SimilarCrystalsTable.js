@@ -22,13 +22,10 @@ const SimilarCrystalRow = ({datum}) => {
 
 export const SimilarCrystalsTable = ({data, pddData, loading}) => {
     const [rankBy, setRankBy] = useState("amd")
-    console.log(data)
     let c = {}
     for (var row in data) {
-        console.log(row)
         c[data[row].name] = data[row]
     }
-    console.log(c)
     let sortable = [];
     for (var i in pddData) {
         sortable.push([i, pddData[i]]);
@@ -37,7 +34,6 @@ export const SimilarCrystalsTable = ({data, pddData, loading}) => {
         return a[1] - b[1];
     });
 
-    console.log(pddData)
     return (
         <div>
             <p style={{"margin": "5px 25px"}}>Similar Crystals</p>
@@ -67,15 +63,10 @@ export const SimilarCrystalsTable = ({data, pddData, loading}) => {
                     return <SimilarCrystalRow datum={i}/>
                 })}
                 { !loading && rankBy === "pdd" && sortable && sortable.map(function (i) {
-                    // i is the key
-                    console.log(i[0])
-                    console.log(c)
-                    console.log(i[1])
                     if (!c[i[0]])
                         return undefined
                     return <SimilarCrystalRow datum={{...c[i[0]], "Distance": i[1]}}/>
                 })}
-
                 </tbody>
             </table>
         </div>
