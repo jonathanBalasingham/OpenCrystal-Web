@@ -54,7 +54,7 @@ export const extractCrystalMetaData = (cifAsJson) => {
         "Composition": cifAsJson["_chemical_formula_sum"] || "",
         "PrimeComposition": prime_comp(cifAsJson["_chemical_formula_sum"]) || "",
         "ChemicalName": cifAsJson["_chemical_name_common"] || "",
-        "Has3dStructure": cifAsJson["_atom_site"] === undefined || true,
+        "Has3dStructure": !(cifAsJson["_atom_site"] === undefined || cifAsJson["_atom_site"] === []),
         "IsDisordered": cifAsJson["_atom_site"]["_atom_site_disorder_group"] || false,
     }
 }
