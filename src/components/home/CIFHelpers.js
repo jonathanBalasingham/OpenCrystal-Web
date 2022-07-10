@@ -114,7 +114,7 @@ export const extractUnitCell = (cifAsJson) => {
     } else if (cifAsJson._symmetry_equiv_pos) {
         symm += cifAsJson._symmetry_equiv_pos.reduce((total, n) => "'" + n._symmetry_equiv_pos_as_xyz + "'," + total, "")
     } else if (cifAsJson._symmetry_equiv_pos_as_xyz) {
-        symm += cifAsJson._symmetry_equiv_pos.reduce((total, n) => "'" + n + "'," + total, "")
+        symm += cifAsJson._symmetry_equiv_pos_as_xyz.reduce((total, n) => "'" + n + "'," + total, "")
     }
 
     let final_symm = symm.slice(0, -1) + ")"
