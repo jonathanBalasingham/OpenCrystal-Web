@@ -187,7 +187,11 @@ function ViewPanelSettings({}){
 
 
 const getElementColor = (e) => {
-    let rgb = CPK[e]
+    let rgb = CPK[e.toLowerCase()]
+    if (!rgb) {
+        console.log(`${e} not found in CPK map`)
+        return rgbToHex(0,0,0)
+    }
     return rgbToHex(rgb[0], rgb[1], rgb[2])
 }
 
