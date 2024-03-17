@@ -4,11 +4,7 @@ export const toCartesian = (unitCell, point) => {
     if (unitCell === null)
         return point
 
-    console.log("unit cell is")
-    console.log(unitCell)
-    //let res = multiplyMatrices(unitCell, [[point[0]], [point[1]], [point[2]]])
     let res = multiplyMatrices([point], unitCell)
-    console.log(res)
     return res[0]//[res[0], res[1], res[0]]
 }
 
@@ -36,8 +32,6 @@ export function cellParamsToMatrix(a,b,c,alpha,beta,gamma) {
     beta = Math.PI * beta / 180
     gamma = Math.PI * gamma / 180
     let volume = cellVolume(a,b,c,alpha,beta,gamma)
-    console.log("volume is")
-    console.log(volume)
     //let row1 = [a, b*Math.cos(gamma), c*Math.cos(beta)]
     //let row2 = [0, b*Math.sin(gamma), c*(Math.cos(alpha)-Math.cos(beta)*Math.cos(gamma))/(Math.sin(gamma))]
     //let row3 = [0, 0, volume/(a*b*Math.sin(gamma))]

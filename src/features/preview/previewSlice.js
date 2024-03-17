@@ -13,17 +13,14 @@ const previewSlice = createSlice({
     initialState,
     reducers: {
         openPreview(state, action) {
-            console.log("Opening modal")
             state["previewOpened"] = true;
             return state;
         },
         closePreview(state, action) {
-            console.log("Closing modal")
             state["previewOpened"] = false;
             return state;
         },
         changeContent(state, action){
-            console.log("Changing content");
             state["currentContent"] = action.payload;
             return state;
         },
