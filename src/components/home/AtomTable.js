@@ -1,6 +1,13 @@
 import React from "react";
 
 
+const check_and_round = (num) => {
+    if (isNaN(num))
+        return num
+    else
+        return num.toFixed(4)
+}
+
 const AtomRow = (data) => {
     console.log("Atom row is")
     console.log(data.data)
@@ -8,9 +15,9 @@ const AtomRow = (data) => {
         <tr>
             <td>{data.data["Label"]}</td>
             <td>{data.data["Symbol"]}</td>
-            <td>{data.data["X"]}</td>
-            <td>{data.data["Y"]}</td>
-            <td>{data.data["Z"]}</td>
+            <td>{check_and_round(data.data["X"])}</td>
+            <td>{check_and_round(data.data["Y"])}</td>
+            <td>{check_and_round(data.data["Z"])}</td>
         </tr>
     )
 }
